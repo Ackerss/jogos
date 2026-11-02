@@ -25,6 +25,10 @@ Se a câmera não reconhecer o QR: abra o mesmo endereço do jogo no celular, se
 
 TV e celulares precisam de internet. Na versão online, não precisam estar na mesma rede e o PC pode estar desligado. O navegador da TV deve ficar aberto durante a partida: a TV executa o jogo e apura o placar.
 
+## Ideias futuras (rascunho)
+
+A seleção provisória de estilos e jogos está em [documentacao/RASCUNHO_IDEIAS_JOGOS.md](documentacao/RASCUNHO_IDEIAS_JOGOS.md). Antigravity, Claude e Codex devem consultá-la para continuidade. Nenhuma ideia ou prioridade está fechada; o registro não autoriza iniciar desenvolvimento.
+
 ## Onde está cada coisa
 
 | Pasta/arquivo | Conteúdo |

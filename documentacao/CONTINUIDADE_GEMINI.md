@@ -12,6 +12,10 @@ O usuário Jacson Acker utiliza três IAs (**Antigravity**, **Claude** e **Codex
 - **Repositório GitHub:** `https://github.com/Ackerss/jogos`
 - **Link do ChatGPT Sites:** `https://jogar.ackers.chatgpt.site` (mantido como backup)
 
+## Ideias futuras: ler como rascunho, não como tarefa aprovada
+
+Consultar [RASCUNHO_IDEIAS_JOGOS.md](RASCUNHO_IDEIAS_JOGOS.md), registrado a pedido do usuário em 02/11/2026. O documento reúne sete propostas, com Lobisomem de Uma Noite como possível primeiro protótipo, seguido de Caverna e Arena. Todas as prioridades, nomes, regras e propostas de bots são revisáveis. O texto de ideias não é código para integrar e não autoriza começar a desenvolver, mudar cards ou publicar. Aguardar a escolha do usuário.
+
 ## Arquitetura e Novos Jogos
 - **Portal Principal (`index.html` e `portal.css`):** Serve como menu/launcher de jogos para a TV LG e mobile. Novos jogos criados devem ser adicionados como cards nessa página.
 - **Jogos Individuais (`jogo-corrida/`, futuros `jogos/<nome>/`):** Cada jogo é uma aplicação estática leve que roda na TV e nos celulares. A comunicação multiplayer usa o relay gratuito do Doot/CLASP (`wss://relay.clasp.to`), onde a TV é a autoridade central da partida.

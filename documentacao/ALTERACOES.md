@@ -1,5 +1,12 @@
 # Registro de alterações
 
+## 02/11/2026 — rascunho de estilos e possíveis jogos
+
+- Criado RASCUNHO_IDEIAS_JOGOS.md com a seleção fornecida pelo usuário, perfil desejado, sete conceitos, ordem sugerida e hipóteses de bots.
+- Registrado explicitamente que nada está decidido em definitivo e que a lista não autoriza iniciar desenvolvimento.
+- Adicionadas referências no leia-me, estado atual e continuidade entre IAs. Nenhum jogo, bot ou alteração no portal foi implementado nesta tarefa.
+- O anexo original e suas imagens não foram adicionados ao repositório; o registro é uma síntese das ideias, sem nova verificação de regras comerciais.
+
 ## 02/11/2026 — ícones profissionais para webOS (TV LG) e Web App Manifest
 
 - **Ícones em Alta Resolução:** Criados `icon-512.png`, `icon-192.png`, `apple-touch-icon.png` (180x180), `favicon-32x32.png` e `favicon.ico` com fundo sólido Deep Space (#0e101f) e emblema 3D neon do ACKER PLAY.

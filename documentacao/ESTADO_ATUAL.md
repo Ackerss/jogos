@@ -45,7 +45,13 @@ O projeto foi migrado para o repositório GitHub centralizado por solicitação 
 
 ---
 
+## Ideias futuras — somente rascunho (02/11/2026)
+
+O usuário pediu registrar, sem decisão definitiva, a seleção em [RASCUNHO_IDEIAS_JOGOS.md](RASCUNHO_IDEIAS_JOGOS.md). São sete propostas: Lobisomem de Uma Noite, Expedição Maldita — A Caverna, Arena dos Monstros, Ponte do Desespero, Desenho Impossível, O Cofre Misterioso e Cidade das Máscaras. A ordem sugerida começa por Lobisomem, Caverna e Arena, mas pode mudar. Citadels fica como possibilidade futura; Coup e Skull sem prioridade por enquanto.
+
+O registro contém mecânicas e hipóteses de bots; não há implementação ou validação desses novos jogos. Não iniciar desenvolvimento nem alterar o portal com base apenas nessa lista. Aguardar escolha do usuário.
+
 ## Próximos passos
 1. Jacson recriar o atalho na tela inicial do webOS da TV LG para substituir o ícone genérico antigo pelo novo ícone de alta definição do ACKER PLAY.
 2. Confirmar se a proteção de gestos evitou a saída acidental no celular durante a corrida.
-3. Decidir o próximo jogo a ser adicionado ao portal (Quiz em grupo, jogo de cartas, ou evolução gráfica da Corrida).
+3. Quando o usuário quiser retomar, consultar o rascunho e escolher o próximo jogo e o recorte do protótipo. A seleção e a ordem ainda são provisórias.
