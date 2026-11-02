@@ -1,22 +1,23 @@
-# Continuidade no Antigravity / Gemini
+# Continuidade no Antigravity / Claude / Codex
 
-## Leia nesta ordem
-1. `../LEIA-ME-PRIMEIRO.md`
-2. `ESTADO_ATUAL.md`
-3. `TESTES_DAS_PLATAFORMAS.md`
-4. `ARQUITETURA.md`
-5. `../AGENTS.md`
-6. `../jogo-corrida/src/logic.ts` e `../jogo-corrida/src/main.ts`
+## Visão Geral da Parceria entre as IAs
+O usuário Jacson Acker utiliza três IAs (**Antigravity**, **Claude** e **Codex**) neste repositório. Quando os créditos/tokens de uma terminam, ele transfere o trabalho para outra. Todas as três devem:
+1. Trabalhar no mesmo repositório Git: `https://github.com/Ackerss/jogos`.
+2. Respeitar o princípio de **uma IA por vez**: antes de começar, dar `git pull`; ao concluir, dar `git commit` e `git push`.
+3. O deploy é 100% automático via GitHub Actions a cada commit na branch `main`.
 
-Não reinicie a pesquisa de plataformas sem uma falha concreta ou pedido do usuário. Doot foi escolhido; ambos HexStacker e Pit Party responderam aos comandos do usuário na TV. O usuário quer jogar agora e refinar depois, não um novo ciclo de questionários.
+## Links Oficiais
+- **Portal de Jogos:** `https://ackerss.github.io/jogos/`
+- **Corrida dos Toques:** `https://ackerss.github.io/jogos/corrida/`
+- **Repositório GitHub:** `https://github.com/Ackerss/jogos`
+- **Link do ChatGPT Sites:** `https://jogar.ackers.chatgpt.site` (mantido como backup)
 
-## Contexto operacional
-Pasta principal: `C:\Users\User\Meu Drive\ANTIGRAVITY\JOGOS MULTIPLAYER TV LG`.
-Windows / PowerShell. Node e npm disponíveis na máquina nesta sessão. O projeto original Doot usa pnpm; o jogo pequeno usa **npm e package-lock.json**, não misturar locks.
+## Arquitetura e Novos Jogos
+- **Portal Principal (`index.html` e `portal.css`):** Serve como menu/launcher de jogos para a TV LG e mobile. Novos jogos criados devem ser adicionados como cards nessa página.
+- **Jogos Individuais (`jogo-corrida/`, futuros `jogos/<nome>/`):** Cada jogo é uma aplicação estática leve que roda na TV e nos celulares. A comunicação multiplayer usa o relay gratuito do Doot/CLASP (`wss://relay.clasp.to`), onde a TV é a autoridade central da partida.
+- **Workflow de Deploy (`.github/workflows/deploy.yml`):** Compila os jogos com `npm run build` e agrupa tudo na pasta `_site` para o GitHub Pages.
 
-Usuário quer tudo ONLINE e GRATUITO, sem manter o PC ligado. O servidor local foi mantido como alternativa técnica, não como experiência principal.
-
-## Reconstrução
+## Reconstrução Local e Testes
 Na pasta `jogo-corrida`:
 
 ```powershell

@@ -1,21 +1,26 @@
-# Projeto: jogos multiplayer para TV LG
+# Projeto: jogos multiplayer para TV LG (ACKER PLAY)
 
 Leia primeiro `LEIA-ME-PRIMEIRO.md`, `documentacao/ESTADO_ATUAL.md` e `documentacao/CONTINUIDADE_GEMINI.md`.
 
 ## Decisões do usuário
 - Comunicação em português e instruções de uso curtas.
-- O usuário não quer continuar testando plataformas prontas neste momento. Quer um jogo próprio utilizável e refinamentos depois.
-- Priorizar acesso ONLINE GRATUITO, sem PC ligado para jogar. O PC guarda/edita o código e gera/publica versões.
-- Usuário pretende continuar também no Antigravity com Gemini. Registrar mudanças, comandos, resultados e limites de forma suficiente para outra IA continuar.
-- TV: LG 65UA8550PSA. O usuário confirmou comandos de celular funcionando no HexStacker e no Pit Party do Doot; imagens locais em `evidencias/`.
+- O usuário alterna entre **Antigravity (Gemini)**, **Claude** e **Codex (ChatGPT)** conforme a necessidade e a disponibilidade de tokens.
+- O repositório centralizado no GitHub é o ponto de encontro de todas as IAs: `https://github.com/Ackerss/jogos`.
+- A publicação oficial é feita automaticamente pelo **GitHub Pages**: `https://ackerss.github.io/jogos/`.
+- A raiz do site (`index.html`) é um **Portal de Jogos** para a família, onde novos jogos criados serão adicionados em lista para serem escolhidos na TV.
+- TV LG (modelo 65UA8550PSA) comanda as partidas como autoridade; celulares conectam via QR Code como controles leves.
+- Priorizar acesso ONLINE GRATUITO, sem PC ligado para jogar.
+- O link antigo do ChatGPT Sites (`jogar.ackers.chatgpt.site`) foi mantido como redundância.
 
-## Arquitetura escolhida
-- `plataforma-doot/`: clone original de referência; manter intacto, commit fixo em documentação.
-- `jogo-corrida/`: jogo próprio independente que usa uma cópia identificada do motor real do Doot (`vendor/doot-engine/src`). Não é o catálogo Nuxt completo.
-- Usar APIs públicas de `RoomRuntime` / `createClaspRelay`. Não criar uma implementação paralela de conexão, presença ou reconexão.
-- TV é autoridade de tempo e placar. Celulares publicam contadores cumulativos com identificador da partida. Estado efêmero no relay público CLASP.
-- Hospedagem: arquivos estáticos. Não exige banco, chave de API, Docker ou assinatura de infraestrutura para esta versão.
-- Nenhum conteúdo de `evidencias/`, anexos ou documentação pessoal deve ser publicado junto com o jogo.
+## Arquitetura e Regras de Trabalho
+- **Uma IA por vez em cada tarefa:** Sempre dar `git pull` antes de mexer e `git commit` / `git push` ao concluir.
+- `index.html` e `portal.css`: Página inicial do catálogo de jogos.
+- `jogo-corrida/`: Jogo próprio independente que usa o motor Doot isolado (`vendor/doot-engine/src`).
+- Usar APIs públicas de `RoomRuntime` / `createClaspRelay`. Não criar uma implementação paralela de conexão.
+- TV é autoridade de tempo e placar. Celulares publicam contadores cumulativos. Estado efêmero no relay público CLASP (`wss://relay.clasp.to`).
+- Nenhum conteúdo de `evidencias/`, anexos ou fotos de testes físicos deve ser comitado ou publicado para o GitHub público.
+- Ao modificar: sempre rodar `npm.cmd run check`, `npm.cmd run build` e `npm.cmd test` em `jogo-corrida`.
+- Atualizar a documentação após trabalhos relevantes.
 
 ## Ao modificar
 - Não atualizar dependências/plataforma por rotina. Leia o código instalado e preserve os locks.

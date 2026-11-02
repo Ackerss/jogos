@@ -1,5 +1,15 @@
 # Registro de alterações
 
+## 02/11/2026 — publicação no GitHub Pages e criação do Portal de Jogos (ACKER PLAY)
+
+- **Repositório Centralizado:** Criado o repositório público `https://github.com/Ackerss/jogos` para colaboração contínua entre Antigravity, Claude e Codex.
+- **Portal de Jogos:** Criado `index.html` e `portal.css` na raiz para servir como launcher na TV LG, listando os jogos criados e futuros em cards/lista navegável.
+- **Deploy Automatizado (GitHub Actions):** Criado `.github/workflows/deploy.yml` que compila os jogos, roda testes automatizados e publica no GitHub Pages (`https://ackerss.github.io/jogos/`).
+- **Navegação Integrada:** Adicionado atalho `‹ Jogos` no cabeçalho da Corrida dos Toques para permitir retornar ao portal a qualquer momento.
+- **Proteção contra Saída Acidental no Celular:** Adicionado `overscroll-behavior: none` e `touch-action: manipulation` para prevenir disparos acidentais de pull-to-refresh e gestos de retorno de página nos navegadores mobile durante toques rápidos.
+- **Preservação de Evidências:** Pasta `evidencias/` mantida estritamente local via `.gitignore`.
+- **Compatibilidade Redundante:** Configuração do ChatGPT Sites (`.openai/hosting.json`) mantida intacta caso o Codex deseje usar para testes específicos.
+
 ## 02/11/2026 — retorno do teste físico
 
 - Usuário confirmou comandos funcionando na TV LG com dois celulares; fotos mostram jogadores distintos, sala e resultados.
