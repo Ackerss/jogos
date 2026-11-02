@@ -5,6 +5,8 @@ Leia primeiro `LEIA-ME-PRIMEIRO.md`, `documentacao/ESTADO_ATUAL.md` e `documenta
 ## Decisões do usuário
 - Comunicação em português e instruções de uso curtas.
 - O usuário alterna entre **Antigravity (Gemini)**, **Claude** e **Codex (ChatGPT)** conforme a necessidade e a disponibilidade de tokens.
+- **Economia de Tokens e Prototipagem Externa:** O usuário prototipa a mecânica e o visual dos novos jogos diretamente no modo Chat (Gemini Canvas ou ChatGPT Canvas) sem gastar tokens dos planos de desenvolvimento (usando o prompt padrão de `PROMPT_CRIAR_JOGOS_NO_CHAT.md`).
+- **Quando o usuário colar o código de um novo jogo:** A IA atual (Antigravity, Claude ou Codex) deve pegar a lógica do protótipo (que já separa a autoridade da TV e os controles), modularizá-la usando o motor de rede do Doot/CLASP (`vendor/doot-engine`), criar a pasta do novo jogo, atualizar o card correspondente no `index.html` do portal, incluí-lo no workflow do GitHub Actions e testar a publicação.
 - O repositório centralizado no GitHub é o ponto de encontro de todas as IAs: `https://github.com/Ackerss/jogos`.
 - A publicação oficial é feita automaticamente pelo **GitHub Pages**: `https://ackerss.github.io/jogos/`.
 - A raiz do site (`index.html`) é um **Portal de Jogos** para a família, onde novos jogos criados serão adicionados em lista para serem escolhidos na TV.

@@ -23,7 +23,8 @@ O projeto foi migrado para o repositório GitHub centralizado por solicitação 
 1. **Uma IA por vez:** Sempre rodar `git pull` antes de alterar e `git commit` / `git push` ao finalizar a tarefa.
 2. **Deploy 100% Automático:** Cada push na branch `main` executa `.github/workflows/deploy.yml` no GitHub Actions, rodando testes, compilação e deploy no GitHub Pages em ~30 segundos.
 3. **Página Inicial (Portal de Jogos):** O arquivo `index.html` na raiz é o catálogo principal onde todos os novos jogos criados serão adicionados em lista/grid para seleção na TV.
-4. **Privacidade Preservada:** Fotos e vídeos de testes reais na pasta `evidencias/` estão no `.gitignore` e permanecem estritamente locais no computador do usuário.
+4. **Economia de Tokens / Prototipagem Externa:** O usuário prototipa novos jogos no Gemini Canvas ou ChatGPT Canvas usando o modelo de prompt de `PROMPT_CRIAR_JOGOS_NO_CHAT.md` (simulação de TV + celulares na mesma tela). Ao colar o código HTML resultante em uma das IAs, a missão da IA é transformar o protótipo em jogo real conectado ao motor CLASP/Doot, criar a subpasta do jogo, atualizar o card no portal e publicar.
+5. **Privacidade Preservada:** Fotos e vídeos de testes reais na pasta `evidencias/` estão no `.gitignore` e permanecem estritamente locais no computador do usuário.
 
 ---
 

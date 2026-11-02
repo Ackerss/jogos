@@ -17,6 +17,15 @@ O usuário Jacson Acker utiliza três IAs (**Antigravity**, **Claude** e **Codex
 - **Jogos Individuais (`jogo-corrida/`, futuros `jogos/<nome>/`):** Cada jogo é uma aplicação estática leve que roda na TV e nos celulares. A comunicação multiplayer usa o relay gratuito do Doot/CLASP (`wss://relay.clasp.to`), onde a TV é a autoridade central da partida.
 - **Workflow de Deploy (`.github/workflows/deploy.yml`):** Compila os jogos com `npm run build` e agrupa tudo na pasta `_site` para o GitHub Pages.
 
+## Quando o Usuário Colar o Código de um Novo Jogo (Criado no Chat)
+O usuário utiliza o prompt de `PROMPT_CRIAR_JOGOS_NO_CHAT.md` para testar ideias de jogos gratuitamente no Gemini/ChatGPT Canvas. O código que ele colar virá como um HTML único com um simulador de TV + celulares.
+Quando ele colar esse código aqui, sua missão como IA é:
+1. Extrair a lógica do jogo (`logic.ts`), a tela da TV e os controles dos celulares (`main.ts` / CSS).
+2. Criar a pasta do novo jogo (ex: `jogos/<nome-do-jogo>/`) reutilizando o motor de rede CLASP/Doot (`vendor/doot-engine`).
+3. Adicionar o card do novo jogo como "DISPONÍVEL AGORA" na página inicial (`index.html`) e apontar o botão para a pasta do jogo.
+4. Adicionar a etapa de build do novo jogo em `.github/workflows/deploy.yml`.
+5. Rodar os testes, fazer `git commit`, `git push` e entregar o link atualizado ao usuário!
+
 ## Reconstrução Local e Testes
 Na pasta `jogo-corrida`:
 

@@ -30,6 +30,7 @@ TV e celulares precisam de internet. Na versão online, não precisam estar na m
 | Pasta/arquivo | Conteúdo |
 |---|---|
 | `index.html` e `portal.css` | Portal inicial dos jogos da família para TV e celular |
+| `PROMPT_CRIAR_JOGOS_NO_CHAT.md` | Prompt para prototipar novos jogos gratuitamente no Gemini/ChatGPT Canvas |
 | `jogo-corrida/` | Fonte da Corrida dos Toques, dependências, testes e motor Doot isolado |
 | `.github/workflows/deploy.yml` | Automação de deploy para o GitHub Pages a cada commit |
 | `documentacao/` | Histórico, testes físicos, arquitetura e continuidade entre Antigravity, Claude e Codex |
