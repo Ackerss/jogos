@@ -6,6 +6,7 @@ Primeiro jogo próprio: **Corrida dos Toques**, em português, para 1 a 4 pessoa
 ## Links Oficiais
 
 * **Portal de Jogos (Página Principal):** **https://ackerss.github.io/jogos/**
+* **Atalho Rápido para Digitar na TV:** **`is.gd/ackerplay`** (redireciona para o portal)
 * **Jogo Direto (Corrida dos Toques):** **https://ackerss.github.io/jogos/corrida/**
 * **Repositório de Código:** **https://github.com/Ackerss/jogos**
 * *(O link alternativo do ChatGPT Sites `https://jogar.ackers.chatgpt.site` continua ativo para redundância).*

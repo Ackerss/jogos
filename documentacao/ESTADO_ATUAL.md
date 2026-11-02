@@ -3,6 +3,7 @@
 ## Entrega principal e plataforma unificada
 
 **Portal de Jogos Online (GitHub Pages):** https://ackerss.github.io/jogos/  
+**Atalho Rápido para Digitar na TV:** https://is.gd/ackerplay (ou apenas `is.gd/ackerplay`)  
 **Corrida dos Toques Online:** https://ackerss.github.io/jogos/corrida/  
 **Repositório Oficial:** https://github.com/Ackerss/jogos  
 **Link redundante (ChatGPT Sites):** https://jogar.ackers.chatgpt.site (preservado)

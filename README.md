@@ -3,6 +3,7 @@
 Plataforma aberta e 100% gratuita de jogos casuais multijogador para a família. A **TV da sala funciona como o tabuleiro/tela principal** e os **smartphones funcionam como os controles**, sem necessidade de baixar aplicativos, sem cadastros e sem custos.
 
 🔗 **Link Oficial Online:** [https://ackerss.github.io/jogos/](https://ackerss.github.io/jogos/)  
+⚡ **Atalho Curto para TV:** `is.gd/ackerplay` (digitação rápida no navegador da TV)  
 🏁 **Primeiro Jogo (Corrida dos Toques):** [https://ackerss.github.io/jogos/corrida/](https://ackerss.github.io/jogos/corrida/)  
 
 ---
