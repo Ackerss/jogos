@@ -1,0 +1,114 @@
+SIM! Dá para criar exatamente esse tipo de jogo multiplayer para sua TV LG, com os celulares funcionando como controles, sem precisar instalar aplicativos nos celulares.
+
+Pesquisei projetos reais no GitHub que já implementam esse sistema, incluindo criação de salas, conexão por QR Code, sincronização dos jogadores e diferentes minijogos.
+
+Mas há um detalhe importante: não dá para garantir 100% de funcionamento na sua LG sem testar no modelo específico. A própria LG informa que seu navegador pode apresentar incompatibilidades com determinados sites.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://www.lg.com\&sz=32)
+
+LG PL+1
+
+
+
+## Como funcionaria na sua casa
+
+TV LG — tela principal
+
+Mostra o jogo, personagens, pontuação e QR Code
+
+Comunicação em tempo real pela rede
+
+Jogador 1
+
+Controle
+
+Jogador 2
+
+Controle
+
+Jogador 3
+
+Controle
+
+Minha prioridade na pesquisa foi encontrar algo que, depois de configurado, você consiga simplesmente abrir na TV, conectar os celulares e jogar — sem precisar ligar ferramentas de programação nem resolver erros a cada partida.
+
+## Os melhores projetos que encontrei
+
+[Doot, put a game on the big screen](https://images.openai.com/static-rsc-4/TCMb55gdMD7YhFaG0QEHTTCLBYyHpSYDw76U-nRuGOdao7c4RNOJzUsPkFMPw9OCXa66iIQtb41MQFCFp8Rp6p1tZa-sxZTJthFHLeIga6LSySuHfEc0Xw0Yu0Uy6uWSCXCE1usmzPkPiHQt1FIa3F77-U_7-hFenyQrDWWb0Nk?purpose=inline)
+
+1\. Doot
+
+Minha escolha
+
+Plataforma com mais de 30 jogos declarados, QR Code, placar, reconexão e criação de jogos personalizados. Encontrei o site público acessível e o código com 421 commits na página consultada.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://doot.games\&sz=32)
+
+Doot+1
+
+
+
+[Experimentar o jogo](https://doot.games/?utm_source=chatgpt.com) · [GitHub](https://github.com/virgilvox/doot-games?utm_source=chatgpt.com)
+
+[Play Together: Party Games by Plot Kids](https://images.openai.com/static-rsc-4/qd5Xa5FR9Bg7tWqP5Lbf1QmQYgLW_LOwaGhGWhEaTyx4ncvgb1xiHSH6wxSBP1MszKPCwBHo5GdttIumTZxBtCT98lQb5wjnZTFCcNJsbN2Blhuh4OsCEhBmCQ2abp1xrgUmDI6H5ThR34D_uWMOnOc1xrdTvbBTqw-2cDFwf3Q?purpose=inline)
+
+2\. Open Party Lab
+
+Tem 21 projetos de jogos, incluindo corrida, combate e desenho. Possui um pacote Windows que dispensa instalar Node.js, mas os próprios autores dizem que os jogos estão em alpha/beta e que o pacote não passou por teste físico multiplayer completo. Portanto, ainda não atende à sua exigência de confiabilidade.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://github.com\&sz=32)
+
+GitHub+1
+
+
+
+[GitHub e versão Windows](https://github.com/Hartwich/Open-Party-Lab?utm_source=chatgpt.com)
+
+[GitHub - greggman/HappyFunTimes: A System for creating 10-100+ player local games](https://images.openai.com/static-rsc-4/nIHX3F71kXiTMRxoLdldAL7V6JWYWqsdu-zlD4QYuM8Ut3GBIkqHSUqhiaVFWOAU7OjugF_XAkJmoprtXDi19VidvPNJVMtnJbLTlmuaQQRVMKkI9WtLVlQYd6zzrnPYsuRexfNZIP7iD1tJ3TMCIFKFbOxEhDG3v8QEQSyMvYk?purpose=inline)
+
+3\. LanPlay
+
+Alternativa pronta para brincar: 13 minijogos gratuitos, incluindo corrida, futebol e desafios de física, com até oito jogadores e celulares como controles. Confirmei a documentação e o catálogo do site, mas não uma base aberta adequada para modificar.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://lanplays.com\&sz=32)
+
+LanPlay
+
+
+
+[Experimentar LanPlay](https://lanplays.com/?utm_source=chatgpt.com)
+
+## O que eu escolheria para desenvolver o nosso jogo
+
+O Doot é o melhor ponto de partida que encontrei, especialmente porque já tem a infraestrutura de salas e controles, um editor de jogos e até um modo de corrida chamado Pit Party. Isso evita reprogramar toda a comunicação multiplayer do zero.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://doot.games\&sz=32)
+
+Doot
+
+
+
+Porém, a verificação ficou assim:
+
+| Critério                                     | Resultado                   |
+| -------------------------------------------- | --------------------------- |
+| Repositório e código disponíveis             | Confirmado                  |
+| Site público acessível                       | Confirmado                  |
+| Sistema de QR Code e multiplayer documentado | Confirmado                  |
+| Testes automatizados descritos pelo projeto  | Sim, não executados por mim |
+| Funcionamento na sua TV LG                   | Ainda não verificado        |
+| Partida completa com vários celulares        | Ainda não testada por mim   |
+
+Minha proposta é testar primeiro o Doot diretamente no navegador da LG, antes de adaptar qualquer jogo. Se ele passar no teste de conexão, uma partida completa e reconexão dos celulares, já teremos uma base bem mais segura.
+
+Depois poderíamos criar um jogo próprio em português, publicar em um endereço fixo e usar a TV diretamente pelo navegador, sem precisar deixar o PC ligado em casa.
+
+## Só preciso identificar sua TV
+
+Qual é o modelo da sua LG ou o ano em que ela foi fabricada? Pode ser algo como OLED C2, C3, C4, NanoCell ou UHD 2021.
+
+Essa informação é importante porque o motor de navegação muda bastante entre as gerações do webOS. Com ela, consigo avaliar melhor as limitações técnicas antes de recomendar qualquer desenvolvimento.&#x20;
+
+[image](https://www.google.com/s2/favicons?domain=https://webostv.developer.lge.com\&sz=32)
+
+webOS TV Developer

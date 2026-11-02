@@ -1,0 +1,15 @@
+{
+  "project_id": "appgprj_6ae8af205f0c819198e36ecfd5883a4e",
+  "version_id": "appgprj_6ae8af205f0c819198e36ecfd5883a4e~appgver_f49d1285f88c81919547e971150ec009",
+  "version_number": 1,
+  "deployment_id": "appgdep_6ae8b483c98c8191bf80f3b11d5de10d",
+  "status": "succeeded",
+  "url": "https://jogar.ackers.chatgpt.site",
+  "access": "public",
+  "source_commit": "1a2c9de8081f28be98571df49b28b071b3f1d684",
+  "artifact_sha256": "68d110e4ef6f04190216235320daa022f9eae5429447423ea72c5d0009645361",
+  "artifact_file": "publicacao-v001.tar.gz",
+  "deployed_at_utc": "2026-11-02T16:04:39.553407+00:00",
+  "local_server_required": false,
+  "note": "Não contém credenciais. Manter este project_id em atualizações."
+}

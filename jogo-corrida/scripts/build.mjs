@@ -1,0 +1,13 @@
+import {build} from 'esbuild';
+import {mkdir, copyFile, writeFile, readFile} from 'node:fs/promises';
+await mkdir('dist', {recursive:true});
+await mkdir('build', {recursive:true});
+await build({entryPoints:['src/main.ts'],outfile:'dist/game.js',bundle:true,minify:true,format:'iife',target:['chrome108','safari15'],legalComments:'eof'});
+await build({entryPoints:['src/logic.ts'],outfile:'build/logic.mjs',bundle:true,platform:'node',format:'esm'});
+await copyFile('public/index.html','dist/index.html');
+await copyFile('public/style.css','dist/style.css');
+const license = await readFile('vendor/doot-engine/LICENSE','utf8');
+const mitBody = license.slice(license.indexOf('Permission is hereby granted'));
+const msgpack = await readFile('node_modules/@msgpack/msgpack/LICENSE','utf8');
+await writeFile('dist/LICENSES.txt',`ACKER Corrida dos Toques v0.1.0\n\nDoot engine, snapshot 0f78d6d11e7a7863cc9aa575ab2cfa39c5f6bd9b\n${license}\nCLASP core 4.3.2 — MIT License — LumenCanvas\n${mitBody}\nQR Code Generator 1.4.4 — MIT License\nCopyright (c) 2009 Kazuhiko Arase\n${mitBody}\n@msgpack/msgpack — ISC License\n${msgpack}\n`);
+console.log('Jogo gerado em dist/');

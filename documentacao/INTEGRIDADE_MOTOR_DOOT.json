@@ -1,0 +1,102 @@
+[
+  {
+    "Arquivo": "addresses.test.ts",
+    "SHA256": "1CCF74B78ABE1951F062AC3A775CEA64699442EE96B0BAD7B216DFD119F65044",
+    "OriginalIgual": true
+  },
+  {
+    "Arquivo": "addresses.ts",
+    "SHA256": "A63AF1868E32ED4A0390098F5B7EE8FB1DA087A6A544E2BA9FCAE85A9C44281E",
+    "OriginalIgual": true
+  },
+  {
+    "Arquivo": "blob.test.ts",
+    "SHA256": "E37A430CA8E891A967211F73196B7BD6497D7379612D1DCD6FBAB0B498E321A7",
+    "OriginalIgual": true
+  },
+  {
+    "Arquivo": "blob.ts",
+    "SHA256": "7B666683A51E4541C2BA5A9E10B14EF18E695C90BD957F2E806E5F25D6B9243C",
+    "OriginalIgual": true
+  },
+  {
+    "Arquivo": "eligibility.test.ts",
+    "SHA256": "AAED765C97A5BA5D72E854F980A993F943187122C8036484C458B98ECFD3CB82",
+    "OriginalIgual": true
+  },
+  {
+    "Arquivo": "eligibility.ts",
+    "SHA256": "75FD7370237C6D3E680AD7A672EB3A8DFB608735CED43A4E391D18364C3AB961",
+    "OriginalIgual": true
+  },
+  {
+    "Arquivo": "identity.test.ts",
+    "SHA256": "1F74FE166D0467626BA7D64B912882A8EBBC5C2F7270593C9E7F7FD7B687AC53",
+    "OriginalIgual": true
+  },
+  {
+    "Arquivo": "identity.ts",
+    "SHA256": "D54EF0B89C88405043892C5648B949FE0528BF605BD403659187A679988223A2",
+    "OriginalIgual": true
+  },
+  {
+    "Arquivo": "index.ts",
+    "SHA256": "F072B6351C230D14C82BF33C72CCE30B1A055A32C8C221B42295067379825BFA",
+    "OriginalIgual": true
+  },
+  {
+    "Arquivo": "presence.degradation.test.ts",
+    "SHA256": "1CA947DC8D0F921BF3224CD067A9F78CAAC00148EB8EDF454B75BC8D1A54314C",
+    "OriginalIgual": true
+  },
+  {
+    "Arquivo": "relay.test.ts",
+    "SHA256": "944BC091AA5A620FA5E8CCFBEB593D41CF8F37BB120657B3B09AEF172F0B39CF",
+    "OriginalIgual": true
+  },
+  {
+    "Arquivo": "relay.ts",
+    "SHA256": "E777C6DA07D467E4EC29B0076FC26A55B3C04CA1BE0AA959638027E552537063",
+    "OriginalIgual": true
+  },
+  {
+    "Arquivo": "room-offload.integration.test.ts",
+    "SHA256": "801E6EC09512B85AC5B285D09C485D8869FC391E9A37CAFC3B11CF06B027CF37",
+    "OriginalIgual": true
+  },
+  {
+    "Arquivo": "room.test.ts",
+    "SHA256": "F343B0D267AAE70D76B1EEBC080A81C4C4F4C185E84C5E39D5AB93026B4C0554",
+    "OriginalIgual": true
+  },
+  {
+    "Arquivo": "room.ts",
+    "SHA256": "E93DE0320ECE5164D336ED2292BF51AB52C9434F0FEF6E0A8E29520D3516602D",
+    "OriginalIgual": true
+  },
+  {
+    "Arquivo": "roster.test.ts",
+    "SHA256": "12BA79D5751B0AEE8965DBBA963C11B193E58B32AA9A072D9F50BCEAE1F24865",
+    "OriginalIgual": true
+  },
+  {
+    "Arquivo": "state-machine.test.ts",
+    "SHA256": "7573FB7A0E806C717A1C336A9766DB89978E0F7B6AC80520529D31F3EB1E29F4",
+    "OriginalIgual": true
+  },
+  {
+    "Arquivo": "state-machine.ts",
+    "SHA256": "E5063A757DE6C66496E0D2D1C88DF24E10E28A27EBEAF8CF73276266761BF2C9",
+    "OriginalIgual": true
+  },
+  {
+    "Arquivo": "types.ts",
+    "SHA256": "6B1591E3F835CC792D1C4AAD4AA4CEC2236D6374466A2B352CFB99734A49DDFF",
+    "OriginalIgual": true
+  },
+  {
+    "Arquivo": "vue\\index.ts",
+    "SHA256": "20AC52899F2008F6CA4C11E3E4EBF6D2AEAF4A285D8F8863C694F1933A472E1E",
+    "OriginalIgual": true
+  }
+]

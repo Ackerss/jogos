@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0e101f">
+  <title>ACKER PLAY — Jogos Multiplayer para TV LG</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./portal.css">
+</head>
+<body>
+  <div class="background-glow"></div>
+  
+  <header class="portal-header">
+    <div class="brand">
+      <div class="brand-logo">A</div>
+      <div class="brand-text">
+        <span class="brand-title">ACKER <strong>PLAY</strong></span>
+        <span class="brand-tag">JOGOS EM FAMÍLIA · TV & CELULAR</span>
+      </div>
+    </div>
+    <div class="header-status">
+      <span class="status-dot"></span>
+      <span>TV LG + Controles Mobile</span>
+    </div>
+  </header>
+
+  <main class="portal-main">
+    <section class="hero-section">
+      <span class="pill-badge">🎮 PORTAL DE JOGOS MULTIPLAYER</span>
+      <h1 class="hero-title">A TV é o tabuleiro.<br>Seu celular é o controle.</h1>
+      <p class="hero-desc">
+        Abra esta página no navegador da TV da sala, escolha o jogo e escaneie o QR Code com o celular.
+        Sem downloads, sem instalar nada e 100% gratuito.
+      </p>
+    </section>
+
+    <section class="games-grid">
+      <!-- Jogo 1: Corrida dos Toques -->
+      <article class="game-card active">
+        <div class="card-badge live">DISPONÍVEL AGORA</div>
+        <div class="card-icon">🏎️</div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="meta-tag">👥 1 a 4 Jogadores</span>
+            <span class="meta-tag">⚡ 20 segundos</span>
+            <span class="meta-tag">📱 Toques rápidos</span>
+          </div>
+          <h2 class="card-title">Corrida dos Toques</h2>
+          <p class="card-description">
+            Disputa frenética de reflexo e velocidade. Quem tocar mais rápido no botão do celular avança na pista da TV e vence a corrida!
+          </p>
+        </div>
+        <div class="card-footer">
+          <a href="./corrida/" class="btn-play">
+            <span>JOGAR NA TV</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- Jogo 2: Quiz da Família (Em breve) -->
+      <article class="game-card upcoming">
+        <div class="card-badge soon">EM BREVE</div>
+        <div class="card-icon">🧠</div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="meta-tag">👥 2 a 8 Jogadores</span>
+            <span class="meta-tag">🎯 Trivia & Perguntas</span>
+          </div>
+          <h2 class="card-title">Quiz da Família</h2>
+          <p class="card-description">
+            A pergunta aparece na TV e cada um responde em segredo pelo celular. Quem acertar mais rápido acumula mais pontos no placar!
+          </p>
+        </div>
+        <div class="card-footer">
+          <span class="btn-disabled">EM DESENVOLVIMENTO</span>
+        </div>
+      </article>
+
+      <!-- Jogo 3: Truco / Cartas (Em breve) -->
+      <article class="game-card upcoming">
+        <div class="card-badge soon">EM BREVE</div>
+        <div class="card-icon">🃏</div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="meta-tag">👥 2 ou 4 Jogadores</span>
+            <span class="meta-tag">🎴 Mesa na TV</span>
+          </div>
+          <h2 class="card-title">Cartas & Blefe</h2>
+          <p class="card-description">
+            Suas cartas ficam visíveis apenas na tela do seu celular. A mesa de apostas, viradas e os tentos ficam na tela da TV da sala.
+          </p>
+        </div>
+        <div class="card-footer">
+          <span class="btn-disabled">EM PLANEJAMENTO</span>
+        </div>
+      </article>
+
+      <!-- Card de Parceria / Estúdio AI -->
+      <article class="game-card studio">
+        <div class="card-badge studio-badge">ACKER STUDIO</div>
+        <div class="card-icon">✨</div>
+        <div class="card-body">
+          <div class="card-meta">
+            <span class="meta-tag">🤖 Antigravity</span>
+            <span class="meta-tag">🧠 Claude</span>
+            <span class="meta-tag">💻 Codex</span>
+          </div>
+          <h2 class="card-title">Criando Novos Jogos</h2>
+          <p class="card-description">
+            Este catálogo é desenvolvido de forma colaborativa por IA. O repositório centralizado permite adicionar jogos e atualizar as regras continuamente.
+          </p>
+        </div>
+        <div class="card-footer">
+          <a href="https://github.com/Ackerss/jogos" target="_blank" rel="noopener" class="btn-github">
+            <span>Ver no GitHub</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+          </a>
+        </div>
+      </article>
+    </section>
+
+    <!-- Instruções rápidas para a TV -->
+    <section class="tv-instructions">
+      <h3>Dica para jogar na TV LG</h3>
+      <div class="steps-row">
+        <div class="step-item">
+          <span class="step-num">1</span>
+          <p>Adicione esta página aos <strong>Favoritos</strong> no navegador da TV LG.</p>
+        </div>
+        <div class="step-item">
+          <span class="step-num">2</span>
+          <p>Clique em <strong>JOGAR NA TV</strong> e escolha Criar Sala.</p>
+        </div>
+        <div class="step-item">
+          <span class="step-num">3</span>
+          <p>Aponte a câmera dos celulares para o <strong>QR Code</strong> e divirtam-se!</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="portal-footer">
+    <p>ACKER PLAY · Desenvolvido para TV LG webOS & Controles Mobile · 100% Online e Gratuito</p>
+  </footer>
+</body>
+</html>

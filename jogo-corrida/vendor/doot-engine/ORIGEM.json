@@ -1,0 +1,9 @@
+{
+  "repository": "https://github.com/virgilvox/doot-games",
+  "commit": "0f78d6d11e7a7863cc9aa575ab2cfa39c5f6bd9b",
+  "sourcePath": "packages/engine/src",
+  "license": "MIT",
+  "copiedOn": "2026-11-02",
+  "engineChanges": "Nenhuma. Motor copiado do commit para uso local reproduzível.",
+  "integration": "src/main.ts importa o motor real, sem o catálogo e sem o servidor Nuxt."
+}
