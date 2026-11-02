@@ -6,6 +6,9 @@ await build({entryPoints:['src/main.ts'],outfile:'dist/game.js',bundle:true,mini
 await build({entryPoints:['src/logic.ts'],outfile:'build/logic.mjs',bundle:true,platform:'node',format:'esm'});
 await copyFile('public/index.html','dist/index.html');
 await copyFile('public/style.css','dist/style.css');
+for(const icon of ['icon-512.png','icon-192.png','apple-touch-icon.png','favicon-32x32.png','favicon.ico']){
+  try{await copyFile(`public/${icon}`,`dist/${icon}`);}catch{}
+}
 const license = await readFile('vendor/doot-engine/LICENSE','utf8');
 const mitBody = license.slice(license.indexOf('Permission is hereby granted'));
 const msgpack = await readFile('node_modules/@msgpack/msgpack/LICENSE','utf8');

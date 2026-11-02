@@ -46,6 +46,9 @@ jobs:
           mkdir -p _site
           cp index.html _site/index.html
           cp portal.css _site/portal.css
+          cp site.webmanifest _site/site.webmanifest
+          cp *.png _site/ 2>/dev/null || true
+          cp *.ico _site/ 2>/dev/null || true
           mkdir -p _site/corrida
           cp -r jogo-corrida/dist/* _site/corrida/
 
