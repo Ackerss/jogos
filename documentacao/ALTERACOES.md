@@ -1,5 +1,12 @@
 # Registro de alterações
 
+## 02/11/2026 — ícones profissionais para webOS (TV LG) e Web App Manifest
+
+- **Ícones em Alta Resolução:** Criados `icon-512.png`, `icon-192.png`, `apple-touch-icon.png` (180x180), `favicon-32x32.png` e `favicon.ico` com fundo sólido Deep Space (#0e101f) e emblema 3D neon do ACKER PLAY.
+- **Web App Manifest:** Criado `site.webmanifest` para registrar o app como aplicativo instalável/fixável com orientação horizontal e cores de destaque.
+- **Integração no Build:** Atualizado `scripts/build.mjs` e workflow de deploy para empacotar os ícones na raiz e na pasta `/corrida/`.
+- **Evidência Preservada:** Foto do atalho do usuário no webOS da TV LG arquivada localmente em `evidencias/ATALHO_TELA_INICIAL_LG_WEBOS.png`.
+
 ## 02/11/2026 — publicação no GitHub Pages e criação do Portal de Jogos (ACKER PLAY)
 
 - **Repositório Centralizado:** Criado o repositório público `https://github.com/Ackerss/jogos` para colaboração contínua entre Antigravity, Claude e Codex.

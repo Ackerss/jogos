@@ -37,11 +37,14 @@ O projeto foi migrado para o repositório GitHub centralizado por solicitação 
   - `https://ackerss.github.io/jogos/corrida/` (Corrida dos toques)
 - **Melhoria no Mobile aplicada:** `overscroll-behavior: none` e `touch-action: manipulation` aplicados no CSS do controle para prevenir saídas acidentais por gestos de "puxar para atualizar" ou "voltar" do navegador durante toques rápidos.
 - **Botão de navegação:** Adicionado `‹ Jogos` no cabeçalho para retorno fluido ao catálogo.
+- **Ícones Oficiais e Web App Manifest criados:** Criados `icon-512.png`, `icon-192.png`, `apple-touch-icon.png` (180x180), `favicon-32x32.png`, `favicon.ico` e `site.webmanifest` para que o webOS da LG e celulares renderizem o app com ícone 3D estilizado com a marca ACKER PLAY na tela inicial/favoritos (em vez do ícone provisório azul com estrela).
+- **Atalho na tela inicial da TV LG confirmado:** Usuário fixou o atalho no carrossel de aplicativos principais do webOS (ao lado de Netflix e YouTube), registrado localmente em `evidencias/ATALHO_TELA_INICIAL_LG_WEBOS.png`.
+- **Deploy dos ícones:** Workflow do GitHub Actions ID `41536560048` executado com sucesso e todos os ícones retornando HTTP 200 no GitHub Pages.
 - **Teste físico na LG (retorno de 02/11/2026):** Dois celulares conectados à TV LG física na sala pelo usuário com placares de 78×133 e 108×157 confirmados.
 
 ---
 
 ## Próximos passos
-1. Jacson testar a nova experiência pelo link `https://ackerss.github.io/jogos/` na TV LG e celulares.
+1. Jacson recriar o atalho na tela inicial do webOS da TV LG para substituir o ícone genérico antigo pelo novo ícone de alta definição do ACKER PLAY.
 2. Confirmar se a proteção de gestos evitou a saída acidental no celular durante a corrida.
 3. Decidir o próximo jogo a ser adicionado ao portal (Quiz em grupo, jogo de cartas, ou evolução gráfica da Corrida).

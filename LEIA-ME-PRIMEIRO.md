@@ -13,7 +13,8 @@ Primeiro jogo próprio: **Corrida dos Toques**, em português, para 1 a 4 pessoa
 
 ## Como jogar
 
-1. Abra **https://ackerss.github.io/jogos/** no navegador da TV LG (salve nos Favoritos!).
+1. Abra **https://ackerss.github.io/jogos/** (ou digite **`is.gd/ackerplay`**) no navegador da TV LG.
+   * *Dica:* Clique nas opções do navegador e selecione **"Adicionar à Tela Inicial"** para deixar o ícone do ACKER PLAY na barra de aplicativos principais da sua TV ao lado de Netflix e YouTube!
 2. Clique no jogo **Corrida dos Toques** e selecione **CRIAR SALA NA TV**.
 3. Cada pessoa escaneia o QR Code com o próprio celular e escolhe um nome diferente.
 4. O primeiro jogador toca em **COMEÇAR CORRIDA** no celular.
