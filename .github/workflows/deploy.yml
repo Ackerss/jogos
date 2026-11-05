@@ -41,6 +41,13 @@ jobs:
           npm test
           cd ..
 
+      - name: Check and test Noite dos Lobos
+        run: |
+          cd jogo-lobisomem
+          npm run check
+          npm test
+          cd ..
+
       - name: Assemble site directory
         run: |
           mkdir -p _site
@@ -51,6 +58,8 @@ jobs:
           cp *.ico _site/ 2>/dev/null || true
           mkdir -p _site/corrida
           cp -r jogo-corrida/dist/* _site/corrida/
+          mkdir -p _site/lobisomem
+          cp -r jogo-lobisomem/index.html jogo-lobisomem/css jogo-lobisomem/js jogo-lobisomem/arte _site/lobisomem/
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5

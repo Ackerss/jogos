@@ -1,0 +1,10 @@
+{
+  "name": "acker-noite-dos-lobos",
+  "version": "0.2.0",
+  "private": true,
+  "description": "A Noite dos Lobos — simulador de TV + celulares (ACKER PLAY). Sem dependências.",
+  "scripts": {
+    "check": "node scripts/verificar.js",
+    "test": "node --test tests/regras.test.js"
+  }
+}
