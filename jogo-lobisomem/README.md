@@ -35,13 +35,25 @@ Cada etapa da noite dura sempre o mesmo tempo, mesmo quando o papel está no cen
 | `js/tv.js` | Textos e indicadores da TV por fase. |
 | `js/celular.js` | Telas dos celulares. |
 | `js/cena.js`, `css/cena.css` | Vila animada (luzes, chafariz, névoa, partículas) — preservada do protótipo. |
-| `js/som.js` | Narração do navegador e efeitos curtos (sem arquivos de áudio). |
+| `js/narracao.js` | Roteiro do narrador: frases de cada momento (1 a 3 versões). |
+| `js/som.js` | Toca os MP3 do narrador (sem o MP3, usa a voz do navegador) e gera os efeitos curtos. |
+| `audio/narracao/` | MP3 do narrador, `FRASES.md` (lista para gravar), `prontos.js` (gerado) e `PROMPT_ANTIGRAVITY.md`. |
 | `arte/` | Pinturas da vila e cartas (extraídas do protótipo, formato WebP). |
+
+## Narração
+
+As frases ficam em `js/narracao.js`. Cada uma toca `audio/narracao/<momento>_<n>.mp3`. Para trocar uma frase:
+1. Mude o texto em `js/narracao.js`.
+2. Grave o MP3 de novo.
+3. Rode `node scripts/frases.js` para atualizar `FRASES.md` e `prontos.js` e ver o que falta.
+
+As transições esperam o narrador terminar. As etapas da noite continuam com tempo fixo.
 
 ## Verificar
 
 ```
 npm run check   # sintaxe de todos os arquivos
-npm test        # 10 testes das regras e 300 partidas automáticas com bots
+npm test        # testes das regras (inclui 300 partidas com bots) e do roteiro de narração
+npm run frases  # lista de frases e conferência dos MP3
 ```
 Não há dependências para instalar.

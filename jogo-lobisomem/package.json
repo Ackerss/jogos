@@ -5,6 +5,7 @@
   "description": "A Noite dos Lobos — simulador de TV + celulares (ACKER PLAY). Sem dependências.",
   "scripts": {
     "check": "node scripts/verificar.js",
-    "test": "node --test tests/regras.test.js"
+    "test": "node --test tests/regras.test.js tests/narracao.test.js",
+    "frases": "node scripts/frases.js"
   }
 }

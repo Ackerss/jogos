@@ -1,5 +1,15 @@
 # Registro de alterações
 
+## 05/11/2026 — A Noite dos Lobos: narração pronta para MP3 (Claude)
+
+- Roteiro do narrador em `jogo-lobisomem/js/narracao.js`: 29 momentos e 54 frases curtas (cerca de 2.600 caracteres), com 1 a 3 versões sorteadas para não repetir.
+- O jogo toca `audio/narracao/<momento>_<n>.mp3`. Sem o arquivo, fala a mesma frase com a voz do navegador. Só carrega os MP3 listados em `prontos.js`, então nenhum arquivo inexistente é pedido.
+- As transições esperam o narrador terminar a frase. O tempo de cada etapa da noite continua fixo.
+- Novas falas: começo da conversa, aviso de 30 segundos, contagem dos votos, trocas no replay e vitórias por motivo.
+- `node scripts/frases.js` gera `audio/narracao/FRASES.md` e `prontos.js` e mostra os arquivos que faltam ou estão com nome errado. O prompt para o Antigravity gravar no ElevenLabs está em `audio/narracao/PROMPT_ANTIGRAVITY.md`.
+- O deploy agora copia `audio/`. Há 2 testes novos (12 no total).
+- Testado no Chromium com MP3 de teste: a partida inteira tocou 22 narrações sem erros. Testado também sem nenhum MP3: zero pedidos de áudio e voz do navegador. Os MP3 reais ainda não existem.
+
 ## 05/11/2026 — A Noite dos Lobos v0.2.0 (revisão completa pelo Claude)
 
 - Protótipo local `JOGO LOBISOMEN ACKER/index.html` (arquivo único de 2,4 MB) trazido para o repositório em `jogo-lobisomem/`, separado em regras, bots, diretor de fases, mesa da TV, celulares, cenário e som. Imagens extraídas para `arte/` (WebP).

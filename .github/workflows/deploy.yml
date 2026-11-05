@@ -59,7 +59,7 @@ jobs:
           mkdir -p _site/corrida
           cp -r jogo-corrida/dist/* _site/corrida/
           mkdir -p _site/lobisomem
-          cp -r jogo-lobisomem/index.html jogo-lobisomem/css jogo-lobisomem/js jogo-lobisomem/arte _site/lobisomem/
+          cp -r jogo-lobisomem/index.html jogo-lobisomem/css jogo-lobisomem/js jogo-lobisomem/arte jogo-lobisomem/audio _site/lobisomem/
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
