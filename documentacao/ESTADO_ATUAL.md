@@ -51,6 +51,10 @@ O usuário pediu registrar, sem decisão definitiva, a seleção em [RASCUNHO_ID
 
 O registro contém mecânicas e hipóteses de bots; não há implementação ou validação desses novos jogos. Não iniciar desenvolvimento nem alterar o portal com base apenas nessa lista. Aguardar escolha do usuário.
 
+## A Noite dos Lobos (05/11/2026)
+
+Simulador revisado em `jogo-lobisomem/` (TV + celulares na mesma página, com bots), publicado em https://ackerss.github.io/jogos/lobisomem/ após aprovação do PR. Detalhes de fases, tempos e arquivos em `jogo-lobisomem/README.md`. Ainda não conecta celulares reais: a integração com o motor Doot (cartas secretas por celular) é o próximo passo, quando o usuário pedir. O protótipo original continua intacto na pasta local `JOGO LOBISOMEN ACKER/`.
+
 ## Próximos passos
 1. Jacson recriar o atalho na tela inicial do webOS da TV LG para substituir o ícone genérico antigo pelo novo ícone de alta definição do ACKER PLAY.
 2. Confirmar se a proteção de gestos evitou a saída acidental no celular durante a corrida.

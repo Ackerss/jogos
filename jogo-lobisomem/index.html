@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0c18">
+  <title>A Noite dos Lobos · ACKER PLAY</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+  <link rel="preload" as="image" href="arte/vila-noite.webp">
+  <link rel="stylesheet" href="css/cena.css">
+  <link rel="stylesheet" href="css/jogo.css">
+</head>
+<body>
+<div class="app">
+  <header class="barra">
+    <a class="marca-jogo" href="../" title="Voltar aos jogos"><span class="selo-logo">🐺</span><span>ACKER PLAY<small>A NOITE DOS LOBOS · SIMULADOR</small></span></a>
+    <div class="ferramentas">
+      <label class="botao-mini" for="qualidade">🎞️ Efeitos
+        <select id="qualidade" aria-label="Qualidade das animações"><option value="alta">Alta</option><option value="media" selected>Média</option><option value="leve">Leve</option></select>
+      </label>
+      <button id="btnSom" class="botao-mini" type="button">🔊 Som: ligado</button>
+      <button id="btnCenario" class="botao-mini" type="button">🏡 Ver só a vila</button>
+      <button id="btnCelulares" class="botao-mini" type="button">📱 Ocultar celulares</button>
+      <button id="btnTela" class="botao-mini" type="button">⛶ Tela cheia</button>
+    </div>
+  </header>
+
+  <div class="rotulo-secao">TELA DA TV · 16:9</div>
+  <div class="moldura-tv">
+    <div class="tv night" id="tv" data-cena="night" data-quality="media">
+      <div class="tv-scene" aria-hidden="true">
+        <div class="cinema-world">
+          <div class="cinema cinema-night" style="background-image:url('arte/vila-noite.webp')"></div>
+          <div class="cinema cinema-day" style="background-image:url('arte/vila-dia.webp')"></div>
+          <div class="cinema-dusk"></div><div class="moon-halo"></div><div class="moonbeams"></div><div class="sunbeams"></div>
+          <div class="house-lights"></div><div class="window-flicker"></div><div class="ground-reflections"></div>
+          <div class="stage-aura"></div><div class="mist-band mist-band-back"></div>
+          <canvas id="cinemaParticles" class="cinema-particles"></canvas>
+          <div class="mist-band mist-band-front"></div>
+        </div>
+        <div class="night-tint"></div><div class="fog"></div><div class="vignette"></div><div class="ui-shade"></div>
+      </div>
+      <div id="cinemaTransition" class="cinema-transition" aria-hidden="true"></div>
+      <!-- A mesa (cartas e lugares) e o painel (textos) são criados pelo js/tv.js -->
+    </div>
+  </div>
+
+  <section id="ajustes" class="ajustes" aria-label="Ajustes da partida">
+    <label>Jogadores na mesa
+      <select id="cfgJogadores"><option value="3">3 jogadores</option><option value="4" selected>4 jogadores</option><option value="5">5 jogadores</option><option value="6">6 jogadores</option></select>
+    </label>
+    <label>Celulares de pessoas
+      <select id="cfgHumanos"><option value="1" selected>1 pessoa + bots</option><option value="2">2 pessoas + bots</option><option value="3">3 pessoas + bots</option><option value="4">4 pessoas + bots</option><option value="5">5 pessoas + bots</option><option value="6">6 pessoas</option></select>
+    </label>
+    <label>Tempo de cada papel à noite
+      <select id="cfgNoite"><option value="8">8 segundos (rápido)</option><option value="12" selected>12 segundos</option><option value="20">20 segundos</option><option value="30">30 segundos (iniciantes)</option></select>
+    </label>
+    <label>Tempo de conversa de dia
+      <select id="cfgDebate"><option value="60">1 minuto</option><option value="120" selected>2 minutos</option><option value="180">3 minutos</option><option value="300">5 minutos</option></select>
+    </label>
+    <p class="dica">Para testar sozinho, use 4 jogadores e 1 pessoa: os outros são bots. Os ajustes aparecem só antes de começar.</p>
+  </section>
+
+  <div class="titulo-celulares">
+    <div><h2>📱 Celulares dos jogadores</h2><p>Só o celular mostra a sua carta, as suas pistas e o seu voto.</p></div>
+  </div>
+  <div id="celulares" class="celulares"></div>
+
+  <section class="regras">
+    <h3>📜 Como jogar (1 minuto de leitura)</h3>
+    <ol>
+      <li>Cada jogador recebe 1 carta secreta. <b>3 cartas ficam no centro</b>, viradas para baixo.</li>
+      <li>À noite todos “dormem”. Cada papel acorda na sua vez e age em segredo pelo celular: <b>Lobos → Vidente → Ladrão → Encrenqueiro</b>.</li>
+      <li>Atenção: o Ladrão e o Encrenqueiro <b>trocam cartas</b>. Você pode dormir Aldeão e acordar Lobisomem — sem saber!</li>
+      <li>De dia, conversem. Vale contar a verdade ou blefar.</li>
+      <li>Todos votam ao mesmo tempo. Sai quem tiver mais votos. <b>Se todos tiverem só 1 voto, ninguém sai.</b></li>
+      <li><b>A aldeia vence</b> se sair pelo menos um lobo. <b>Os lobos vencem</b> se nenhum lobo sair. Se não houver lobo entre os jogadores (os dois no centro), a aldeia vence só se ninguém sair.</li>
+    </ol>
+    <div class="papeis" id="listaPapeis"></div>
+  </section>
+</div>
+<div class="aviso" id="aviso" role="status"></div>
+
+<script src="js/regras.js"></script>
+<script src="js/bots.js"></script>
+<script src="js/som.js"></script>
+<script src="js/mesa.js"></script>
+<script src="js/tv.js"></script>
+<script src="js/celular.js"></script>
+<script src="js/main.js"></script>
+<script src="js/cena.js"></script>
+<script>window.iniciarCena && window.iniciarCena();</script>
+</body>
+</html>

@@ -1,5 +1,16 @@
 # Registro de alterações
 
+## 05/11/2026 — A Noite dos Lobos v0.2.0 (revisão completa pelo Claude)
+
+- Protótipo local `JOGO LOBISOMEN ACKER/index.html` (arquivo único de 2,4 MB) trazido para o repositório em `jogo-lobisomem/`, separado em regras, bots, diretor de fases, mesa da TV, celulares, cenário e som. Imagens extraídas para `arte/` (WebP).
+- Mesa da TV refeita: cartas e lugares agora são elementos que se movem (antes a tela era redesenhada a cada mudança e as animações se repetiam ou sumiam). Distribuição com voo carta a carta, virada 3D com leve elevação, recolher ao jogar de novo.
+- Novas etapas visuais: apuração com setas de quem votou em quem e contador; replay da noite que vira as cartas iniciais e mostra cada troca do Ladrão/Encrenqueiro na frente de todos; botão Pular.
+- Correção de regra/justiça: no protótipo, a etapa de um papel sem humano passava em 1,6 s e a TV mostrava “Aguardando ação no celular” só quando havia humano — isso entregava quem tinha cada carta. Agora toda etapa dura o mesmo tempo (ajustável) e a TV mostra sempre o mesmo relógio.
+- Textos da TV e dos celulares reescritos curtos; regras da página em 6 itens; nomes dos papéis seguem a arte da carta (Ladrão/Ladra etc.).
+- Celulares: carta vira em 3D, Vidente/Lobo/Ladrão veem a carta revelada, Encrenqueiro vê a troca, relógio da vez, “Quero votar agora”.
+- 10 testes automáticos das regras (inclui 300 partidas com bots). Testado em navegador (Chromium) com 3, 4, 5 e 6 jogadores e 1, 2 e 5 celulares simulados, sem erros no console. **Não** testado na TV LG física.
+- Portal: card “A Noite dos Lobos — simulador”; deploy publica em `/lobisomem/`.
+
 ## 02/11/2026 — rascunho de estilos e possíveis jogos
 
 - Criado RASCUNHO_IDEIAS_JOGOS.md com a seleção fornecida pelo usuário, perfil desejado, sete conceitos, ordem sugerida e hipóteses de bots.
