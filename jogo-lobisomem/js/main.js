@@ -83,7 +83,7 @@
     Mesa.geo = null;
     var dur = Mesa.distribuir(jogo, TEMPO.porCarta, baralhoNaMesa);
     desenhar();
-    Som.falar('Distribuindo as cartas.');
+    if (!baralhoNaMesa) Som.narrar('distribuir');
     depois(dur, faseRevelar);
   }
 
@@ -91,7 +91,7 @@
   function faseRevelar() {
     ui.fase = 'revelar';
     Mesa.layout('revelar');
-    Som.falar('Olhem suas cartas no celular, sem mostrar a ninguém.');
+    Som.narrar('olhar_carta');
     jogo.jogadores.forEach(function (j) {
       if (!j.humano) depois(entre(TEMPO.botPronto), function () { ui.views[j.id].pronto = true; selos(); desenhar(); checarProntos(); });
     });
@@ -111,17 +111,13 @@
     Mesa.limparSelos();
     Mesa.layout('noite');
     Som.noite();
-    Som.falar('A vila adormece. Todos fechem os olhos.');
+    var fala = Som.narrar('anoitecer');
     desenhar();
-    depois(TEMPO.anoitecer, function () { etapa(0); });
+    depois(Math.max(TEMPO.anoitecer, fala + 500), function () { etapa(0); });
   }
 
-  var FALAS_ETAPA = {
-    wolf: ['Lobisomens, acordem e olhem um para o outro.', 'Lobisomens, voltem a dormir.'],
-    seer: ['Vidente, acorde. Você pode ver uma carta.', 'Vidente, volte a dormir.'],
-    robber: ['Ladrão, acorde. Você pode trocar a sua carta.', 'Ladrão, volte a dormir.'],
-    trouble: ['Encrenqueiro, acorde. Você pode trocar duas cartas.', 'Encrenqueiro, volte a dormir.']
-  };
+  /* Momento do roteiro de narração (js/narracao.js) de cada papel. */
+  var NARRA_ETAPA = { wolf: 'lobo', seer: 'vidente', robber: 'ladrao', trouble: 'encrenqueiro' };
 
   /* Toda etapa dura o MESMO tempo, mesmo quando o papel está no centro.
      Assim ninguém descobre, pela demora, quem tem cada carta. */
@@ -132,7 +128,7 @@
     jogo.jogadores.forEach(function (j) { ui.views[j.id].selecao = []; ui.views[j.id].aviso = ''; });
     TV.cena('night', papel);
     Mesa.heroi(papel);
-    Som.falar(FALAS_ETAPA[papel][0]);
+    Som.narrar(NARRA_ETAPA[papel] + '_acorda');
     jogo.jogadores.forEach(function (j) { if (!j.humano) depois(entre([1500, 4500]), function () { B.agirNoite(jogo, j, rnd); }); });
     desenhar();
     depois(sala.config.noite * 1000, function () { fimEtapa(k); });
@@ -144,9 +140,9 @@
     });
     ui.fechando = true;
     Mesa.heroi(null);
-    Som.falar(FALAS_ETAPA[papel][1]);
+    var fala = Som.narrar(NARRA_ETAPA[papel] + '_dorme');
     desenhar();
-    depois(TEMPO.fecharEtapa, function () { if (k + 1 < R.ORDEM_NOITE.length) etapa(k + 1); else amanhecer(); });
+    depois(Math.max(TEMPO.fecharEtapa, fala + 300), function () { if (k + 1 < R.ORDEM_NOITE.length) etapa(k + 1); else amanhecer(); });
   }
 
   /* ---------- 4. Dia ---------- */
@@ -155,14 +151,16 @@
     TV.cena('day');
     Mesa.layout('debate');
     Som.sino();
-    Som.falar('Amanheceu! Atenção: algumas cartas podem ter trocado de dono.');
+    var fala = Som.narrar('amanhecer');
     desenhar();
-    depois(TEMPO.amanhecer, debate);
+    depois(Math.max(TEMPO.amanhecer, fala + 400), debate);
   }
   function debate() {
     ui.fase = 'debate';
     ui.fimDebate = Date.now() + sala.config.debate * 1000;
     ui.chat = [{ id: null, msg: 'Contem o que viram à noite. Vale blefar!' }];
+    ui.aviso30 = false;
+    Som.narrar('debate_inicio');
     desenhar();
     // Bots se apresentam um por vez, como numa conversa de verdade.
     jogo.jogadores.filter(function (j) { return !j.humano; }).forEach(function (b, i) {
@@ -191,7 +189,7 @@
     ui.fase = 'votacao';
     TV.cena('vote');
     Mesa.layout('votacao');
-    Som.falar('Hora de votar. Escolham no celular quem é o lobisomem.');
+    Som.narrar('votacao');
     jogo.jogadores.forEach(function (j) {
       if (!j.humano) depois(entre(TEMPO.botVoto), function () { R.votar(jogo, j.id, B.voto(jogo, j, ui.chat, rnd)); aposVoto(); });
     });
@@ -209,6 +207,7 @@
     Mesa.limparSelos();
     Mesa.esmaecerCentro(true);
     desenhar();
+    Som.narrar('votos');
     var dur = Mesa.setas(jogo.votos, TEMPO.seta);
     depois(dur, function () {
       jogo.jogadores.forEach(function (j) { Mesa.contador(j.id, r.contagem[j.id]); });
@@ -217,10 +216,12 @@
     depois(dur + 900, function () {
       ui.apurPasso = 1;
       r.eliminados.forEach(function (id) { Mesa.selo(id, '💀 ELIMINADO', 'morto'); Mesa.marcar(id, 'eliminado'); });
-      Som.falar(r.eliminados.length ? (r.eliminados.length === 1 ? nome(r.eliminados[0]) + ' foi eliminado.' : 'Empate! ' + r.eliminados.map(nome).join(' e ') + ' saem.') : 'Ninguém recebeu mais de um voto. Ninguém sai.');
+      var fala = r.eliminados.length === 1 ? Som.narrar('eliminado', nome(r.eliminados[0]) + ' foi eliminado.')
+        : r.eliminados.length ? Som.narrar('empate', 'Empate! ' + r.eliminados.map(nome).join(' e ') + ' saem.')
+        : Som.narrar('ninguem_sai');
       desenhar();
+      depois(Math.max(TEMPO.lerEliminacao, fala + 600), replay);
     });
-    depois(dur + 900 + TEMPO.lerEliminacao, replay);
   }
 
   /* ---------- 7. Replay da noite: cartas viram e as trocas acontecem na frente de todos ---------- */
@@ -232,10 +233,10 @@
     Mesa.layout('final');
     TV.cena('dawn');
     desenhar();
-    Som.falar('Vamos ver o que aconteceu durante a noite.');
+    var fala = Som.narrar('replay_inicio');
     depois(900, function () {
       var dur = Mesa.virarTodas(true, TEMPO.virarInicio);
-      depois(dur + TEMPO.lerInicio, function () { passoTroca(0); });
+      depois(Math.max(dur + TEMPO.lerInicio, fala + 300), function () { passoTroca(0); });
     });
   }
   function passoTroca(i) {
@@ -243,8 +244,9 @@
     if (!t) {
       ui.replayPasso = i + 1;
       ui.replayTexto = jogo.trocas.length ? 'E assim as cartas terminaram a noite.' : 'Ninguém trocou cartas nesta noite.';
+      var falaFim = Som.narrar(jogo.trocas.length ? 'replay_fim' : 'replay_sem_trocas');
       desenhar();
-      depois(TEMPO.antesDoResultado + (jogo.trocas.length ? 0 : 800), resultado);
+      depois(Math.max(TEMPO.antesDoResultado + (jogo.trocas.length ? 0 : 800), falaFim + 300), resultado);
       return;
     }
     ui.replayPasso = i + 1;
@@ -253,10 +255,11 @@
       ? '🗝️ ' + R.nomePapel('robber', por.genero) + ': ' + por.nome + ' trocou a carta dele com ' + nome(t.b)
       : '🃏 ' + R.nomePapel('trouble', por.genero) + ': ' + por.nome + ' trocou as cartas de ' + nome(t.a) + ' e ' + nome(t.b);
     if (t.tipo === 'robber' && por.genero === 'f') ui.replayTexto = ui.replayTexto.replace('carta dele', 'carta dela');
+    var fala = Som.narrar(t.tipo === 'robber' ? 'troca_ladrao' : 'troca_encrenqueiro');
     desenhar();
     Mesa.marcar(t.a, 'em-foco'); Mesa.marcar(t.b, 'em-foco');
     depois(800, function () { Mesa.trocar(t.a, t.b); });
-    depois(TEMPO.troca, function () { Mesa.marcar(t.a, ''); Mesa.marcar(t.b, ''); passoTroca(i + 1); });
+    depois(Math.max(TEMPO.troca, fala + 400), function () { Mesa.marcar(t.a, ''); Mesa.marcar(t.b, ''); passoTroca(i + 1); });
   }
 
   /* ---------- 8. Resultado ---------- */
@@ -272,7 +275,8 @@
       Mesa.selo(j.id, morto ? '💀 ELIMINADO' : ganhou ? '🏆 VENCEU' : '', morto ? 'morto' : 'ganhou');
     });
     if (r.time === 'ninguem') Som.derrota(); else Som.vitoria();
-    Som.falar(r.time === 'aldeia' ? 'A aldeia venceu!' : r.time === 'lobos' ? 'Os lobisomens venceram!' : 'Ninguém venceu nesta noite.');
+    Som.narrar(r.time === 'lobos' ? 'vitoria_lobos' : r.time === 'ninguem' ? 'ninguem_venceu'
+      : r.motivo === 'sem-lobos-sem-eliminado' ? 'vitoria_aldeia_sem_lobos' : 'vitoria_aldeia');
     desenhar();
   }
 
@@ -291,6 +295,7 @@
     geracao++;
     Mesa.limparSelos();
     var dur = Mesa.recolher();
+    Som.narrar('nova_partida');
     ui.fase = 'distribuir';
     desenhar();
     depois(dur, function () { comecar(true); });
@@ -420,6 +425,7 @@
   setInterval(function () {
     if (ui.fase === 'debate') {
       if (C.restanteDebate() <= 0) { votacao(); return; }
+      if (!ui.aviso30 && sala.config.debate > 45 && C.restanteDebate() <= 30) { ui.aviso30 = true; Som.narrar('debate_30s'); }
       if (Date.now() >= proximaFala) { comentarioBot(false); proximaFala = Date.now() + entre(TEMPO.falaBot); }
     }
     TV.relogios(C); Cel.relogios(C);
