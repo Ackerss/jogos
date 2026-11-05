@@ -24,3 +24,6 @@ Thumbs.db
 # Configurações locais / IA
 .gemini/
 *.git-backup*
+
+# Amostras de voz para escolher o narrador (não publicar)
+jogo-lobisomem/audio/amostras/
