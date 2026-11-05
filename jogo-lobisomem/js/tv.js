@@ -10,16 +10,16 @@
   function lista(nomes) { return nomes.length <= 1 ? nomes.join('') : nomes.slice(0, -1).join(', ') + ' e ' + nomes[nomes.length - 1]; }
 
   var ETAPAS = {
-    wolf:    { titulo: 'Lobisomens, <em>acordem</em>', sub: 'Os lobos se reconhecem. Lobo sozinho pode espiar <b>1 carta do centro</b>.', dormir: 'Lobisomens, voltem a dormir' },
-    seer:    { titulo: 'Vidente, <em>acorde</em>', sub: 'Veja a carta de <b>1 jogador</b> ou <b>2 cartas do centro</b>.', dormir: 'Vidente, volte a dormir' },
-    robber:  { titulo: 'Ladrão, <em>acorde</em>', sub: 'Pode trocar a sua carta com a de outro jogador e <b>ver a nova</b>.', dormir: 'Ladrão, volte a dormir' },
-    trouble: { titulo: 'Encrenqueiro, <em>acorde</em>', sub: 'Pode trocar as cartas de <b>2 outros jogadores</b>, sem olhar.', dormir: 'Encrenqueiro, volte a dormir' }
+    wolf:    { titulo: 'Vez dos <em>Lobisomens</em>', sub: 'Os lobos se reconhecem. Lobo sozinho pode espiar <b>1 carta do centro</b>.', dormir: 'Os lobos voltam às sombras' },
+    seer:    { titulo: 'Vez da <em>Vidente</em>', sub: 'Veja a carta de <b>1 jogador</b> ou <b>2 cartas do centro</b>.', dormir: 'A Vidente guarda o segredo' },
+    robber:  { titulo: 'Vez do <em>Ladrão</em>', sub: 'Pode trocar a sua carta com a de outro jogador e <b>ver a nova</b>.', dormir: 'O Ladrão volta pra casa' },
+    trouble: { titulo: 'Vez do <em>Encrenqueiro</em>', sub: 'Pode trocar as cartas de <b>2 outros jogadores</b>, sem olhar.', dormir: 'O Encrenqueiro se esconde' }
   };
 
   function topo(C, tag) {
     var etapas = [['wolf', '🐺 Lobos'], ['seer', '🔮 Vidente'], ['robber', '🗝️ Ladrão'], ['trouble', '🃏 Encrenqueiro']];
     var f = C.ui.fase, k = C.jogo ? C.jogo.etapa : -1, mostrarOrdem = f !== 'lobby' && f !== 'distribuir';
-    var ordem = mostrarOrdem ? '<div class="ordem" title="Ordem em que os papéis acordam">' + etapas.map(function (e, i) {
+    var ordem = mostrarOrdem ? '<div class="ordem" title="Ordem em que os papéis agem">' + etapas.map(function (e, i) {
       var cls = '';
       if (f === 'noite') cls = i < k || (i === k && C.ui.fechando) ? 'feito' : i === k ? 'agora' : '';
       else if (['amanhecer', 'debate', 'votacao', 'apuracao', 'replay', 'resultado'].indexOf(f) >= 0) cls = 'feito';
@@ -69,14 +69,14 @@
     }
     if (f === 'anoitecer') return {
       chave: 'anoitecer',
-      html: topo(C, 'A NOITE CHEGA') + cabeca('A vila <em>adormece</em>…', 'Todos fecham os olhos. Cada papel acorda na sua vez, em segredo.')
+      html: topo(C, 'A NOITE CHEGA') + cabeca('A noite <em>chegou</em>…', 'Cada um de olho só no seu celular. Cada papel age na sua vez, em segredo.')
     };
     if (f === 'noite') {
       var e = R.etapaAtual(j), info = ETAPAS[e];
       return {
         chave: 'noite-' + j.etapa + (C.ui.fechando ? '-fechando' : ''),
         html: topo(C, 'NOITE · ' + (j.etapa + 1) + ' DE 4') +
-          (C.ui.fechando ? cabeca(info.dormir + '…', 'Olhos fechados. A noite continua.') : cabeca(info.titulo, info.sub)) +
+          (C.ui.fechando ? cabeca(info.dormir + '…', 'A noite continua.') : cabeca(info.titulo, info.sub)) +
           '<div class="relogio"><svg viewBox="0 0 100 100"><circle class="fundo" cx="50" cy="50" r="44"/><circle class="anel" id="tvAnel" cx="50" cy="50" r="44" stroke-dasharray="276.5" stroke-dashoffset="0"/></svg>' +
           '<span class="num" id="tvRelogio">' + (C.ui.fechando ? '😴' : C.restanteEtapa()) + '</span><small>' + (C.ui.fechando ? 'trocando de papel' : 'segundos para agir') + '</small></div>' +
           rotuloCentro('CENTRO')

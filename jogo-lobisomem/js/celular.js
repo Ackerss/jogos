@@ -64,7 +64,7 @@
     else if (n.trocou.length) corpo = '<div class="cel-titulo">🃏 Cartas trocadas</div><div class="troca-visual">' + cartaHtml('', {}) + '<span class="seta-troca">⇄</span>' + cartaHtml('', {}) + '</div>' +
       '<p class="legenda-carta">As cartas de <b>' + nome(C, n.trocou[0]) + '</b> e <b>' + nome(C, n.trocou[1]) + '</b> trocaram de dono.</p>';
     else corpo = '<div class="cel-titulo">' + (v.aviso ? '⏰ O tempo acabou' : '🌙 Você não usou o poder') + '</div><p class="cel-texto">Tudo bem. Guarde segredo e aguarde o dia.</p>';
-    return { chave: 'feito-' + C.jogo.etapa, html: corpo + '<div class="nota">😴 <b>Volte a dormir.</b> Feche os olhos até amanhecer.</div>' };
+    return { chave: 'feito-' + C.jogo.etapa, html: corpo + '<div class="nota">🤫 <b>Pronto!</b> Agora é esperar o dia amanhecer. Guarde segredo.</div>' };
   }
 
   function telaDebate(C, p) {
@@ -126,10 +126,10 @@
           el.querySelector('[data-pronto]').disabled = !v.olhou;
         } };
     }
-    if (f === 'anoitecer') return { chave: 'dorme', escura: true, html: '<div class="zzz">😴</div><div class="cel-titulo">Feche os olhos</div><p class="cel-texto">A noite vai começar. Quando chegar a vez da sua carta, este celular avisa.</p>' };
+    if (f === 'anoitecer') return { chave: 'dorme', escura: true, html: '<div class="zzz">🌙</div><div class="cel-titulo">A noite chegou</div><p class="cel-texto">Deixe o celular com você, sem mostrar a tela. Quando chegar a vez da sua carta, ele avisa.</p>' };
     if (f === 'noite') {
       if (C.jogo.inicial[p.id] === R.etapaAtual(C.jogo) && !C.ui.fechando) return R.podeAgir(C.jogo, p.id) ? telaAcao(C, p, v) : telaFeito(C, p, v);
-      return { chave: 'dorme', escura: true, html: '<div class="zzz">😴</div><div class="cel-titulo">Olhos fechados</div><p class="cel-texto">Ainda não é a sua vez. Quando chegar, este celular avisa.</p>' };
+      return { chave: 'dorme', escura: true, html: '<div class="zzz">🌙</div><div class="cel-titulo">Aguarde…</div><p class="cel-texto">Ainda não é a sua vez. Quando chegar, este celular avisa.</p>' };
     }
     if (f === 'amanhecer' || f === 'debate') return telaDebate(C, p);
     if (f === 'votacao' || f === 'votacao-fim') return telaVoto(C, p);

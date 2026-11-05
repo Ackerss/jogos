@@ -1,5 +1,13 @@
 # Registro de alterações
 
+## 05/11/2026 — Narração v2: frases para TV + celular e nova voz (Claude)
+
+- Jacson pediu para tirar o "fechem os olhos": o jogo é na TV com celular, e cada um age em segredo pela própria tela. As 54 frases foram reescritas com tom de contador de histórias de fantasia.
+- Os textos de "dormir" e "olhos fechados" na TV, nos celulares e nas regras viraram "Vez do …", "A noite chegou" e "Aguarde…".
+- A primeira gravação (voz americana Adam, feita pelo Antigravity) foi descartada e não foi publicada.
+- O prompt do Antigravity foi refeito. Ele agora procura um narrador brasileiro mais velho (Voice Library ou Voice Design) e gera amostras para o Jacson escolher antes de gravar as 54 frases.
+- `jogo-lobisomem/audio/amostras/` está no .gitignore.
+
 ## 05/11/2026 — A Noite dos Lobos: narração pronta para MP3 (Claude)
 
 - Roteiro do narrador em `jogo-lobisomem/js/narracao.js`: 29 momentos e 54 frases curtas (cerca de 2.600 caracteres), com 1 a 3 versões sorteadas para não repetir.
