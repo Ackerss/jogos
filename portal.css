@@ -1,417 +1,284 @@
+/* ACKER PLAY — central de jogos (TV LG + celular).
+   Na TV (tela larga) tudo é medido em rem, e o rem acompanha o tamanho da tela:
+   a página inteira cabe numa tela 16:9, sem rolar, em 1280×720 ou 1920×1080.
+   No celular (tela estreita ou em pé) a página rola normalmente. */
+
 :root {
-  --bg-dark: #0a0c18;
-  --bg-card: #13172c;
-  --bg-card-hover: #1c2242;
-  --border-color: rgba(255, 255, 255, 0.08);
-  --border-focus: #ff5e3a;
-  --text-main: #f0f3fa;
-  --text-muted: #8e9bb3;
-  --accent-orange: #ff5e3a;
-  --accent-yellow: #ffc837;
-  --accent-blue: #3b82f6;
-  --accent-green: #10b981;
-  --glow-orange: rgba(255, 94, 58, 0.25);
+  color-scheme: dark;
+  --fundo: #070914;
+  --fundo-2: #0e1224;
+  --painel: #151a33;
+  --linha: rgba(255, 255, 255, 0.12);
+  --texto: #f3f5fc;
+  --suave: #aab3cf;
+  --apagado: #6f7899;
+  --ouro: #ffcf6e;
+  --laranja: #ff6a3d;
+  --foco: #ffffff;
+  --cor-jogo: #ffcf6e;            /* trocada pelo JS conforme o jogo escolhido */
+  --ease: cubic-bezier(.22, .8, .24, 1);
+  --sans: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  --serif: 'Cinzel', Georgia, 'Times New Roman', serif;
+  font-size: 16px;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--fundo); }
 body {
-  background-color: var(--bg-dark);
-  color: var(--text-main);
-  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--texto);
+  font-family: var(--sans);
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
   overflow-x: hidden;
-  position: relative;
   -webkit-font-smoothing: antialiased;
 }
+a { color: inherit; text-decoration: none; }
+img { display: block; }
+[hidden] { display: none !important; }
 
-/* Fundo com efeito de luz sutil estilo TV / Cinema */
-.background-glow {
-  position: fixed;
-  top: -20%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 900px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(255, 94, 58, 0.12) 0%, rgba(59, 130, 246, 0.08) 50%, transparent 80%);
-  filter: blur(80px);
-  pointer-events: none;
-  z-index: 0;
+/* ---------- Fundo (arte do jogo escolhido, troca com fade) ---------- */
+.palco { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.palco-arte {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center 35%;
+  opacity: 0; transition: opacity .6s ease;
+}
+.palco-arte.visivel { opacity: 1; }
+.palco::after {           /* escurece à esquerda e embaixo para o texto ficar legível */
+  content: ''; position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(7, 9, 20, .97) 0%, rgba(7, 9, 20, .86) 30%, rgba(7, 9, 20, .25) 62%, rgba(7, 9, 20, .1) 100%),
+    linear-gradient(0deg, rgba(7, 9, 20, 1) 0%, rgba(7, 9, 20, .92) 26%, rgba(7, 9, 20, 0) 58%),
+    linear-gradient(180deg, rgba(7, 9, 20, .75) 0%, rgba(7, 9, 20, 0) 18%);
 }
 
-/* Header */
-.portal-header {
-  position: relative;
-  z-index: 10;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem 2.5rem;
-  border-bottom: 1px solid var(--border-color);
-  backdrop-filter: blur(12px);
-  background: rgba(10, 12, 24, 0.8);
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.brand-logo {
-  width: 44px;
-  height: 44px;
-  background: linear-gradient(135deg, var(--accent-orange), var(--accent-yellow));
-  color: #fff;
-  font-weight: 900;
-  font-size: 1.6rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px var(--glow-orange);
-}
-
-.brand-text {
-  display: flex;
-  flex-direction: column;
-}
-
-.brand-title {
-  font-size: 1.3rem;
-  font-weight: 800;
-  letter-spacing: 0.5px;
-}
-
-.brand-title strong {
-  color: var(--accent-orange);
-}
-
-.brand-tag {
-  font-size: 0.72rem;
-  letter-spacing: 1.2px;
-  color: var(--text-muted);
-  font-weight: 700;
-}
-
-.header-status {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  background: rgba(255, 255, 255, 0.05);
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  border: 1px solid var(--border-color);
-}
-
-.status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent-green);
-  box-shadow: 0 0 8px var(--accent-green);
-}
-
-/* Main */
-.portal-main {
-  position: relative;
-  z-index: 5;
-  flex: 1;
-  max-width: 1400px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 2.5rem 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-}
-
-/* Hero */
-.hero-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 1rem;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.pill-badge {
-  display: inline-block;
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  color: var(--accent-orange);
-  background: rgba(255, 94, 58, 0.12);
-  border: 1px solid rgba(255, 94, 58, 0.3);
-  padding: 0.4rem 1.1rem;
-  border-radius: 30px;
-}
-
-.hero-title {
-  font-size: clamp(2rem, 4vw, 3.2rem);
-  font-weight: 900;
-  line-height: 1.15;
-  color: #fff;
-}
-
-.hero-desc {
-  font-size: clamp(1rem, 1.8vw, 1.2rem);
-  color: var(--text-muted);
-  line-height: 1.6;
-}
-
-/* Games Grid */
-.games-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-  gap: 1.75rem;
-}
-
-/* Card */
-.game-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 20px;
-  padding: 1.75rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
-  overflow: hidden;
-}
-
-.game-card:hover, .game-card:focus-within {
-  transform: translateY(-6px);
-  border-color: rgba(255, 94, 58, 0.5);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), 0 0 24px var(--glow-orange);
-  background: var(--bg-card-hover);
-}
-
-.game-card.active {
-  border-color: rgba(255, 94, 58, 0.3);
-}
-
-.card-badge {
-  position: absolute;
-  top: 1.25rem;
-  right: 1.25rem;
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 1px;
-  padding: 0.3rem 0.75rem;
-  border-radius: 8px;
-}
-
-.card-badge.live {
-  background: rgba(16, 185, 129, 0.15);
-  color: #34d399;
-  border: 1px solid rgba(16, 185, 129, 0.4);
-}
-
-.card-badge.soon {
-  background: rgba(255, 255, 255, 0.06);
-  color: #94a3b8;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.card-badge.studio-badge {
-  background: rgba(59, 130, 246, 0.15);
-  color: #60a5fa;
-  border: 1px solid rgba(59, 130, 246, 0.3);
-}
-
-.card-icon {
-  font-size: 3rem;
-  margin-bottom: 1.25rem;
-  display: inline-block;
-}
-
-.card-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-bottom: 0.75rem;
-}
-
-.meta-tag {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  background: rgba(255, 255, 255, 0.05);
-  padding: 0.25rem 0.6rem;
-  border-radius: 6px;
-}
-
-.card-title {
-  font-size: 1.4rem;
-  font-weight: 800;
-  margin-bottom: 0.6rem;
-  color: #fff;
-}
-
-.card-description {
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-  margin-bottom: 1.75rem;
-}
-
-.card-footer {
-  margin-top: auto;
-}
-
-/* Botões */
-.btn-play {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  width: 100%;
-  padding: 0.9rem 1.2rem;
-  background: linear-gradient(135deg, var(--accent-orange), #ea4b24);
-  color: #fff;
-  text-decoration: none;
-  font-weight: 800;
-  font-size: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px var(--glow-orange);
-  transition: transform 0.18s ease, filter 0.18s ease;
-}
-
-.btn-play:hover, .btn-play:focus {
-  filter: brightness(1.15);
-  transform: scale(1.02);
-  outline: 3px solid #fff;
-}
-
-.btn-disabled {
-  display: block;
-  text-align: center;
-  width: 100%;
-  padding: 0.85rem;
-  background: rgba(255, 255, 255, 0.04);
-  color: #64748b;
-  font-size: 0.85rem;
-  font-weight: 700;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  cursor: not-allowed;
-}
-
-.btn-github {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  width: 100%;
-  padding: 0.85rem;
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--text-main);
-  text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 700;
-  border-radius: 12px;
-  border: 1px solid var(--border-color);
-  transition: background-color 0.2s ease;
-}
-
-.btn-github:hover, .btn-github:focus {
-  background: rgba(255, 255, 255, 0.15);
-  outline: 2px solid var(--accent-blue);
-}
-
-/* Instruções TV */
-.tv-instructions {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-color);
-  border-radius: 18px;
-  padding: 1.75rem 2rem;
-}
-
-.tv-instructions h3 {
-  font-size: 1.15rem;
-  font-weight: 800;
-  margin-bottom: 1.25rem;
-  color: var(--accent-yellow);
-}
-
-.steps-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+/* ---------- Estrutura ---------- */
+.central {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  padding: 1.5rem 1.25rem 1.25rem;
   gap: 1.5rem;
 }
 
-.step-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.85rem;
+/* ---------- Topo ---------- */
+.topo { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.marca { display: flex; align-items: center; gap: .75rem; }
+.marca-selo {
+  width: 2.75rem; height: 2.75rem; flex-shrink: 0;
+  border-radius: .8rem;
+  background: linear-gradient(140deg, var(--ouro), var(--laranja));
+  display: grid; place-items: center;
+  box-shadow: 0 .35rem 1.2rem rgba(255, 106, 61, .35);
+}
+.marca-selo svg { width: 46%; height: 46%; margin-left: 8%; }
+.marca-nome { font-weight: 800; font-size: 1.3rem; letter-spacing: .08em; line-height: 1.1; }
+.marca-nome b { color: var(--ouro); font-weight: 800; }
+.marca-nome small {
+  display: block; font-size: .62rem; letter-spacing: .24em;
+  color: var(--suave); font-weight: 700; margin-top: .15rem;
+}
+.dica-controle {
+  display: none;              /* só aparece na TV */
+  align-items: center; gap: 1.1rem;
+  font-size: .85rem; font-weight: 700; color: var(--suave);
+}
+.dica-controle span { display: inline-flex; align-items: center; gap: .45rem; }
+.tecla {
+  display: inline-grid; place-items: center;
+  min-width: 2rem; height: 1.7rem; padding: 0 .45rem;
+  border-radius: .45rem; border: 1px solid rgba(255, 255, 255, .28);
+  background: rgba(255, 255, 255, .08);
+  color: var(--texto); font-size: .72rem; font-weight: 800; letter-spacing: .04em;
 }
 
-.step-num {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #fff;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  font-size: 0.95rem;
+/* ---------- Destaque (jogo escolhido) ---------- */
+.destaque { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; }
+.destaque-conteudo { max-width: 54rem; }
+.destaque-conteudo.entrando { animation: entrar .45s var(--ease); }
+@keyframes entrar { from { opacity: 0; transform: translateY(.8rem); } to { opacity: 1; transform: none; } }
+
+.selo {
+  display: inline-flex; align-items: center; gap: .45rem;
+  font-size: .72rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase;
+  color: #1a1206; background: var(--cor-jogo);
+  padding: .38rem .8rem; border-radius: 99rem;
+  margin-bottom: 1rem;
+}
+.selo:empty { display: none; }
+.destaque-titulo {
+  font-size: 2.6rem; font-weight: 800; line-height: 1.02; letter-spacing: -.01em;
+  text-shadow: 0 .2rem 1.5rem rgba(0, 0, 0, .55);
+}
+.destaque-titulo.estilo-lobos { font-family: var(--serif); font-weight: 700; letter-spacing: .01em; color: #fff3dc; }
+.destaque-titulo.estilo-corrida { font-style: italic; font-weight: 800; letter-spacing: -.03em; }
+
+.fichas { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0 .9rem; list-style: none; }
+.fichas li {
+  display: inline-flex; align-items: center; gap: .45rem;
+  font-size: .85rem; font-weight: 700; color: #e4e8f6;
+  background: rgba(255, 255, 255, .09); border: 1px solid rgba(255, 255, 255, .14);
+  padding: .4rem .75rem; border-radius: .6rem;
+}
+.fichas svg { width: 1.05em; height: 1.05em; color: var(--cor-jogo); flex-shrink: 0; }
+.destaque-resumo { font-size: 1.02rem; line-height: 1.55; color: #d5dbee; max-width: 50rem; }
+.destaque-extra { font-size: .88rem; color: var(--suave); margin-top: .5rem; }
+
+.botao-jogar {
+  margin-top: 1.4rem;
+  display: inline-flex; align-items: center; justify-content: center; gap: .7rem;
+  min-height: 3.5rem; padding: 0 2.1rem 0 1.7rem;
+  border-radius: 1rem;
+  background: var(--cor-jogo); color: #140e05;
+  font-size: 1.15rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+  box-shadow: 0 .6rem 1.6rem rgba(0, 0, 0, .4);
+  outline: none;
+  transition: transform .18s var(--ease), box-shadow .18s ease;
+}
+.botao-jogar svg { width: 1.15rem; height: 1.15rem; }
+.botao-jogar:hover { transform: translateY(-2px); }
+.botao-jogar:focus-visible,
+.botao-jogar.focado {
+  transform: scale(1.06);
+  box-shadow: 0 0 0 .3rem var(--fundo), 0 0 0 .55rem var(--foco), 0 .8rem 2rem rgba(0, 0, 0, .5);
 }
 
-.step-item p {
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: var(--text-muted);
+/* ---------- Lista de jogos ---------- */
+.prateleira-titulo {
+  font-size: .78rem; font-weight: 800; letter-spacing: .24em; text-transform: uppercase;
+  color: var(--suave); margin-bottom: .8rem;
+}
+.prateleira {
+  display: flex; gap: 1rem;
+  overflow-x: auto; scrollbar-width: none;
+  padding: .7rem .7rem 1rem; margin: -.7rem -.7rem -1rem;   /* espaço para o anel de foco */
+  scroll-snap-type: x proximity;
+}
+.prateleira::-webkit-scrollbar { display: none; }
+
+.cartao {
+  flex: 0 0 auto; width: 9.5rem;
+  scroll-snap-align: start;
+  outline: none; border-radius: 1rem;
+  -webkit-tap-highlight-color: transparent;
+}
+.cartao-capa {
+  position: relative; display: block;
+  aspect-ratio: 3 / 4; border-radius: 1rem; overflow: hidden;
+  background: var(--painel);
+  border: 2px solid rgba(255, 255, 255, .1);
+  box-shadow: 0 .6rem 1.4rem rgba(0, 0, 0, .45);
+  transition: transform .2s var(--ease), box-shadow .2s ease, border-color .2s ease;
+}
+.cartao-capa img, .cartao-capa svg { width: 100%; height: 100%; object-fit: cover; }
+.cartao-nome {
+  display: block; margin-top: .6rem;
+  font-size: .9rem; font-weight: 800; line-height: 1.25; color: var(--suave);
+  transition: color .2s ease;
+}
+.cartao-nome small { display: block; font-size: .72rem; font-weight: 600; color: var(--apagado); margin-top: .1rem; }
+.cartao-etiqueta {
+  position: absolute; top: .5rem; left: .5rem;
+  font-size: .6rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+  background: var(--ouro); color: #1a1206; padding: .22rem .5rem; border-radius: .4rem;
 }
 
-.step-item p strong {
-  color: #fff;
+/* escolhido (o que está no destaque) */
+.cartao.escolhido .cartao-capa { border-color: var(--cor-jogo); }
+.cartao.escolhido .cartao-nome { color: var(--texto); }
+/* foco do controle remoto: anel branco grosso, bem visível de longe */
+.cartao:focus-visible .cartao-capa,
+.cartao.focado .cartao-capa {
+  transform: scale(1.05);
+  border-color: var(--foco);
+  box-shadow: 0 0 0 .3rem var(--fundo), 0 0 0 .55rem var(--foco), 0 1rem 2.4rem rgba(0, 0, 0, .6);
+}
+.cartao:hover .cartao-capa { border-color: rgba(255, 255, 255, .55); }
+
+/* "em breve" (não clicável) */
+.cartao.breve { pointer-events: none; }
+.cartao.breve .cartao-capa {
+  background: rgba(255, 255, 255, .03);
+  border: 2px dashed rgba(255, 255, 255, .18);
+  box-shadow: none;
+  display: grid; place-items: center; text-align: center;
+}
+.breve-icone {
+  width: 2.6rem; height: 2.6rem; border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, .25);
+  display: grid; place-items: center; margin: 0 auto .6rem;
+  color: var(--suave); font-size: 1.5rem; font-weight: 400; line-height: 1;
+}
+.breve-texto { font-size: .72rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; color: var(--apagado); }
+.cartao.breve .cartao-nome { color: var(--apagado); }
+
+/* ---------- Como jogar ---------- */
+.passos {
+  display: flex; flex-direction: column; gap: .7rem; list-style: none;
+  border-top: 1px solid var(--linha); padding-top: 1.1rem;
+}
+.passos li { display: flex; align-items: center; gap: .7rem; font-size: .9rem; color: var(--suave); line-height: 1.35; }
+.passos b { color: var(--texto); }
+.passos .num {
+  flex-shrink: 0; width: 1.8rem; height: 1.8rem; border-radius: 50%;
+  display: grid; place-items: center;
+  background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .18);
+  color: var(--ouro); font-weight: 800; font-size: .82rem;
+}
+.rodape-endereco { font-size: .8rem; color: var(--apagado); margin-top: .25rem; }
+.rodape-endereco b { color: var(--suave); letter-spacing: .02em; }
+
+/* ======================================================================
+   CELULAR (padrão acima): a arte fica no alto e o resto rola.
+   ====================================================================== */
+@media (max-width: 899px), (orientation: portrait) {
+  .palco { position: absolute; height: 72vh; min-height: 26rem; }
+  .palco::after {
+    background:
+      linear-gradient(0deg, rgba(7, 9, 20, 1) 6%, rgba(7, 9, 20, .55) 45%, rgba(7, 9, 20, .2) 75%, rgba(7, 9, 20, .55) 100%);
+  }
+  .destaque { min-height: 54vh; }
+  .destaque-titulo { font-size: 2.2rem; }
+  .botao-jogar { width: 100%; }
+  .marca-nome small { display: none; }
 }
 
-/* Footer */
-.portal-footer {
-  position: relative;
-  z-index: 10;
-  text-align: center;
-  padding: 1.5rem 2rem;
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  border-top: 1px solid var(--border-color);
-  background: rgba(10, 12, 24, 0.8);
+/* ======================================================================
+   TV / TELA LARGA: interface "de sofá", tudo cabe na tela.
+   1rem ≈ 20px numa TV 1920×1080 (≈ 13px em 1280×720, mesmo tamanho na tela).
+   ====================================================================== */
+@media (min-width: 900px) and (orientation: landscape) {
+  :root { font-size: 1.04vw; }
+  @supports (font-size: min(1vw, 1vh)) {
+    :root { font-size: min(1.04vw, 1.85vh); }
+  }
+  body { overflow: hidden; }
+  .central {
+    height: 100vh; min-height: 0;
+    padding: 1.9rem 4.2rem 1.6rem;
+    gap: 1.3rem;
+  }
+  .dica-controle { display: flex; }
+  .marca-selo { width: 3.1rem; height: 3.1rem; }
+  .marca-nome { font-size: 1.45rem; }
+
+  .selo { margin-bottom: .8rem; }
+  .destaque-titulo { font-size: 3.9rem; }
+  .destaque-titulo.estilo-lobos { font-size: 3.6rem; }
+  .fichas { margin: .9rem 0 .8rem; }
+  .destaque-resumo { font-size: 1.15rem; }
+  .fichas li { font-size: .95rem; }
+  .botao-jogar { margin-top: 1.2rem; min-height: 3.7rem; font-size: 1.2rem; }
+  .prateleira-titulo { margin-bottom: 1.25rem; }
+  .cartao-nome { margin-top: 1.1rem; }
+
+  .prateleira { overflow: visible; }
+  .cartao { width: 9.6rem; }
+
+  .passos { flex-direction: row; justify-content: space-between; align-items: center; gap: 2rem; }
+  .passos li { font-size: .92rem; }
+  .rodape-endereco { margin: 0 0 0 auto; text-align: right; }
 }
 
-/* Responsividade Mobile */
-@media (max-width: 768px) {
-  .portal-header {
-    padding: 1.2rem 1.5rem;
-  }
-  .portal-main {
-    padding: 1.75rem 1.25rem;
-    gap: 2.25rem;
-  }
-  .hero-title {
-    font-size: 1.85rem;
-  }
-  .hero-desc {
-    font-size: 0.98rem;
-  }
-  .games-grid {
-    grid-template-columns: 1fr;
-  }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
 }

@@ -1,5 +1,13 @@
 # Registro de alterações
 
+## 06/11/2026 — Nova central de jogos (Claude)
+- **Tela inicial redesenhada** (`index.html` + `portal.css`), no estilo "menu de console": a arte do jogo escolhido ocupa a tela, com nome grande, informações e o botão **JOGAR**. Embaixo, a fileira de jogos em cartões tipo pôster.
+- **Feita para a TV:** tudo cabe numa tela 16:9 sem rolar (1280×720 ou 1920×1080), letras grandes para ver do sofá e anel branco grosso no item escolhido. Controle remoto: ◀ ▶ troca o jogo, OK joga, ▲ vai para o botão JOGAR, ▼ volta à lista. O ponteiro do Magic Remote também escolhe ao passar por cima. A TV lembra o último jogo escolhido.
+- **Celular:** a mesma página vira uma coluna que rola, com a arte no alto e os cartões deslizando para o lado.
+- **Saíram os cartões de exemplo** do Gemini (Quiz da Família, Cartas & Blefe e o cartão do GitHub). Ficou um único cartão "Em breve".
+- **Jogo novo = um bloco na lista `JOGOS`** no começo do script do `index.html` (nome, link, fichas, resumo, capa, fundo, cor). A Corrida ganhou uma arte desenhada em código (pista ao pôr do sol); a Noite dos Lobos usa as artes que já existem em `lobisomem/arte/`.
+- Verificado pelo Claude em navegador (Chromium) em 1920×1080, 1280×720, 1366×640 e celular 390×844, inclusive setas, OK e ponteiro. **Não testado na TV LG física.**
+
 ## 06/11/2026 — Modo TV oficial com celulares de verdade (Claude)
 - **Abrir o jogo na TV agora é o jogo oficial:** a TV mostra um QR Code e um código de 4 letras. Cada pessoa aponta a câmera do celular, coloca o nome e entra. A carta secreta, as ações da noite e o voto aparecem só no celular dela.
 - **Conexão:** usa o motor Doot e o relay público `wss://relay.clasp.to`, os mesmos da Corrida dos Toques (o motor não foi alterado). A TV roda o jogo e manda para cada celular a tela pronta; o celular só devolve os toques (`jogo-lobisomem/rede/rede.ts`, gerado em `js/rede.js`).
