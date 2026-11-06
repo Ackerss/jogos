@@ -2,6 +2,8 @@
    Todos os tempos estão juntos em TEMPO (em milissegundos) para ajuste fácil. */
 (function () {
   'use strict';
+  if (window.MODO === 'celular') return; // o celular de verdade usa js/controle.js
+  var TVMODE = window.MODO === 'tv';      // TV oficial: celulares reais pela internet
   var R = window.Regras, B = window.Bots, Mesa = window.Mesa, TV = window.TV, Cel = window.Celular, Som = window.Som;
 
   var TEMPO = {
@@ -16,6 +18,7 @@
     aposVotos: 900,       // pausa depois do último voto
     votoLembrete: 30000,  // aviso "faltam 30 s" para quem ainda não votou
     votoLimite: 60000,    // depois disso a votação fecha; quem não votou fica sem voto
+    revelarLimite: 90000, // quem não tocar em "Pronto" (ex.: celular desligou) fica pronto sozinho
     seta: 320,            // intervalo entre as setas dos votos
     lerEliminacao: 3200,  // tempo para ler quem saiu
     virarInicio: 120,     // intervalo entre cartas virando no replay
@@ -25,7 +28,40 @@
   };
   var NOMES = ['Léo', 'Ana', 'Alex', 'Bia', 'Caio', 'Dani'], GENEROS = ['m', 'f', 'm', 'f', 'm', 'f'];
 
-  var sala = { config: { n: 4, humanos: 1, noite: 12, debate: 120, narracao: 'auto' }, jogadores: [], placar: {}, rodada: 0 };
+  var sala = { config: { n: 4, humanos: 1, noite: 12, debate: 120, narracao: 'auto', bots: 0 }, jogadores: [], placar: {}, rodada: 0 };
+  var rede = null; // conexão com os celulares (só no modo TV)
+
+  /* Guardado na TV (localStorage): ajustes, aparência de cada nome e o ranking de vitórias. */
+  function lerLocal(k, padrao) { try { var v = JSON.parse(localStorage.getItem(k)); return v && typeof v === 'object' ? v : padrao; } catch (e) { return padrao; } }
+  function salvarLocal(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* sem armazenamento: segue sem guardar */ } }
+  var Ranking = {
+    chave: 'lobos-ranking-v1',
+    ler: function () { return lerLocal(this.chave, {}); },
+    /* Soma uma partida para cada pessoa (bots não entram) e uma vitória para quem venceu. */
+    registrar: function (jogadores, vencedores) {
+      var d = this.ler();
+      jogadores.forEach(function (j) {
+        if (!j.humano) return;
+        var k = j.nome.toLowerCase(), r = d[k] || { nome: j.nome, v: 0, p: 0 };
+        r.nome = j.nome; r.p++;
+        if (vencedores.indexOf(j.id) >= 0) r.v++;
+        d[k] = r;
+      });
+      salvarLocal(this.chave, d);
+    },
+    vitorias: function (nm) { var r = this.ler()[String(nm).toLowerCase()]; return r ? r.v : 0; },
+    lista: function () {
+      var d = this.ler();
+      return Object.keys(d).map(function (k) { return d[k]; }).sort(function (a, b) { return b.v - a.v || a.p - b.p || a.nome.localeCompare(b.nome); });
+    },
+    zerar: function () { salvarLocal(this.chave, {}); }
+  };
+  var botVit = {}; // vitórias dos bots nesta sessão (não vão para o ranking)
+  if (TVMODE) {
+    var salvo = lerLocal('lobos-config', {});
+    ['noite', 'debate', 'bots'].forEach(function (k) { if (typeof salvo[k] === 'number') sala.config[k] = salvo[k]; });
+    if (typeof salvo.narracao === 'string') sala.config.narracao = salvo.narracao;
+  }
   var jogo = null;
   var ui = { fase: 'lobby', views: {}, chat: [], querVotar: {}, fimEtapa: 0, fimDebate: 0, fechando: false, apurPasso: 0, replayPasso: 0, replayTexto: '' };
   var geracao = 0, proximaFala = 0, falaAte = 0, rnd = Math.random;
@@ -41,10 +77,76 @@
     restanteEtapa: function () { return Math.max(0, Math.ceil((ui.fimEtapa - Date.now()) / 1000)); },
     restanteDebate: function () { return Math.max(0, Math.ceil((ui.fimDebate - Date.now()) / 1000)); },
     formatarTempo: function (s) { return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); },
-    rastros: rastros
+    rastros: rastros,
+    tvmode: TVMODE,
+    get rede() { return rede; },
+    ranking: function () { return Ranking.lista(); },
+    vitorias: TVMODE ? function (p) { return p.humano ? Ranking.vitorias(p.nome) : (botVit[p.nome] || 0); } : null
   };
 
-  function desenhar() { TV.desenhar(C); Cel.desenhar(C); }
+  function desenhar() { TV.desenhar(C); if (TVMODE) enviarTelas(); else Cel.desenhar(C); }
+
+  /* Vitórias mostradas nas plaquinhas dos lugares. */
+  function placar() {
+    if (!TVMODE) return sala.placar;
+    var out = {};
+    sala.jogadores.forEach(function (j) { out[j.id] = C.vitorias(j); });
+    return out;
+  }
+
+  /* ---------- Modo TV: celulares de verdade ---------- */
+  var ESCONDER = '<div class="zzz">🌙</div><div class="cel-titulo">Partida em andamento</div><p class="cel-texto">Você entra na próxima rodada. Deixe esta tela aberta e acompanhe pela TV.</p>';
+  function enviarTelas() {
+    if (!rede) return;
+    var sentados = {};
+    sala.jogadores.forEach(function (j) {
+      if (!j.humano || !j.pid) return;
+      sentados[j.pid] = true;
+      var t = Cel.tela(C, j);
+      rede.tela(j.pid, { chave: t.chave, html: t.html, escura: !!t.escura, rev: t.rev || null, nome: j.nome, assento: j.id });
+      rede.tempo(j.pid, Cel.tempoDe(C, j));
+    });
+    rede.pessoas.forEach(function (p) {
+      if (sentados[p.pid]) return;
+      var cheia = ui.fase === 'lobby';
+      rede.tela(p.pid, { chave: cheia ? 'cheia' : 'fora', nome: p.nome, html: cheia
+        ? '<div class="cel-titulo">🪑 Mesa cheia</div><p class="cel-texto">A mesa já tem 6 jogadores. Deixe esta tela aberta: se alguém sair, você entra.</p>'
+        : ESCONDER });
+    });
+  }
+  function enviarTempos() {
+    if (!rede) return;
+    sala.jogadores.forEach(function (j) { if (j.humano && j.pid) rede.tempo(j.pid, Cel.tempoDe(C, j)); });
+  }
+  function chaveRoster() { return rede ? rede.pessoas.map(function (p) { return p.pid; }).join(',') : ''; }
+  /* Mesa do lobby: as pessoas que entraram pelo QR (até 6) e, se pedido, bots completando. */
+  function montarSalaTV() {
+    var generos = lerLocal('lobos-generos', {});
+    var pessoas = rede ? rede.pessoas.slice(0, 6) : [];
+    var lista = pessoas.map(function (p, i) {
+      return { id: i, nome: p.nome, pid: p.pid, genero: generos[p.nome.toLowerCase()] === 'f' ? 'f' : 'm', humano: true };
+    });
+    var bots = Math.max(0, Math.min(sala.config.bots, 6 - lista.length));
+    var usados = lista.map(function (j) { return j.nome.toLowerCase(); });
+    NOMES.forEach(function (nm, i) {
+      if (bots > 0 && usados.indexOf(nm.toLowerCase()) < 0) { lista.push({ id: lista.length, nome: nm, genero: GENEROS[i], humano: false }); bots--; }
+    });
+    sala.jogadores = lista;
+    sala.config.n = lista.length;
+    sala.config.humanos = pessoas.length;
+    sala.roster = chaveRoster();
+    Mesa.assentos(sala.jogadores, placar());
+    Mesa.layout('lobby');
+    desenhar();
+  }
+  /* Ajustes da TV: cada toque passa para a próxima opção (fácil com o controle remoto). */
+  var OPCOES = { bots: [0, 1, 2, 3, 4, 5], noite: [8, 12, 20, 30], debate: [60, 120, 180, 300], narracao: ['auto', 'completa', 'curta'] };
+  function ajustar(k) {
+    var ops = OPCOES[k]; if (!ops) return;
+    sala.config[k] = ops[(ops.indexOf(sala.config[k]) + 1) % ops.length];
+    salvarLocal('lobos-config', { noite: sala.config.noite, debate: sala.config.debate, bots: sala.config.bots, narracao: sala.config.narracao });
+    montarSalaTV();
+  }
 
   /* Narração: "completa" conta a história; "curta" só fala o essencial, para partidas rápidas.
      No modo automático, a 1ª partida é completa e as seguintes são curtas. */
@@ -67,6 +169,7 @@
 
   /* ---------- Sala (antes de começar) ---------- */
   function montarSala() {
+    if (TVMODE) { montarSalaTV(); return; }
     var n = Number($('#cfgJogadores').value), h = Math.min(Number($('#cfgHumanos').value), n);
     $('#cfgHumanos').value = String(h);
     sala.config = { n: n, humanos: h, noite: Number($('#cfgNoite').value), debate: Number($('#cfgDebate').value), narracao: $('#cfgNarracao').value };
@@ -93,11 +196,12 @@
     geracao++;
     sala.rodada++;
     $('#ajustes').classList.add('oculto');
+    ui.ranking = false;
     jogo = R.criarPartida(sala.jogadores, rnd);
     ui.views = {}; ui.chat = []; ui.querVotar = {}; ui.fechando = false; ui.apurPasso = 0; ui.votoPendente = false; ui.votoLembrete = false;
     sala.jogadores.forEach(function (j) { ui.views[j.id] = { aberta: false, olhou: false, pronto: false, selecao: [], aviso: '' }; });
     Mesa.limparSetas(); Mesa.limparSelos();
-    Mesa.assentos(sala.jogadores, sala.placar);
+    Mesa.assentos(sala.jogadores, placar());
     Mesa.novasCartas(jogo);
     ui.fase = 'distribuir';
     TV.cena('night');
@@ -116,6 +220,12 @@
     narra('olhar_carta');
     jogo.jogadores.forEach(function (j) {
       if (!j.humano) depois(entre(TEMPO.botPronto), function () { ui.views[j.id].pronto = true; selos(); desenhar(); checarProntos(); });
+    });
+    // Ninguém trava a mesa: se um celular sumir, depois de um tempo ele fica pronto sozinho.
+    depois(TEMPO.revelarLimite, function () {
+      if (ui.fase !== 'revelar') return;
+      jogo.jogadores.forEach(function (j) { ui.views[j.id].pronto = true; ui.views[j.id].aberta = false; });
+      selos(); desenhar(); checarProntos();
     });
     selos(); desenhar();
   }
@@ -149,7 +259,8 @@
   function etapa(k) {
     var papel = R.iniciarEtapa(jogo, k);
     ui.fase = 'noite'; ui.fechando = false;
-    ui.fimEtapa = Date.now() + segNoite() * 1000;
+    ui.durEtapa = segNoite();
+    ui.fimEtapa = Date.now() + ui.durEtapa * 1000;
     jogo.jogadores.forEach(function (j) { ui.views[j.id].selecao = []; ui.views[j.id].aviso = ''; });
     TV.cena('night', papel);
     Mesa.heroi(papel);
@@ -302,7 +413,11 @@
     var r = jogo.resultado;
     ui.fase = 'resultado';
     r.vencedores.forEach(function (id) { sala.placar[id] = (sala.placar[id] || 0) + 1; });
-    Mesa.assentos(sala.jogadores, sala.placar);
+    if (TVMODE) {
+      Ranking.registrar(jogo.jogadores, r.vencedores);
+      jogo.jogadores.forEach(function (j) { if (!j.humano && r.vencedores.indexOf(j.id) >= 0) botVit[j.nome] = (botVit[j.nome] || 0) + 1; });
+    }
+    Mesa.assentos(sala.jogadores, placar());
     TV.cena('result', '', r.time === 'aldeia' ? 'village' : r.time === 'lobos' ? 'wolves' : 'none');
     jogo.jogadores.forEach(function (j) {
       var morto = r.eliminados.indexOf(j.id) >= 0, ganhou = r.vencedores.indexOf(j.id) >= 0;
@@ -327,6 +442,8 @@
 
   function jogarDeNovo() {
     if (ui.fase !== 'resultado') return;
+    // Entrou ou saiu alguém? Volta para a sala para montar a mesa de novo.
+    if (TVMODE && chaveRoster() !== sala.roster) { irParaLobby(); return; }
     geracao++;
     Mesa.limparSelos();
     var dur = Mesa.recolher();
@@ -368,8 +485,11 @@
     var v = ui.views[id];
     if (ui.fase === 'lobby') {
       var sj = sala.jogadores[id];
-      if (d.tipo === 'genero' && (d.genero === 'm' || d.genero === 'f')) sj.genero = d.genero;
-      else if (d.tipo === 'nome') sj.nome = String(d.valor || '').trim().slice(0, 14) || NOMES[id];
+      if (d.tipo === 'genero' && (d.genero === 'm' || d.genero === 'f')) {
+        sj.genero = d.genero;
+        if (TVMODE) { var g = lerLocal('lobos-generos', {}); g[sj.nome.toLowerCase()] = d.genero; salvarLocal('lobos-generos', g); }
+      }
+      else if (d.tipo === 'nome' && !TVMODE) sj.nome = String(d.valor || '').trim().slice(0, 14) || NOMES[id];
       else return false;
       Mesa.assentos(sala.jogadores, sala.placar); desenhar(); return true;
     }
@@ -421,11 +541,22 @@
     var b = e.target.closest('button'); if (!b || b.disabled) return;
     if (b.dataset.tv) {
       var a = b.dataset.tv;
-      if (a === 'comecar' && ui.fase === 'lobby') comecar(false);
+      if (a === 'comecar' && ui.fase === 'lobby' && sala.jogadores.length >= 3) comecar(false);
+      if (a === 'recarregar') location.reload();
       if (a === 'votar') votacao();
       if (a === 'pular') pular();
       if (a === 'denovo') jogarDeNovo();
       if (a === 'inicio') irParaLobby();
+      if (a === 'cfg' && ui.fase === 'lobby') ajustar(b.dataset.cfg);
+      if (a === 'ranking') { ui.ranking = !ui.ranking; ui.zerar = false; desenhar(); }
+      if (a === 'zerar') { if (ui.zerar) { Ranking.zerar(); ui.zerar = false; Mesa.assentos(sala.jogadores, placar()); } else ui.zerar = true; desenhar(); }
+      if (a === 'testeTV' && ui.fase === 'lobby') {
+        // Teste sozinho na TV: completa a mesa com bots (você + 3 bots).
+        sala.config.bots = Math.max(sala.config.bots, Math.max(0, 4 - (rede ? Math.min(rede.pessoas.length, 6) : 0)));
+        montarSalaTV(); aviso('Modo teste: bots completando a mesa');
+      }
+      if (a === 'testePC') location.href = './?modo=pc';
+      if (a === 'telaCheia') { var de = document.documentElement; if (document.fullscreenElement) document.exitFullscreen && document.exitFullscreen(); else if (de.requestFullscreen) de.requestFullscreen().catch(function () {}); }
       return;
     }
     if (b.dataset.acao) {
@@ -463,8 +594,40 @@
       if (!ui.aviso30 && sala.config.debate > 45 && C.restanteDebate() <= 30) { ui.aviso30 = true; narra('debate_30s'); }
       if (Date.now() >= proximaFala) { comentarioBot(false); proximaFala = Date.now() + entre(TEMPO.falaBot); }
     }
-    TV.relogios(C); Cel.relogios(C);
+    TV.relogios(C);
+    if (TVMODE) enviarTempos(); else Cel.relogios(C);
   }, 250);
+
+  /* Controle remoto da TV: as setas andam entre os botões da tela e o OK aperta. */
+  function navegacaoControle() {
+    var tv = $('#tv');
+    function visiveis() {
+      return Array.prototype.filter.call(tv.querySelectorAll('button'), function (b) {
+        if (b.disabled) return false;
+        var r = b.getBoundingClientRect(); return r.width > 0 && r.height > 0;
+      });
+    }
+    document.addEventListener('keydown', function (e) {
+      var dir = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1], Left: [-1, 0], Right: [1, 0], Up: [0, -1], Down: [0, 1] }[e.key] ||
+        { 37: [-1, 0], 39: [1, 0], 38: [0, -1], 40: [0, 1] }[e.keyCode];
+      if (e.keyCode === 461 || e.key === 'Escape') { if (ui.ranking) { ui.ranking = false; desenhar(); e.preventDefault(); } return; } // botão Voltar
+      if (!dir) return;
+      var bs = visiveis(); if (!bs.length) return;
+      e.preventDefault();
+      var atual = document.activeElement;
+      if (bs.indexOf(atual) < 0) { (tv.querySelector('[data-foco]:not([disabled])') || bs[0]).focus(); return; }
+      var a = atual.getBoundingClientRect(), ax = a.left + a.width / 2, ay = a.top + a.height / 2, melhor = null, nota = Infinity;
+      bs.forEach(function (b) {
+        if (b === atual) return;
+        var r = b.getBoundingClientRect(), dx = r.left + r.width / 2 - ax, dy = r.top + r.height / 2 - ay;
+        var frente = dx * dir[0] + dy * dir[1], lado = Math.abs(dx * dir[1] + dy * dir[0]);
+        if (frente <= 4) return;
+        var n = frente + lado * 2.2;
+        if (n < nota) { nota = n; melhor = b; }
+      });
+      if (melhor) melhor.focus();
+    });
+  }
 
   /* Lista de papéis nas regras da página */
   $('#listaPapeis').innerHTML = ['wolf', 'seer', 'robber', 'trouble', 'villager'].map(function (r) {
@@ -473,6 +636,24 @@
 
   TV.iniciar($('#tv'));
   Cel.iniciar($('#celulares'));
+
+  if (TVMODE && window.Rede) {
+    rede = window.Rede.criarSala();
+    rede.aoMudar(function () {
+      if (ui.fase === 'lobby') { if (chaveRoster() !== sala.roster) montarSalaTV(); else desenhar(); }
+      else enviarTelas();
+    });
+    /* Toque vindo de um celular: vira a mesma entrada dos celulares simulados. */
+    rede.aoAcao(function (pid, d) {
+      var j = sala.jogadores.filter(function (x) { return x.pid === pid; })[0];
+      if (!j || !d || typeof d.tipo !== 'string') return;
+      var num = function (v) { return typeof v === 'number' && isFinite(v) ? v : undefined; };
+      var txt = function (v) { return typeof v === 'string' ? v.slice(0, 20) : undefined; };
+      entrada(j.id, { tipo: d.tipo.slice(0, 20), alvo: d.alvo === R.PAZ ? R.PAZ : num(d.alvo), indice: num(d.indice), a: num(d.a), b: num(d.b), genero: txt(d.genero), fala: txt(d.fala), papel: txt(d.papel) });
+    });
+    rede.iniciar();
+    navegacaoControle();
+  }
   irParaLobby();
   window.ACKER = { sala: sala, ui: ui, get jogo() { return jogo; }, TEMPO: TEMPO, pular: pular };
 })();

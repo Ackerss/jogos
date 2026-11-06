@@ -1,5 +1,30 @@
 # Registro de alterações
 
+## 06/11/2026 — Modo TV oficial com celulares de verdade (Claude)
+- **Abrir o jogo na TV agora é o jogo oficial:** a TV mostra um QR Code e um código de 4 letras. Cada pessoa aponta a câmera do celular, coloca o nome e entra. A carta secreta, as ações da noite e o voto aparecem só no celular dela.
+- **Conexão:** usa o motor Doot e o relay público `wss://relay.clasp.to`, os mesmos da Corrida dos Toques (o motor não foi alterado). A TV roda o jogo e manda para cada celular a tela pronta; o celular só devolve os toques (`jogo-lobisomem/rede/rede.ts`, gerado em `js/rede.js`).
+- **Ajustes na TV, fáceis com o controle remoto:** cada botão passa para a próxima opção: 🤖 bots (0 a 5), 🌙 tempo da noite, 💬 tempo de conversa e 🎙️ narração. Ficam guardados na TV.
+- **Controle remoto:** as setas andam entre os botões e o OK aperta. O foco fica no mesmo botão quando a tela atualiza.
+- **Botões de teste escondidos** no canto de cima, à direita, quase invisíveis: "teste tv" completa a mesa com bots (você + 3 bots, com o seu celular) e "teste pc" abre o simulador antigo. Também há "⛶" (tela cheia).
+- **Simulador:** continua igual em `?modo=pc`.
+- **Ranking da casa:** conta vitórias e partidas por nome, guardado na TV. Bots não entram. Aparece no fim de cada rodada (linha curta) e no botão 🏆 Ranking (lobby e fim), com opção de zerar (aperta duas vezes).
+- **Proteções:**
+  - nome repetido na sala é recusado (com opção "sou eu voltando");
+  - o celular que recarrega volta sozinho para a mesma tela;
+  - quem entra no meio da partida espera a próxima;
+  - mais de 6 pessoas: "Mesa cheia";
+  - se um celular sumir na hora de olhar a carta, a mesa segue depois de 90 s;
+  - "Jogar de novo" volta para a sala quando alguém entrou ou saiu.
+- **Celular que abre o link sem QR** cai direto na tela de entrar (`?modo=tv` força a TV).
+- **TV antiga:** tamanho 16:9 sem `aspect-ratio` e CSS sem `inset`. O código de conexão é compilado para navegadores antigos (Chrome 61).
+- **Testado pela IA em navegador (Playwright),** com relay de teste local (`scripts/relay-local.mjs`), porque o ambiente da IA não acessa o relay público:
+  - partida completa com TV + 2 celulares + 2 bots;
+  - controle remoto por setas;
+  - "teste tv";
+  - celular recarregando no meio da noite;
+  - simulador sem mudanças.
+- **Ainda não testado:** a TV LG física e o relay público com este jogo.
+
 ## 06/11/2026 — Ajustes após testes de partida (Claude)
 Foram testadas 15 partidas automáticas, simulando uma família na sala: 8 sobre ritmo e esperas, 7 sobre a clareza das telas.
 - **Votação:**

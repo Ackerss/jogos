@@ -11,10 +11,24 @@
   <link rel="stylesheet" href="css/jogo.css">
 </head>
 <body>
+<script>
+  /* Modo da página: "tv" (oficial: TV + celulares de verdade, padrão), "pc" (simulador com bots)
+     ou "celular" (controle do jogador, aberto pelo QR Code com ?sala=CODIGO). */
+  (function () {
+    var q = new URLSearchParams(location.search);
+    // Celular que abriu o link sem o QR Code vai direto para a tela de entrar (?modo=tv força a TV).
+    var fone = false;
+    try { fone = matchMedia('(pointer:coarse)').matches && Math.min(screen.width, screen.height) < 600; } catch (e) { /* navegador antigo */ }
+    window.MODO = q.has('sala') ? 'celular' : q.get('modo') === 'pc' ? 'pc' : q.get('modo') === 'tv' ? 'tv' : fone ? 'celular' : 'tv';
+    document.documentElement.setAttribute('data-modo', window.MODO);
+  })();
+</script>
+<div id="controle" class="controle" hidden></div>
 <div class="app">
   <header class="barra">
-    <a class="marca-jogo" href="../" title="Voltar aos jogos"><span class="selo-logo">🐺</span><span>ACKER PLAY<small>A NOITE DOS LOBOS · SIMULADOR</small></span></a>
+    <a class="marca-jogo" href="../" title="Voltar aos jogos"><span class="selo-logo">🐺</span><span>ACKER PLAY<small>A NOITE DOS LOBOS · SIMULADOR (TESTE)</small></span></a>
     <div class="ferramentas">
+      <a class="botao-mini" href="./" title="Jogar na TV com os celulares de verdade">📺 Modo TV oficial</a>
       <label class="botao-mini" for="qualidade">🎞️ Efeitos
         <select id="qualidade" aria-label="Qualidade das animações"><option value="alta">Alta</option><option value="media" selected>Média</option><option value="leve">Leve</option></select>
       </label>
@@ -93,8 +107,10 @@
 <script src="js/mesa.js"></script>
 <script src="js/tv.js"></script>
 <script src="js/celular.js"></script>
+<script src="js/rede.js"></script>
 <script src="js/main.js"></script>
+<script src="js/controle.js"></script>
 <script src="js/cena.js"></script>
-<script>window.iniciarCena && window.iniciarCena();</script>
+<script>if (window.MODO !== 'celular' && window.iniciarCena) window.iniciarCena();</script>
 </body>
 </html>

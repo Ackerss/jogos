@@ -16,6 +16,8 @@
   /* Altura da carta (3:4) em % da altura de uma TV 16:9. */
   function altura(w) { return w * (4 / 3) * (16 / 9); }
 
+  var TEM_PROPORCAO = !window.CSS || !CSS.supports || CSS.supports('aspect-ratio', '1');
+
   function larguraBase(n) { return ({ 3: 9.4, 4: 8.9, 5: 8.1, 6: 7.3 })[n] || 8; }
 
   function linha(qtd, y, w, folga, cx) {
@@ -28,7 +30,10 @@
   /* Posições de cada fase. Os lugares ficam sempre em fila (a "mesa"),
      o que muda é o tamanho e a altura — o olho acompanha sem se perder. */
   var LAYOUTS = {
-    lobby:     function (n, b) { return { lugares: linha(n, 59, b), centro: linha(3, 40, b * 0.62, 0.22), baralho: { x: 50, y: 40, w: b * 0.62 } }; },
+    lobby:     function (n, b) {
+      // Na TV oficial o QR Code ocupa a direita: a mesa fica à esquerda, um pouco menor.
+      if (window.MODO === 'tv') return { lugares: linha(n, 62, b * 0.78, 0.3, 32), centro: [], baralho: { x: 32, y: 40, w: b * 0.5 } };
+      return { lugares: linha(n, 59, b), centro: linha(3, 40, b * 0.62, 0.22), baralho: { x: 50, y: 40, w: b * 0.62 } }; },
     distribuir:function (n, b) { return { lugares: linha(n, 70, b * 0.95), centro: linha(3, 39, b * 0.66, 0.24), baralho: { x: 50, y: 39, w: b * 0.66 } }; },
     revelar:   function (n, b) { return LAYOUTS.distribuir(n, b); },
     noite:     function (n, b) { return { lugares: linha(n, 81, b * 0.68), centro: linha(3, 47, b * 0.5, 0.2, 83), heroi: { x: 50, y: 45.5, w: 15 } }; },
@@ -131,6 +136,7 @@
       el.style.left = p.x + '%';
       el.style.top = p.y + '%';
       el.style.width = p.w + '%';
+      if (!TEM_PROPORCAO) el.style.height = altura(p.w) + '%'; // navegadores antigos de TV
       if (extra && extra.rot !== undefined) el.style.setProperty('--rot', extra.rot + 'deg');
     },
 
