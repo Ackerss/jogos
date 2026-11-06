@@ -1,0 +1,14 @@
+{
+  "name": "acker-grande-premio-dos-bichos",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Grande Prêmio dos Bichos — corrida de apostas para TV + celulares (ACKER PLAY), com simulador para testes.",
+  "scripts": {
+    "check": "node scripts/verificar.js",
+    "test": "node --test tests/regras.test.js",
+    "frases": "node scripts/frases.js",
+    "rede": "node scripts/rede.mjs",
+    "relay-local": "node scripts/relay-local.mjs 8790",
+    "capas": "node scripts/capas.js"
+  }
+}

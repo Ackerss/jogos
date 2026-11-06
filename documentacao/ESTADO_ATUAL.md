@@ -61,3 +61,7 @@ Jogo em `jogo-lobisomem/`, publicado em https://ackerss.github.io/jogos/lobisome
 1. Jacson recriar o atalho na tela inicial do webOS da TV LG para substituir o ícone genérico antigo pelo novo ícone de alta definição do ACKER PLAY.
 2. Confirmar se a proteção de gestos evitou a saída acidental no celular durante a corrida.
 3. Quando o usuário quiser retomar, consultar o rascunho e escolher o próximo jogo e o recorte do protótipo. A seleção e a ordem ainda são provisórias.
+
+## Grande Prêmio dos Bichos (06/11/2026)
+
+Jogo em `jogo-bichos/`, publicado em https://ackerss.github.io/jogos/bichos/ (depois do merge). Corrida de apostas para 2 a 8 jogadores, TV + celulares de verdade (motor Doot + relay público), bots opcionais, simulador em `?modo=pc`. Botões do celular com desenho, pensados para criança pequena. Testado pela IA só em navegador com relay local; **falta o teste na TV LG física com celulares reais** e gravar o locutor no ElevenLabs (`jogo-bichos/audio/narracao/PROMPT_ANTIGRAVITY.md`). Detalhes em `jogo-bichos/README.md`.
