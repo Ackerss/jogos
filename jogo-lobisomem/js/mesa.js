@@ -72,6 +72,10 @@
       this.svg = this.el.querySelector('svg');
       this.heroiEl = criarCarta('heroi');
       this.el.appendChild(this.heroiEl);
+      this.pazEl = document.createElement('div');
+      this.pazEl.className = 'paz-alvo';
+      this.pazEl.innerHTML = '<span class="pomba">🕊️</span><span class="rot">PAZ NA VILA</span><span class="contador"></span>';
+      this.el.appendChild(this.pazEl);
     },
 
     /* Cria/atualiza os lugares (nome, retrato, selo) a partir dos jogadores da sala. */
@@ -287,7 +291,8 @@
       var self = this; this.limparSetas();
       var ids = Object.keys(votos).map(Number), k = 0;
       ids.forEach(function (de) {
-        var a = self.posLugar(de), b = self.posLugar(votos[de]); if (!a || !b) return;
+        var a = self.posLugar(de), b = votos[de] === 'paz' ? self.posPaz() : self.posLugar(votos[de]); if (!a || !b) return;
+        if (votos[de] === 'paz') self.pazEl.classList.add('visivel');
         var topoA = a.y - altura(a.w) / 2, topoB = b.y - altura(b.w) / 2;
         var x1 = a.x * 16 + (b.x > a.x ? 1 : -1) * a.w * 2, y1 = topoA * 9 + 6, x2 = b.x * 16 + (b.x > a.x ? -1 : 1) * b.w * 2.2, y2 = topoB * 9 - 4;
         var cy = Math.min(y1, y2) - (Math.abs(x2 - x1) * 0.3 + (x2 > x1 ? 85 : 35)); // indo para a direita passa mais alto: setas não se sobrepõem
@@ -303,7 +308,21 @@
       });
       return k * intervalo + 700;
     },
-    limparSetas: function () { this.svg.querySelectorAll('.seta').forEach(function (p) { p.remove(); }); },
+    limparSetas: function () { this.svg.querySelectorAll('.seta').forEach(function (p) { p.remove(); }); this.paz(0); },
+
+    /* Alvo "Paz na vila": fica sobre as cartas do centro (que estão apagadas na apuração). */
+    posPaz: function () {
+      var c = this.geo && this.geo.centro && this.geo.centro[1]; if (!c) return null;
+      this.pos(this.pazEl, { x: c.x, y: c.y, w: c.w * 1.5 });
+      return { x: c.x, y: c.y, w: c.w * 0.7 };
+    },
+    paz: function (n) {
+      if (!this.pazEl) return;
+      var c = this.pazEl.querySelector('.contador');
+      c.textContent = n ? String(n) : '';
+      c.classList.toggle('ativo', n > 0);
+      if (!n) this.pazEl.classList.remove('visivel');
+    },
 
     /* Fim imediato (botão Pular): tudo no lugar final, sem animação. */
     finalizarInstantaneo: function (estado) {

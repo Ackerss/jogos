@@ -115,6 +115,34 @@ test('sem lobos entre os jogadores: aldeia vence só se ninguém sair', () => {
   assert.deepStrictEqual(r.vencedores, []);
 });
 
+test('Paz na vila: empatando ou ganhando, ninguém sai', () => {
+  // Sem lobos entre os jogadores: a maioria pede paz e a aldeia vence.
+  let e = partidaCom(['seer', 'robber', 'trouble', 'villager', 'wolf', 'wolf', 'villager']);
+  [[0, R.PAZ], [1, R.PAZ], [2, R.PAZ], [3, 0]].forEach(([a, b]) => assert.ok(R.votar(e, a, b).ok));
+  let r = R.apurar(e);
+  assert.ok(r.pazVenceu);
+  assert.strictEqual(r.paz, 3);
+  assert.deepStrictEqual(r.eliminados, []);
+  assert.strictEqual(r.time, 'aldeia');
+
+  // Com lobo: paz empata com o mais votado, ninguém sai e os lobos vencem.
+  e = partidaCom(['wolf', 'villager', 'seer', 'robber', 'trouble', 'wolf', 'villager']);
+  [[0, R.PAZ], [1, R.PAZ], [2, 0], [3, 0]].forEach(([a, b]) => R.votar(e, a, b));
+  r = R.apurar(e);
+  assert.ok(r.pazVenceu);
+  assert.deepStrictEqual(r.eliminados, []);
+  assert.strictEqual(r.time, 'lobos');
+
+  // Paz perde: sai o mais votado.
+  e = partidaCom(['wolf', 'villager', 'seer', 'robber', 'trouble', 'wolf', 'villager']);
+  [[0, R.PAZ], [1, 0], [2, 0], [3, 0]].forEach(([a, b]) => R.votar(e, a, b));
+  r = R.apurar(e);
+  assert.ok(!r.pazVenceu);
+  assert.deepStrictEqual(r.eliminados, [0]);
+  assert.strictEqual(r.time, 'aldeia');
+  assert.strictEqual(R.votar(e, 9, R.PAZ).ok, false, 'jogador inexistente não vota');
+});
+
 test('a vitória vale pelo papel FINAL', () => {
   const e = partidaCom(['robber', 'wolf', 'seer', 'villager', 'trouble', 'wolf', 'villager']);
   R.iniciarEtapa(e, 2);
@@ -141,5 +169,6 @@ test('partidas inteiras com bots terminam sempre com resultado válido', () => {
     assert.ok(R.todosVotaram(e));
     const r = R.apurar(e);
     assert.ok(['aldeia', 'lobos', 'ninguem'].includes(r.time));
+    if (r.pazVenceu) assert.deepStrictEqual(r.eliminados, []);
   }
 });

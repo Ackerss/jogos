@@ -26,7 +26,7 @@
   var sala = { config: { n: 4, humanos: 1, noite: 12, debate: 120, narracao: 'auto' }, jogadores: [], placar: {}, rodada: 0 };
   var jogo = null;
   var ui = { fase: 'lobby', views: {}, chat: [], querVotar: {}, fimEtapa: 0, fimDebate: 0, fechando: false, apurPasso: 0, replayPasso: 0, replayTexto: '' };
-  var geracao = 0, proximaFala = 0, rnd = Math.random;
+  var geracao = 0, proximaFala = 0, falaAte = 0, rnd = Math.random;
 
   function depois(ms, fn) { var g = geracao; setTimeout(function () { if (g === geracao) fn(); }, ms); }
   function entre(par) { return par[0] + rnd() * (par[1] - par[0]); }
@@ -56,8 +56,12 @@
       if (!N.curto[momento]) return 0;
       momento = N.curto[momento];
     }
-    return Som.narrar(momento, reserva);
+    var ms = Som.narrar(momento, reserva);
+    falaAte = Date.now() + ms;
+    return ms;
   }
+  /* Quanto falta (ms) para o narrador terminar a frase atual. */
+  function restaFala() { return Math.max(0, falaAte - Date.now()); }
 
   /* ---------- Sala (antes de começar) ---------- */
   function montarSala() {
@@ -99,7 +103,8 @@
     var dur = Mesa.distribuir(jogo, TEMPO.porCarta, baralhoNaMesa);
     desenhar();
     if (!baralhoNaMesa) narra('distribuir');
-    depois(dur, faseRevelar);
+    // Espera o narrador terminar (abertura ou "vamos de novo") antes de pedir para olhar a carta.
+    depois(Math.max(dur, restaFala() + 300), faseRevelar);
   }
 
   /* ---------- 2. Cada um olha a sua carta ---------- */
@@ -226,6 +231,7 @@
     var dur = Mesa.setas(jogo.votos, TEMPO.seta);
     depois(dur, function () {
       jogo.jogadores.forEach(function (j) { Mesa.contador(j.id, r.contagem[j.id]); });
+      Mesa.paz(r.paz);
       Som.tambor();
     });
     depois(dur + 900, function () {
@@ -233,6 +239,7 @@
       r.eliminados.forEach(function (id) { Mesa.selo(id, '💀 ELIMINADO', 'morto'); Mesa.marcar(id, 'eliminado'); });
       var fala = r.eliminados.length === 1 ? narra('eliminado', nome(r.eliminados[0]) + ' foi eliminado.')
         : r.eliminados.length ? narra('empate', 'Empate! ' + r.eliminados.map(nome).join(' e ') + ' saem.')
+        : r.pazVenceu ? narra('paz_na_vila')
         : narra('ninguem_sai');
       desenhar();
       depois(Math.max(TEMPO.lerEliminacao, fala + 600), replay);
@@ -242,7 +249,7 @@
   /* ---------- 7. Replay da noite: cartas viram e as trocas acontecem na frente de todos ---------- */
   function replay() {
     ui.fase = 'replay'; ui.replayPasso = 0; ui.replayTexto = 'Estas eram as cartas no começo da noite…';
-    Mesa.limparSetas();
+    Mesa.limparSetas(); Mesa.paz(0);
     jogo.jogadores.forEach(function (j) { Mesa.contador(j.id, 0); });
     Mesa.esmaecerCentro(false);
     Mesa.layout('final');
@@ -411,7 +418,7 @@
     if (b.dataset.acao) {
       var cel = b.closest('[data-jogador]'); if (!cel) return;
       var num = function (k) { return b.dataset[k] === undefined ? undefined : Number(b.dataset[k]); };
-      entrada(Number(cel.dataset.jogador), { tipo: b.dataset.acao, alvo: num('alvo'), indice: num('indice'), a: num('a'), b: num('b'), genero: b.dataset.genero, fala: b.dataset.fala, papel: b.dataset.papel });
+      entrada(Number(cel.dataset.jogador), { tipo: b.dataset.acao, alvo: b.dataset.alvo === R.PAZ ? R.PAZ : num('alvo'), indice: num('indice'), a: num('a'), b: num('b'), genero: b.dataset.genero, fala: b.dataset.fala, papel: b.dataset.papel });
     }
   });
   document.addEventListener('change', function (e) {
