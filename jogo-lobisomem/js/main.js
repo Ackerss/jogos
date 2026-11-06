@@ -23,7 +23,7 @@
   };
   var NOMES = ['Léo', 'Ana', 'Alex', 'Bia', 'Caio', 'Dani'], GENEROS = ['m', 'f', 'm', 'f', 'm', 'f'];
 
-  var sala = { config: { n: 4, humanos: 1, noite: 12, debate: 120 }, jogadores: [], placar: {}, rodada: 0 };
+  var sala = { config: { n: 4, humanos: 1, noite: 12, debate: 120, narracao: 'auto' }, jogadores: [], placar: {}, rodada: 0 };
   var jogo = null;
   var ui = { fase: 'lobby', views: {}, chat: [], querVotar: {}, fimEtapa: 0, fimDebate: 0, fechando: false, apurPasso: 0, replayPasso: 0, replayTexto: '' };
   var geracao = 0, proximaFala = 0, rnd = Math.random;
@@ -44,11 +44,26 @@
 
   function desenhar() { TV.desenhar(C); Cel.desenhar(C); }
 
+  /* Narração: "completa" conta a história; "curta" só fala o essencial, para partidas rápidas.
+     No modo automático, a 1ª partida é completa e as seguintes são curtas. */
+  function narracaoCurta() {
+    var m = sala.config.narracao;
+    return m === 'curta' || (m === 'auto' && sala.rodada > 1);
+  }
+  function narra(momento, reserva) {
+    var N = window.NARRACAO;
+    if (narracaoCurta() && N && N.curto && momento in N.curto) {
+      if (!N.curto[momento]) return 0;
+      momento = N.curto[momento];
+    }
+    return Som.narrar(momento, reserva);
+  }
+
   /* ---------- Sala (antes de começar) ---------- */
   function montarSala() {
     var n = Number($('#cfgJogadores').value), h = Math.min(Number($('#cfgHumanos').value), n);
     $('#cfgHumanos').value = String(h);
-    sala.config = { n: n, humanos: h, noite: Number($('#cfgNoite').value), debate: Number($('#cfgDebate').value) };
+    sala.config = { n: n, humanos: h, noite: Number($('#cfgNoite').value), debate: Number($('#cfgDebate').value), narracao: $('#cfgNarracao').value };
     var antes = sala.jogadores;
     sala.jogadores = NOMES.slice(0, n).map(function (nm, i) {
       return { id: i, nome: antes[i] ? antes[i].nome : nm, genero: antes[i] ? antes[i].genero : GENEROS[i], humano: i < h };
@@ -83,7 +98,7 @@
     Mesa.geo = null;
     var dur = Mesa.distribuir(jogo, TEMPO.porCarta, baralhoNaMesa);
     desenhar();
-    if (!baralhoNaMesa) Som.narrar('distribuir');
+    if (!baralhoNaMesa) narra('distribuir');
     depois(dur, faseRevelar);
   }
 
@@ -91,7 +106,7 @@
   function faseRevelar() {
     ui.fase = 'revelar';
     Mesa.layout('revelar');
-    Som.narrar('olhar_carta');
+    narra('olhar_carta');
     jogo.jogadores.forEach(function (j) {
       if (!j.humano) depois(entre(TEMPO.botPronto), function () { ui.views[j.id].pronto = true; selos(); desenhar(); checarProntos(); });
     });
@@ -111,7 +126,7 @@
     Mesa.limparSelos();
     Mesa.layout('noite');
     Som.noite();
-    var fala = Som.narrar('anoitecer');
+    var fala = narra('anoitecer');
     desenhar();
     depois(Math.max(TEMPO.anoitecer, fala + 500), function () { etapa(0); });
   }
@@ -128,7 +143,7 @@
     jogo.jogadores.forEach(function (j) { ui.views[j.id].selecao = []; ui.views[j.id].aviso = ''; });
     TV.cena('night', papel);
     Mesa.heroi(papel);
-    Som.narrar(NARRA_ETAPA[papel] + '_acorda');
+    narra(NARRA_ETAPA[papel] + '_acorda');
     jogo.jogadores.forEach(function (j) { if (!j.humano) depois(entre([1500, 4500]), function () { B.agirNoite(jogo, j, rnd); }); });
     desenhar();
     depois(sala.config.noite * 1000, function () { fimEtapa(k); });
@@ -140,7 +155,7 @@
     });
     ui.fechando = true;
     Mesa.heroi(null);
-    var fala = Som.narrar(NARRA_ETAPA[papel] + '_dorme');
+    var fala = narra(NARRA_ETAPA[papel] + '_dorme');
     desenhar();
     depois(Math.max(TEMPO.fecharEtapa, fala + 300), function () { if (k + 1 < R.ORDEM_NOITE.length) etapa(k + 1); else amanhecer(); });
   }
@@ -151,7 +166,7 @@
     TV.cena('day');
     Mesa.layout('debate');
     Som.sino();
-    var fala = Som.narrar('amanhecer');
+    var fala = narra('amanhecer');
     desenhar();
     depois(Math.max(TEMPO.amanhecer, fala + 400), debate);
   }
@@ -160,7 +175,7 @@
     ui.fimDebate = Date.now() + sala.config.debate * 1000;
     ui.chat = [{ id: null, msg: 'Contem o que viram à noite. Vale blefar!' }];
     ui.aviso30 = false;
-    Som.narrar('debate_inicio');
+    narra('debate_inicio');
     desenhar();
     // Bots se apresentam um por vez, como numa conversa de verdade.
     jogo.jogadores.filter(function (j) { return !j.humano; }).forEach(function (b, i) {
@@ -189,7 +204,7 @@
     ui.fase = 'votacao';
     TV.cena('vote');
     Mesa.layout('votacao');
-    Som.narrar('votacao');
+    narra('votacao');
     jogo.jogadores.forEach(function (j) {
       if (!j.humano) depois(entre(TEMPO.botVoto), function () { R.votar(jogo, j.id, B.voto(jogo, j, ui.chat, rnd)); aposVoto(); });
     });
@@ -207,7 +222,7 @@
     Mesa.limparSelos();
     Mesa.esmaecerCentro(true);
     desenhar();
-    Som.narrar('votos');
+    narra('votos');
     var dur = Mesa.setas(jogo.votos, TEMPO.seta);
     depois(dur, function () {
       jogo.jogadores.forEach(function (j) { Mesa.contador(j.id, r.contagem[j.id]); });
@@ -216,9 +231,9 @@
     depois(dur + 900, function () {
       ui.apurPasso = 1;
       r.eliminados.forEach(function (id) { Mesa.selo(id, '💀 ELIMINADO', 'morto'); Mesa.marcar(id, 'eliminado'); });
-      var fala = r.eliminados.length === 1 ? Som.narrar('eliminado', nome(r.eliminados[0]) + ' foi eliminado.')
-        : r.eliminados.length ? Som.narrar('empate', 'Empate! ' + r.eliminados.map(nome).join(' e ') + ' saem.')
-        : Som.narrar('ninguem_sai');
+      var fala = r.eliminados.length === 1 ? narra('eliminado', nome(r.eliminados[0]) + ' foi eliminado.')
+        : r.eliminados.length ? narra('empate', 'Empate! ' + r.eliminados.map(nome).join(' e ') + ' saem.')
+        : narra('ninguem_sai');
       desenhar();
       depois(Math.max(TEMPO.lerEliminacao, fala + 600), replay);
     });
@@ -233,7 +248,7 @@
     Mesa.layout('final');
     TV.cena('dawn');
     desenhar();
-    var fala = Som.narrar('replay_inicio');
+    var fala = narra('replay_inicio');
     depois(900, function () {
       var dur = Mesa.virarTodas(true, TEMPO.virarInicio);
       depois(Math.max(dur + TEMPO.lerInicio, fala + 300), function () { passoTroca(0); });
@@ -244,7 +259,7 @@
     if (!t) {
       ui.replayPasso = i + 1;
       ui.replayTexto = jogo.trocas.length ? 'E assim as cartas terminaram a noite.' : 'Ninguém trocou cartas nesta noite.';
-      var falaFim = Som.narrar(jogo.trocas.length ? 'replay_fim' : 'replay_sem_trocas');
+      var falaFim = narra(jogo.trocas.length ? 'replay_fim' : 'replay_sem_trocas');
       desenhar();
       depois(Math.max(TEMPO.antesDoResultado + (jogo.trocas.length ? 0 : 800), falaFim + 300), resultado);
       return;
@@ -255,7 +270,7 @@
       ? '🗝️ ' + R.nomePapel('robber', por.genero) + ': ' + por.nome + ' trocou a carta dele com ' + nome(t.b)
       : '🃏 ' + R.nomePapel('trouble', por.genero) + ': ' + por.nome + ' trocou as cartas de ' + nome(t.a) + ' e ' + nome(t.b);
     if (t.tipo === 'robber' && por.genero === 'f') ui.replayTexto = ui.replayTexto.replace('carta dele', 'carta dela');
-    var fala = Som.narrar(t.tipo === 'robber' ? 'troca_ladrao' : 'troca_encrenqueiro');
+    var fala = narra(t.tipo === 'robber' ? 'troca_ladrao' : 'troca_encrenqueiro');
     desenhar();
     Mesa.marcar(t.a, 'em-foco'); Mesa.marcar(t.b, 'em-foco');
     depois(800, function () { Mesa.trocar(t.a, t.b); });
@@ -275,7 +290,7 @@
       Mesa.selo(j.id, morto ? '💀 ELIMINADO' : ganhou ? '🏆 VENCEU' : '', morto ? 'morto' : 'ganhou');
     });
     if (r.time === 'ninguem') Som.derrota(); else Som.vitoria();
-    Som.narrar(r.time === 'lobos' ? 'vitoria_lobos' : r.time === 'ninguem' ? 'ninguem_venceu'
+    narra(r.time === 'lobos' ? 'vitoria_lobos' : r.time === 'ninguem' ? 'ninguem_venceu'
       : r.motivo === 'sem-lobos-sem-eliminado' ? 'vitoria_aldeia_sem_lobos' : 'vitoria_aldeia');
     desenhar();
   }
@@ -295,7 +310,7 @@
     geracao++;
     Mesa.limparSelos();
     var dur = Mesa.recolher();
-    Som.narrar('nova_partida');
+    narra('nova_partida');
     ui.fase = 'distribuir';
     desenhar();
     depois(dur, function () { comecar(true); });
@@ -403,7 +418,7 @@
     var inp = e.target.closest('input[data-nome]');
     if (inp) entrada(Number(inp.dataset.nome), { tipo: 'nome', valor: inp.value });
   });
-  ['#cfgJogadores', '#cfgHumanos', '#cfgNoite', '#cfgDebate'].forEach(function (s) { $(s).addEventListener('change', function () { if (ui.fase === 'lobby') montarSala(); }); });
+  ['#cfgJogadores', '#cfgHumanos', '#cfgNoite', '#cfgDebate', '#cfgNarracao'].forEach(function (s) { $(s).addEventListener('change', function () { if (ui.fase === 'lobby') montarSala(); }); });
   $('#btnSom').addEventListener('click', function () { $('#btnSom').textContent = Som.alternar() ? '🔊 Som: ligado' : '🔇 Som: desligado'; });
   $('#btnCenario').addEventListener('click', function () {
     var so = $('#tv').classList.toggle('so-cenario');
@@ -425,7 +440,7 @@
   setInterval(function () {
     if (ui.fase === 'debate') {
       if (C.restanteDebate() <= 0) { votacao(); return; }
-      if (!ui.aviso30 && sala.config.debate > 45 && C.restanteDebate() <= 30) { ui.aviso30 = true; Som.narrar('debate_30s'); }
+      if (!ui.aviso30 && sala.config.debate > 45 && C.restanteDebate() <= 30) { ui.aviso30 = true; narra('debate_30s'); }
       if (Date.now() >= proximaFala) { comentarioBot(false); proximaFala = Date.now() + entre(TEMPO.falaBot); }
     }
     TV.relogios(C); Cel.relogios(C);

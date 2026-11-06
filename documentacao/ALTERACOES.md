@@ -1,5 +1,16 @@
 # Registro de alterações
 
+## 06/11/2026 — Narração: voz "Narrador Lobos" e modo rápido (Claude)
+
+- O Claude criou 3 vozes no Voice Design do ElevenLabs, pelo navegador do Jacson, na conta grátis pessoal dele. O Jacson escolheu a opção 3, salva como **"Narrador Lobos"**. Vozes criadas na própria conta funcionam pela API no plano grátis; as da Voice Library não (erro 402).
+- Novo ajuste **Narração**:
+  - Automática: a 1ª partida tem narração completa e as seguintes são rápidas.
+  - Sempre completa.
+  - Sempre rápida: só "A noite caiu.", "Vez do ladrão.", "Hora de votar!", eliminação e vitória.
+- 8 frases curtas novas (62 no total) e um teste novo (13 testes).
+- Prompt do Antigravity na versão 3: grava as 62 frases com a voz "Narrador Lobos".
+- Registro completo em `jogo-lobisomem/NARRACAO.md`.
+
 ## 05/11/2026 — Narração v2: frases para TV + celular e nova voz (Claude)
 
 - Jacson pediu para tirar o "fechem os olhos": o jogo é na TV com celular, e cada um age em segredo pela própria tela. As 54 frases foram reescritas com tom de contador de histórias de fantasia.

@@ -48,6 +48,7 @@ As frases ficam em `js/narracao.js`. Cada uma toca `audio/narracao/<momento>_<n>
 3. Rode `node scripts/frases.js` para atualizar `FRASES.md` e `prontos.js` e ver o que falta.
 
 As transições esperam o narrador terminar. As etapas da noite continuam com tempo fixo.
+No ajuste **Narração**, o modo Automática faz a 1ª partida completa e as seguintes rápidas. Voz, histórico e regras estão em [`NARRACAO.md`](NARRACAO.md).
 
 ## Verificar
 

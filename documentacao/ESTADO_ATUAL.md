@@ -55,7 +55,7 @@ O registro contém mecânicas e hipóteses de bots; não há implementação ou 
 
 Simulador revisado em `jogo-lobisomem/` (TV + celulares na mesma página, com bots), publicado em https://ackerss.github.io/jogos/lobisomem/ após aprovação do PR. Detalhes de fases, tempos e arquivos em `jogo-lobisomem/README.md`. Ainda não conecta celulares reais: a integração com o motor Doot (cartas secretas por celular) é o próximo passo, quando o usuário pedir. O protótipo original continua intacto na pasta local `JOGO LOBISOMEN ACKER/`.
 
-**Narração (05/11):** o jogo já toca MP3 de narrador. Enquanto o MP3 não existir, usa a voz do navegador. Falta gravar as 54 frases no ElevenLabs: o Antigravity segue `jogo-lobisomem/audio/narracao/PROMPT_ANTIGRAVITY.md` e salva os arquivos na pasta do PC sem commit. Depois o Claude revisa (corta silêncio, iguala volume e testa) e publica.
+**Narração (06/11):** o jogo já toca MP3. Sem o arquivo, usa a voz do navegador. A voz escolhida é "Narrador Lobos", criada no Voice Design e salva na conta grátis pessoal do Jacson no ElevenLabs. Há um modo automático: a 1ª partida tem narração completa e as seguintes são rápidas. Falta o Antigravity gravar as 62 frases (`jogo-lobisomem/audio/narracao/PROMPT_ANTIGRAVITY.md`, v3) e o Claude revisar e publicar. Registro em `jogo-lobisomem/NARRACAO.md`.
 
 ## Próximos passos
 1. Jacson recriar o atalho na tela inicial do webOS da TV LG para substituir o ícone genérico antigo pelo novo ícone de alta definição do ACKER PLAY.
