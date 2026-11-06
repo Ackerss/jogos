@@ -1,0 +1,11 @@
+Nome: Narrador Lobos
+Voice ID: MgpcpDwUoGzvd9OeqyBs
+Categoria: generated (Voice Design na conta pessoal gratuita do Jacson)
+Modelo: eleven_multilingual_v2
+Ajustes:
+- Stability: 50% (0.50)
+- Similarity: 75% (0.75)
+- Style: 30% (0.30)
+- Speaker boost: ligado (true)
+- Speed: 0.95 (frases completas) / 1.0 (frases curtas do modo rápido)
+Total de frases: 62 (2.927 caracteres)

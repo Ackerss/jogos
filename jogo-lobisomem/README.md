@@ -37,7 +37,7 @@ Cada etapa da noite dura sempre o mesmo tempo, mesmo quando o papel está no cen
 | `js/cena.js`, `css/cena.css` | Vila animada (luzes, chafariz, névoa, partículas) — preservada do protótipo. |
 | `js/narracao.js` | Roteiro do narrador: frases de cada momento (1 a 3 versões). |
 | `js/som.js` | Toca os MP3 do narrador (sem o MP3, usa a voz do navegador) e gera os efeitos curtos. |
-| `audio/narracao/` | MP3 do narrador, `FRASES.md` (lista para gravar), `prontos.js` (gerado) e `PROMPT_ANTIGRAVITY.md`. |
+| `audio/narracao/` | 62 MP3 do narrador ("Narrador Lobos"), `FRASES.md` (lista), `prontos.js` (gerado), `VOZ.txt` (voz e ajustes) e `PROMPT_ANTIGRAVITY.md`. |
 | `arte/` | Pinturas da vila e cartas (extraídas do protótipo, formato WebP). |
 
 ## Narração

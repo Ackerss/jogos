@@ -3,19 +3,24 @@
 Histórico e estado da narração. Atualizado em 06/11/2026.
 
 ## Estado atual
-- **O jogo já está pronto para tocar os MP3.** Enquanto um arquivo não existir, fala a mesma frase com a voz do navegador.
-- **O roteiro tem 62 frases** em `js/narracao.js`: 54 da narração completa e 8 curtas do modo rápido, cerca de 2.900 caracteres no total. A lista para gravar está em `audio/narracao/FRASES.md`.
+- **A narração está gravada e publicada (06/11/2026).** São 62 MP3 com a voz "Narrador Lobos", cerca de 3,5 min no total (3,5 MB).
+- **O roteiro tem 62 frases** em `js/narracao.js`: 54 da narração completa e 8 curtas do modo rápido, 2.927 caracteres. A lista está em `audio/narracao/FRASES.md`.
+- Se algum MP3 faltar, o jogo fala a mesma frase com a voz do navegador. Nada quebra.
 - **Voz escolhida pelo Jacson:** "Narrador Lobos".
   - Criada pelo Claude em 05/11/2026 no Voice Design do ElevenLabs.
   - É a opção 3 das três geradas. Descrição usada: senhor brasileiro de uns 70 anos, contador de histórias de fantasia, voz grave, forte, calorosa e um pouco rouca, sotaque brasileiro nativo, narração lenta e teatral.
   - Está salva na **conta gratuita pessoal do Jacson** no ElevenLabs, não na da NatuBrava.
   - Por ser uma voz criada na própria conta, funciona pela API no plano grátis.
-- **Falta gravar.** O Antigravity grava os 62 MP3 seguindo `audio/narracao/PROMPT_ANTIGRAVITY.md` (versão 3) e salva no PC sem commit. Depois o Claude:
-  - corta os silêncios;
-  - iguala o volume em −16 LUFS;
-  - roda `node scripts/frases.js`;
-  - testa uma partida;
-  - publica.
+- **Gravação:** feita pelo Antigravity em 06/11/2026. Os dados estão em `audio/narracao/VOZ.txt`:
+  - Voice ID `MgpcpDwUoGzvd9OeqyBs`, modelo `eleven_multilingual_v2`;
+  - Stability 50%, Similarity 75%, Style 30%, Speaker boost ligado;
+  - Speed 0,95, e 1,0 nas frases `curto_`.
+- **Revisão do Claude (06/11/2026):**
+  - cortou o silêncio do começo e do fim e deixou 0,12 s no final;
+  - igualou o volume em −16 LUFS, com limitador em −1 dB;
+  - converteu para MP3 mono 44,1 kHz 128 kbps.
+  - Testou uma partida completa e uma rápida no navegador: os 62 áudios carregaram, todos tocaram e não houve erros.
+  - Não dá para conferir o sotaque por máquina. Quem confirma é o Jacson, ouvindo.
 
 ## Modos de narração
 O modo fica nos ajustes, antes de começar a partida.
@@ -38,6 +43,7 @@ As transições esperam o narrador terminar a frase. As etapas da noite têm tem
 1. **05/11, v1:** o Antigravity gravou com a voz "Adam", uma voz americana. Foi descartada e nunca foi publicada.
 2. **05/11, v2:** as frases foram reescritas sem "fechem os olhos". O Antigravity achou 6 vozes brasileiras na Voice Library, mas o plano grátis bloqueia essas vozes na API (erro 402).
 3. **05/11, v3:** o Claude criou 3 vozes pelo Voice Design no site e o Jacson escolheu a 3, "Narrador Lobos". Também foi criado o modo rápido.
+4. **06/11:** o Antigravity gravou as 62 frases com essa voz. O Claude ajustou, testou e publicou.
 
 ## Arquivos
 | Arquivo | Função |
@@ -46,10 +52,11 @@ As transições esperam o narrador terminar a frase. As etapas da noite têm tem
 | `js/som.js` | Toca o MP3; sem o arquivo, usa a voz do navegador |
 | `js/main.js` | `narra()` escolhe entre narração completa e curta |
 | `scripts/frases.js` | Gera `FRASES.md` e `prontos.js` e confere os arquivos que faltam ou estão com nome errado |
-| `audio/narracao/` | MP3, `FRASES.md`, `prontos.js` (gerado), `PROMPT_ANTIGRAVITY.md`, `VOZ.txt` |
-| `audio/amostras/` | Amostras de voz para escolher. Não vai para o GitHub. |
+| `audio/narracao/` | 62 MP3, `FRASES.md`, `prontos.js` (gerado), `PROMPT_ANTIGRAVITY.md`, `VOZ.txt` |
+| `audio/amostras/` | Amostras de voz antigas. Já apagada; não vai para o GitHub. |
 
 Para trocar uma frase:
 1. Mude o texto em `js/narracao.js`.
-2. Grave de novo só aquele MP3 com a voz "Narrador Lobos".
-3. Rode `node scripts/frases.js`.
+2. Grave de novo só aquele MP3 com a voz "Narrador Lobos" e os ajustes de `VOZ.txt`.
+3. Corte o silêncio e iguale o volume em −16 LUFS, como na revisão acima.
+4. Rode `node scripts/frases.js`.

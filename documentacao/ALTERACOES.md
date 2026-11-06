@@ -1,5 +1,15 @@
 # Registro de alterações
 
+## 06/11/2026 — Narração gravada e publicada (Claude)
+- O Antigravity gravou as 62 frases com a voz "Narrador Lobos" (modelo eleven_multilingual_v2).
+- O Claude:
+  - cortou os silêncios;
+  - igualou o volume em −16 LUFS;
+  - gerou `prontos.js`;
+  - testou partidas completa e rápida no navegador, com 62/62 áudios e sem erros;
+  - publicou.
+- Ainda não foi testado na TV LG física.
+
 ## 06/11/2026 — Narração: voz "Narrador Lobos" e modo rápido (Claude)
 
 - O Claude criou 3 vozes no Voice Design do ElevenLabs, pelo navegador do Jacson, na conta grátis pessoal dele. O Jacson escolheu a opção 3, salva como **"Narrador Lobos"**. Vozes criadas na própria conta funcionam pela API no plano grátis; as da Voice Library não (erro 402).
