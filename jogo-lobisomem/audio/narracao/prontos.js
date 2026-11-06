@@ -40,6 +40,7 @@ window.NARRACAO_PRONTOS = [
  "empate_2.mp3",
  "ninguem_sai_1.mp3",
  "ninguem_sai_2.mp3",
+ "paz_na_vila_1.mp3",
  "paz_na_vila_2.mp3",
  "replay_inicio_1.mp3",
  "replay_inicio_2.mp3",
