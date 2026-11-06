@@ -17,6 +17,8 @@ Jogo de blefe e dedução para 3 a 6 jogadores. A TV é a mesa e o narrador. Cad
 
 ### Na TV (controle remoto: setas + OK)
 - **Ajustes** (cada OK passa para a próxima opção, e eles ficam guardados na TV): 🤖 bots (0–5), 🌙 segundos por papel à noite, 💬 minutos de conversa, 🎙️ narração.
+- **📜 Regras:** resumo das regras (também no rodapé do celular).
+- **Conversa:** sem bots na mesa, o celular mostra só pistas e "Quero votar" (conversa em voz alta). Com bots, aparecem os botões para falar com eles.
 - **🏆 Ranking:** vitórias e partidas por nome (guardado na TV, `localStorage`), sem bots. Zerar exige apertar duas vezes.
 - **Botões escondidos** no canto de cima, à direita:
   - **teste tv** completa a mesa com bots: você + 3 bots, jogando com o seu celular;

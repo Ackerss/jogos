@@ -1,5 +1,20 @@
 # Registro de alterações
 
+## 06/11/2026 — Conversa limpa, letras maiores e botão de Regras (Claude)
+Pedido do Jacson antes do primeiro teste com amigos.
+- **Conversa só entre pessoas** (sem bots na mesa):
+  - o celular não mostra mais os botões "Eu era…" e "Desconfiar de", que servem só para falar com os bots;
+  - fica a carta inicial, as pistas secretas e o "Quero votar";
+  - a TV troca o chat por "Conversem em voz alta!".
+- **Com bots na mesa:** os botões continuam, agora com o título "Falar com os bots".
+- **Letras maiores no celular de verdade:** textos, pistas, notas, opções e botões.
+- **📜 Regras:**
+  - botão no lobby da TV e no rodapé do celular, disponível a qualquer momento;
+  - resumo de 5 itens com o que cada papel faz. A Vidente olha 1 jogador **ou** 2 cartas do centro, como já era no jogo.
+- **Testado pela IA em navegador,** com relay local e sem erros:
+  - partida com 3 celulares e nenhum bot;
+  - partida com 2 celulares e 1 bot.
+
 ## 06/11/2026 — Nova central de jogos (Claude)
 - **Tela inicial redesenhada** (`index.html` + `portal.css`), no estilo "menu de console": a arte do jogo escolhido ocupa a tela, com nome grande, informações e o botão **JOGAR**. Embaixo, a fileira de jogos em cartões tipo pôster.
 - **Feita para a TV:** tudo cabe numa tela 16:9 sem rolar (1280×720 ou 1920×1080), letras grandes para ver do sofá e anel branco grosso no item escolhido. Controle remoto: ◀ ▶ troca o jogo, OK joga, ▲ vai para o botão JOGAR, ▼ volta à lista. O ponteiro do Magic Remote também escolhe ao passar por cima. A TV lembra o último jogo escolhido.

@@ -196,7 +196,7 @@
     geracao++;
     sala.rodada++;
     $('#ajustes').classList.add('oculto');
-    ui.ranking = false;
+    ui.ranking = false; ui.regras = false;
     jogo = R.criarPartida(sala.jogadores, rnd);
     ui.views = {}; ui.chat = []; ui.querVotar = {}; ui.fechando = false; ui.apurPasso = 0; ui.votoPendente = false; ui.votoLembrete = false;
     sala.jogadores.forEach(function (j) { ui.views[j.id] = { aberta: false, olhou: false, pronto: false, selecao: [], aviso: '' }; });
@@ -548,7 +548,8 @@
       if (a === 'denovo') jogarDeNovo();
       if (a === 'inicio') irParaLobby();
       if (a === 'cfg' && ui.fase === 'lobby') ajustar(b.dataset.cfg);
-      if (a === 'ranking') { ui.ranking = !ui.ranking; ui.zerar = false; desenhar(); }
+      if (a === 'ranking') { ui.ranking = !ui.ranking; ui.regras = false; ui.zerar = false; desenhar(); }
+      if (a === 'regras') { ui.regras = !ui.regras; ui.ranking = false; desenhar(); }
       if (a === 'zerar') { if (ui.zerar) { Ranking.zerar(); ui.zerar = false; Mesa.assentos(sala.jogadores, placar()); } else ui.zerar = true; desenhar(); }
       if (a === 'testeTV' && ui.fase === 'lobby') {
         // Teste sozinho na TV: completa a mesa com bots (você + 3 bots).
@@ -610,7 +611,7 @@
     document.addEventListener('keydown', function (e) {
       var dir = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1], Left: [-1, 0], Right: [1, 0], Up: [0, -1], Down: [0, 1] }[e.key] ||
         { 37: [-1, 0], 39: [1, 0], 38: [0, -1], 40: [0, 1] }[e.keyCode];
-      if (e.keyCode === 461 || e.key === 'Escape') { if (ui.ranking) { ui.ranking = false; desenhar(); e.preventDefault(); } return; } // botão Voltar
+      if (e.keyCode === 461 || e.key === 'Escape') { if (ui.ranking || ui.regras) { ui.ranking = false; ui.regras = false; desenhar(); e.preventDefault(); } return; } // botão Voltar
       if (!dir) return;
       var bs = visiveis(); if (!bs.length) return;
       e.preventDefault();

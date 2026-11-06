@@ -73,6 +73,10 @@
       '<div class="ranking-botoes"><button class="botao-tv" data-tv="ranking" data-foco>Fechar</button>' +
       (l.length ? '<button class="botao-tv fantasma" data-tv="zerar">' + (C.ui.zerar ? '⚠️ Apertar de novo apaga tudo' : '🗑️ Zerar ranking') + '</button>' : '') + '</div></div></div>';
   }
+  function regrasTV() {
+    return '<div class="ranking-fundo"><div class="ranking-caixa regras-caixa">' + window.Celular.regrasHtml() +
+      '<div class="ranking-botoes"><button class="botao-tv" data-tv="regras" data-foco>Fechar</button></div></div></div>';
+  }
   function miniRanking(C) {
     var l = C.ranking().filter(function (r) { return r.v > 0; }).slice(0, 4);
     return l.length ? '<span class="mini-rank">🏆 ' + l.map(function (r) { return esc(r.nome) + ' <b>' + r.v + '</b>'; }).join(' · ') + '</span>' : '';
@@ -87,7 +91,7 @@
     }).join('');
     var falta = Math.max(0, 3 - n);
     var chave = 'lobby|' + JSON.stringify([s.jogadores.map(function (p) { return [p.nome, p.genero, p.humano]; }), s.config.bots, s.config.noite, s.config.debate, s.config.narracao,
-      rd.codigo, !!rd.qr, rd.erro, C.ui.ranking, C.ui.zerar]);
+      rd.codigo, !!rd.qr, rd.erro, C.ui.ranking, C.ui.zerar, C.ui.regras]);
     return {
       chave: chave,
       html: topo(C, 'NOVA PARTIDA') +
@@ -96,11 +100,11 @@
         '<div class="passos"><span><b>1</b>Entre pelo QR</span><span><b>2</b>Veja sua carta no celular</span><span><b>3</b>Conversem e votem</span></div></div>' +
         '<div class="qr-cartao">' + qr + '<div class="qr-info"><small>OU ABRA NO CELULAR</small><span>' + esc(url) + '</span><small>E DIGITE O CÓDIGO</small><strong class="codigo">' + esc(rd.codigo || '····') + '</strong></div></div>' +
         (n ? '' : '<div class="lobby-vazio">📱 Esperando os jogadores entrarem…</div>') +
-        '<div class="lobby-baixo"><div class="cfgs">' + cfg + '<button class="chip-cfg" data-tv="ranking">🏆 Ranking</button></div>' +
+        '<div class="lobby-baixo"><div class="cfgs">' + cfg + '<button class="chip-cfg" data-tv="ranking">🏆 Ranking</button><button class="chip-cfg" data-tv="regras">📜 Regras</button></div>' +
         '<button class="botao-tv" data-tv="comecar" data-foco' + (falta ? ' disabled' : '') + '>' + (falta ? 'Faltam ' + falta + (falta === 1 ? ' jogador' : ' jogadores') : '▶ Começar partida') + '</button>' +
         '<small class="lobby-dica">' + n + ' na mesa (' + pessoas + ' 📱 · ' + (n - pessoas) + ' 🤖)' + (falta ? ' · mínimo 3: chame mais gente ou aumente os 🤖 bots' : '') + '</small></div>' +
         '<div class="escondidos" aria-label="Testes"><button data-tv="testeTV" title="Teste na TV com bots">teste tv</button><button data-tv="testePC" title="Simulador do computador">teste pc</button><button data-tv="telaCheia" title="Tela cheia">⛶</button></div>' +
-        (C.ui.ranking ? rankingHtml(C) : '')
+        (C.ui.ranking ? rankingHtml(C) : '') + (C.ui.regras ? regrasTV() : '')
     };
   }
 
@@ -159,7 +163,9 @@
           '<div class="debate-tempo"><small>TEMPO DE CONVERSA</small><span class="num" id="tvDebate">' + C.formatarTempo(C.restanteDebate()) + '</span>' +
           '<div class="barra-prog"><i id="tvDebateBarra" style="width:100%"></i></div>' +
           '<button class="botao-tv alt" data-tv="votar">⚖️ Votar agora</button><small id="tvQuerem">' + (querem ? querem + ' de ' + humanos + ' querem votar' : 'Contem o que viram — ou blefem!') + '</small></div>' +
-          '<div class="chat" id="tvChat"></div>' + rotuloCentro('CENTRO')
+          (j.jogadores.some(function (p) { return !p.humano; }) ? '<div class="chat" id="tvChat"></div>'
+            : '<div class="conversa-sala"><span>🗣️</span><b>Conversem em voz alta!</b><p>Cada um conta o que viu à noite, ou blefa. Quando todos tocarem em <em>Quero votar</em> no celular, a votação começa.</p></div>') +
+          rotuloCentro('CENTRO')
       };
     }
     if (f === 'votacao' || f === 'votacao-fim') {
@@ -247,7 +253,7 @@
         // Controle remoto: o foco continua no mesmo botão (ou vai para o botão principal).
         if (C.tvmode && tinhaFoco) {
           var alvo = null, bs = this.painelEl.querySelectorAll('button');
-          for (var i = 0; i < bs.length && foco && !C.ui.ranking; i++) if ((bs[i].dataset.tv || '') + ':' + (bs[i].dataset.cfg || '') === foco && !bs[i].disabled) alvo = bs[i];
+          for (var i = 0; i < bs.length && foco && !C.ui.ranking && !C.ui.regras; i++) if ((bs[i].dataset.tv || '') + ':' + (bs[i].dataset.cfg || '') === foco && !bs[i].disabled) alvo = bs[i];
           if (!alvo) alvo = this.painelEl.querySelector('.ranking-caixa [data-foco]') || this.painelEl.querySelector('[data-foco]:not([disabled])');
           if (alvo) try { alvo.focus({ preventScroll: true }); } catch (e) { alvo.focus(); }
         }
