@@ -17,7 +17,7 @@ O usuário Jacson Acker utiliza três IAs (**Antigravity**, **Claude** e **Codex
 Consultar [RASCUNHO_IDEIAS_JOGOS.md](RASCUNHO_IDEIAS_JOGOS.md), registrado a pedido do usuário em 02/11/2026. O documento reúne sete propostas, com Lobisomem de Uma Noite como possível primeiro protótipo, seguido de Caverna e Arena. Todas as prioridades, nomes, regras e propostas de bots são revisáveis. O texto de ideias não é código para integrar e não autoriza começar a desenvolver, mudar cards ou publicar. Aguardar a escolha do usuário.
 
 ## Arquitetura e Novos Jogos
-- **Portal Principal (`index.html` e `portal.css`):** Serve como menu/launcher de jogos para a TV LG e mobile. Novos jogos criados devem ser adicionados como cards nessa página.
+- **Portal Principal (`index.html` e `portal.css`):** Serve como menu/launcher de jogos para a TV LG e mobile. Novos jogos entram como um bloco na lista `JOGOS` no começo do script do `index.html` (cartão e destaque são montados sozinhos).
 - **Jogos Individuais (`jogo-corrida/`, futuros `jogos/<nome>/`):** Cada jogo é uma aplicação estática leve que roda na TV e nos celulares. A comunicação multiplayer usa o relay gratuito do Doot/CLASP (`wss://relay.clasp.to`), onde a TV é a autoridade central da partida.
 - **Workflow de Deploy (`.github/workflows/deploy.yml`):** Compila os jogos com `npm run build` e agrupa tudo na pasta `_site` para o GitHub Pages.
 
@@ -26,7 +26,7 @@ O usuário utiliza o prompt de `PROMPT_CRIAR_JOGOS_NO_CHAT.md` para testar ideia
 Quando ele colar esse código aqui, sua missão como IA é:
 1. Extrair a lógica do jogo (`logic.ts`), a tela da TV e os controles dos celulares (`main.ts` / CSS).
 2. Criar a pasta do novo jogo (ex: `jogos/<nome-do-jogo>/`) reutilizando o motor de rede CLASP/Doot (`vendor/doot-engine`).
-3. Adicionar o card do novo jogo como "DISPONÍVEL AGORA" na página inicial (`index.html`) e apontar o botão para a pasta do jogo.
+3. Acrescentar o novo jogo na lista `JOGOS` do `index.html` (link para a pasta do jogo, capa, fundo e cor).
 4. Adicionar a etapa de build do novo jogo em `.github/workflows/deploy.yml`.
 5. Rodar os testes, fazer `git commit`, `git push` e entregar o link atualizado ao usuário!
 

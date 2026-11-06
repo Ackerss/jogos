@@ -36,7 +36,7 @@ O proprietário deste projeto (**Jacson Acker**) trabalha em conjunto com três 
 2. **Deploy Automático:** Qualquer alteração enviada na branch `main` dispara o workflow `.github/workflows/deploy.yml`, que roda os testes e atualiza o GitHub Pages automaticamente em menos de 1 minuto.
 3. **Preservar Testes e Tipos:** Em `jogo-corrida/`, sempre garanta que `npm run check`, `npm run build` e `npm test` estejam passando sem falhas.
 4. **Privacidade:** NUNCA faça commit de capturas de tela pessoais ou fotos de testes na TV para o repositório público (manter tudo restrito à pasta local `evidencias/`).
-5. **Estrutura de Novos Jogos:** Para adicionar novos jogos, crie uma subpasta dentro de `jogos/<nome-do-jogo>` com seu próprio build, adicione um card na página inicial (`index.html`) e mapeie a pasta no `.github/workflows/deploy.yml`.
+5. **Estrutura de Novos Jogos:** Para adicionar novos jogos, crie uma subpasta dentro de `jogos/<nome-do-jogo>` com seu próprio build, adicione um bloco na lista `JOGOS` no começo do script do `index.html` (o cartão e o destaque são montados sozinhos) e mapeie a pasta no `.github/workflows/deploy.yml`.
 
 ---
 

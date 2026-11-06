@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#ff5e3a">
+  <meta name="theme-color" content="#070914">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="ACKER PLAY">
   <meta name="application-name" content="ACKER PLAY">
   <meta name="msapplication-TileColor" content="#0e101f">
   <meta name="msapplication-TileImage" content="./icon-192.png">
-  <title>ACKER PLAY — Jogos Multiplayer para TV LG</title>
+  <title>ACKER PLAY — Jogos em família na TV</title>
   <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
   <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
@@ -18,167 +18,258 @@
   <link rel="manifest" href="./site.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="./lobisomem/arte/vila-noite.webp">
   <link rel="stylesheet" href="./portal.css">
 </head>
 <body>
-  <div class="background-glow"></div>
-  
-  <header class="portal-header">
-    <div class="brand">
-      <div class="brand-logo">A</div>
-      <div class="brand-text">
-        <span class="brand-title">ACKER <strong>PLAY</strong></span>
-        <span class="brand-tag">JOGOS EM FAMÍLIA · TV & CELULAR</span>
+  <!-- Arte de fundo do jogo escolhido (duas camadas para trocar com fade) -->
+  <div class="palco" aria-hidden="true">
+    <div class="palco-arte"></div>
+    <div class="palco-arte"></div>
+  </div>
+
+  <div class="central">
+    <header class="topo">
+      <div class="marca">
+        <div class="marca-selo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="#140e05"><path d="M6 3.8v16.4a1 1 0 0 0 1.5.86l13.2-8.2a1 1 0 0 0 0-1.72L7.5 2.94A1 1 0 0 0 6 3.8z"/></svg>
+        </div>
+        <div class="marca-nome">ACKER <b>PLAY</b><small>JOGOS EM FAMÍLIA · TV + CELULAR</small></div>
       </div>
-    </div>
-    <div class="header-status">
-      <span class="status-dot"></span>
-      <span>TV LG + Controles Mobile</span>
-    </div>
-  </header>
-
-  <main class="portal-main">
-    <section class="hero-section">
-      <span class="pill-badge">🎮 PORTAL DE JOGOS MULTIPLAYER</span>
-      <h1 class="hero-title">A TV é o tabuleiro.<br>Seu celular é o controle.</h1>
-      <p class="hero-desc">
-        Abra esta página no navegador da TV da sala, escolha o jogo e escaneie o QR Code com o celular.
-        Sem downloads, sem instalar nada e 100% gratuito.
-      </p>
-    </section>
-
-    <section class="games-grid">
-      <!-- Jogo 1: Corrida dos Toques -->
-      <article class="game-card active">
-        <div class="card-badge live">DISPONÍVEL AGORA</div>
-        <div class="card-icon">🏎️</div>
-        <div class="card-body">
-          <div class="card-meta">
-            <span class="meta-tag">👥 1 a 4 Jogadores</span>
-            <span class="meta-tag">⚡ 20 segundos</span>
-            <span class="meta-tag">📱 Toques rápidos</span>
-          </div>
-          <h2 class="card-title">Corrida dos Toques</h2>
-          <p class="card-description">
-            Disputa frenética de reflexo e velocidade. Quem tocar mais rápido no botão do celular avança na pista da TV e vence a corrida!
-          </p>
-        </div>
-        <div class="card-footer">
-          <a href="./corrida/" class="btn-play">
-            <span>JOGAR NA TV</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
-        </div>
-      </article>
-
-      <!-- Jogo 2: A Noite dos Lobos (TV + celulares) -->
-      <article class="game-card active">
-        <div class="card-badge live">NOVO · TV + CELULAR</div>
-        <div class="card-icon">🐺</div>
-        <div class="card-body">
-          <div class="card-meta">
-            <span class="meta-tag">👥 3 a 6 Jogadores</span>
-            <span class="meta-tag">⏱️ 10 minutos</span>
-            <span class="meta-tag">🃏 Blefe e dedução</span>
-          </div>
-          <h2 class="card-title">A Noite dos Lobos</h2>
-          <p class="card-description">
-            Uma noite, uma conversa, um voto. Abra na TV, cada um entra pelo QR Code com o celular e a carta secreta aparece só no celular. Bots completam a mesa se faltar gente.
-          </p>
-        </div>
-        <div class="card-footer">
-          <a href="./lobisomem/" class="btn-play">
-            <span>JOGAR</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
-        </div>
-      </article>
-
-      <!-- Jogo 2: Quiz da Família (Em breve) -->
-      <article class="game-card upcoming">
-        <div class="card-badge soon">EM BREVE</div>
-        <div class="card-icon">🧠</div>
-        <div class="card-body">
-          <div class="card-meta">
-            <span class="meta-tag">👥 2 a 8 Jogadores</span>
-            <span class="meta-tag">🎯 Trivia & Perguntas</span>
-          </div>
-          <h2 class="card-title">Quiz da Família</h2>
-          <p class="card-description">
-            A pergunta aparece na TV e cada um responde em segredo pelo celular. Quem acertar mais rápido acumula mais pontos no placar!
-          </p>
-        </div>
-        <div class="card-footer">
-          <span class="btn-disabled">EM DESENVOLVIMENTO</span>
-        </div>
-      </article>
-
-      <!-- Jogo 3: Truco / Cartas (Em breve) -->
-      <article class="game-card upcoming">
-        <div class="card-badge soon">EM BREVE</div>
-        <div class="card-icon">🃏</div>
-        <div class="card-body">
-          <div class="card-meta">
-            <span class="meta-tag">👥 2 ou 4 Jogadores</span>
-            <span class="meta-tag">🎴 Mesa na TV</span>
-          </div>
-          <h2 class="card-title">Cartas & Blefe</h2>
-          <p class="card-description">
-            Suas cartas ficam visíveis apenas na tela do seu celular. A mesa de apostas, viradas e os tentos ficam na tela da TV da sala.
-          </p>
-        </div>
-        <div class="card-footer">
-          <span class="btn-disabled">EM PLANEJAMENTO</span>
-        </div>
-      </article>
-
-      <!-- Card de Parceria / Estúdio AI -->
-      <article class="game-card studio">
-        <div class="card-badge studio-badge">ACKER STUDIO</div>
-        <div class="card-icon">✨</div>
-        <div class="card-body">
-          <div class="card-meta">
-            <span class="meta-tag">🤖 Antigravity</span>
-            <span class="meta-tag">🧠 Claude</span>
-            <span class="meta-tag">💻 Codex</span>
-          </div>
-          <h2 class="card-title">Criando Novos Jogos</h2>
-          <p class="card-description">
-            Este catálogo é desenvolvido de forma colaborativa por IA. O repositório centralizado permite adicionar jogos e atualizar as regras continuamente.
-          </p>
-        </div>
-        <div class="card-footer">
-          <a href="https://github.com/Ackerss/jogos" target="_blank" rel="noopener" class="btn-github">
-            <span>Ver no GitHub</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
-          </a>
-        </div>
-      </article>
-    </section>
-
-    <!-- Instruções rápidas para a TV -->
-    <section class="tv-instructions">
-      <h3>Dica para jogar na TV LG</h3>
-      <div class="steps-row">
-        <div class="step-item">
-          <span class="step-num">1</span>
-          <p>Adicione esta página aos <strong>Favoritos</strong> no navegador da TV LG.</p>
-        </div>
-        <div class="step-item">
-          <span class="step-num">2</span>
-          <p>Clique em <strong>JOGAR NA TV</strong> e escolha Criar Sala.</p>
-        </div>
-        <div class="step-item">
-          <span class="step-num">3</span>
-          <p>Aponte a câmera dos celulares para o <strong>QR Code</strong> e divirtam-se!</p>
-        </div>
+      <div class="dica-controle" aria-hidden="true">
+        <span><i class="tecla">◀</i><i class="tecla">▶</i> escolher</span>
+        <span><i class="tecla">OK</i> jogar</span>
       </div>
-    </section>
-  </main>
+    </header>
 
-  <footer class="portal-footer">
-    <p>ACKER PLAY · Desenvolvido para TV LG webOS & Controles Mobile · 100% Online e Gratuito</p>
-  </footer>
+    <main class="destaque" aria-live="polite">
+      <div class="destaque-conteudo" id="destaque">
+        <span class="selo" id="destaque-selo"></span>
+        <h1 class="destaque-titulo" id="destaque-titulo">ACKER PLAY</h1>
+        <ul class="fichas" id="destaque-fichas"></ul>
+        <p class="destaque-resumo" id="destaque-resumo"></p>
+        <p class="destaque-extra" id="destaque-extra"></p>
+        <a class="botao-jogar" id="botao-jogar" href="./lobisomem/">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 3.8v16.4a1 1 0 0 0 1.5.86l13.2-8.2a1 1 0 0 0 0-1.72L7.5 2.94A1 1 0 0 0 6 3.8z"/></svg>
+          <span>Jogar</span>
+        </a>
+      </div>
+    </main>
+
+    <section aria-labelledby="titulo-jogos">
+      <h2 class="prateleira-titulo" id="titulo-jogos">Escolha o jogo</h2>
+      <nav class="prateleira" id="prateleira"></nav>
+    </section>
+
+    <ol class="passos">
+      <li><span class="num">1</span><span>Escolha o jogo <b>aqui na TV</b></span></li>
+      <li><span class="num">2</span><span>Cada um aponta a câmera do <b>celular</b> para o <b>QR Code</b></span></li>
+      <li><span class="num">3</span><span>A TV mostra a mesa, o celular é o <b>controle</b></span></li>
+      <li class="rodape-endereco">Atalho para digitar na TV: <b>is.gd/ackerplay</b></li>
+    </ol>
+  </div>
+
+  <script>
+  (function () {
+    'use strict';
+
+    /* =====================================================================
+       CATÁLOGO DE JOGOS
+       Para acrescentar um jogo novo: copie um bloco abaixo, troque os campos
+       e mapeie a pasta do jogo em .github/workflows/deploy.yml.
+       - link:   pasta publicada do jogo (ex.: './quiz/')
+       - selo:   texto do selo em destaque ('Novo', '' para nenhum)
+       - fichas: até 3 informações curtas; icone = pessoas | relogio | lua | raio
+       - capa:   imagem em pé (3:4) do cartão; fundo: imagem larga (16:9) do destaque
+                 (ou arte: 'corrida' para usar a arte desenhada em código)
+       - cor:    cor de destaque do jogo (selo, botão Jogar, borda do cartão)
+       - estilo: 'lobos' (título com serifa), 'corrida' (itálico) ou '' (padrão)
+       ===================================================================== */
+    var JOGOS = [
+      {
+        id: 'lobos',
+        nome: 'A Noite dos Lobos',
+        link: './lobisomem/',
+        selo: 'Novo',
+        fichas: [
+          { icone: 'pessoas', texto: '3 a 6 jogadores' },
+          { icone: 'relogio', texto: '≈ 10 minutos' },
+          { icone: 'lua', texto: 'Blefe e dedução' }
+        ],
+        resumo: 'Uma noite, uma conversa, um voto. Cada um recebe uma carta secreta no celular, e a vila precisa descobrir quem é o lobisomem antes que seja tarde.',
+        extra: 'Faltou gente? Bots completam a mesa.',
+        capa: './lobisomem/arte/lobisomem.webp',
+        fundo: './lobisomem/arte/vila-noite.webp',
+        cor: '#ffcf6e',
+        estilo: 'lobos'
+      },
+      {
+        id: 'corrida',
+        nome: 'Corrida dos Toques',
+        link: './corrida/',
+        selo: '',
+        fichas: [
+          { icone: 'pessoas', texto: '1 a 4 jogadores' },
+          { icone: 'relogio', texto: '20 segundos' },
+          { icone: 'raio', texto: 'Reflexo' }
+        ],
+        resumo: 'Toque o mais rápido que puder no botão do celular e veja seu carro disparar na pista da TV. Quem tocar mais, vence!',
+        extra: 'Revanche na hora, sem ler o QR Code de novo.',
+        arte: 'corrida',
+        cor: '#ffd25a',
+        estilo: 'corrida'
+      }
+    ];
+    var VAGAS_EM_BREVE = 1; // cartões "Em breve" no fim da lista (0 para esconder)
+
+    /* ---------- Ícones ---------- */
+    var ICONES = {
+      pessoas: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
+      relogio: '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+      lua: '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>',
+      raio: '<path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/>'
+    };
+    function icone(nome) {
+      return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (ICONES[nome] || ICONES.raio) + '</svg>';
+    }
+
+    /* ---------- Arte desenhada da Corrida (pista ao pôr do sol) ---------- */
+    function arteCorrida(w, h, vx, hb) {
+      var hy = h * 0.5, ht = w * 0.02, u = h / 400;
+      function x(t, d) { var meia = ht + (hb - ht) * d; return vx - meia + 2 * meia * t; }
+      function y(d) { return hy + (h - hy) * d; }
+      var s = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="xMidYMid slice">' +
+        '<defs><linearGradient id="ceu" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0" stop-color="#0d0820"/><stop offset=".55" stop-color="#3a1452"/><stop offset=".9" stop-color="#ff5e7a"/><stop offset="1" stop-color="#ffb35a"/></linearGradient>' +
+        '<linearGradient id="sol" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe27a"/><stop offset="1" stop-color="#ff70ad"/></linearGradient>' +
+        '<linearGradient id="chao" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d1238"/><stop offset="1" stop-color="#090614"/></linearGradient>' +
+        '<clipPath id="disco"><circle cx="' + vx + '" cy="' + hy + '" r="' + (h * 0.2) + '"/></clipPath></defs>' +
+        '<rect width="' + w + '" height="' + hy + '" fill="url(#ceu)"/>' +
+        '<circle cx="' + vx + '" cy="' + hy + '" r="' + (h * 0.2) + '" fill="url(#sol)"/><g clip-path="url(#disco)">';
+      for (var i = 0; i < 5; i++) { // faixas do sol "retrô"
+        var fy = hy - h * 0.012 - i * h * 0.03;
+        s += '<rect x="0" y="' + fy + '" width="' + w + '" height="' + (h * 0.006 * (5 - i) * 0.5) + '" fill="#3a1452"/>';
+      }
+      s += '</g>';
+      s += '<rect y="' + hy + '" width="' + w + '" height="' + (h - hy) + '" fill="url(#chao)"/>';
+      for (var g = 1; g < 9; g++) { // grade do chão
+        var d = Math.pow(g / 9, 1.8);
+        s += '<line x1="0" x2="' + w + '" y1="' + y(d) + '" y2="' + y(d) + '" stroke="#ff70ad" stroke-opacity="' + (0.08 + d * 0.22) + '" stroke-width="' + u + '"/>';
+      }
+      s += '<polygon points="' + x(0, 0) + ',' + hy + ' ' + x(1, 0) + ',' + hy + ' ' + x(1, 1) + ',' + h + ' ' + x(0, 1) + ',' + h + '" fill="#160f2a"/>';
+      for (var t = 0; t <= 4; t++) {
+        var borda = t === 0 || t === 4;
+        s += '<line x1="' + x(t / 4, 0) + '" y1="' + hy + '" x2="' + x(t / 4, 1) + '" y2="' + h + '" stroke="' + (borda ? '#ff70ad' : '#ffffff') + '" stroke-opacity="' + (borda ? 0.9 : 0.28) + '" stroke-width="' + ((borda ? 3 : 2) * u) + '"' + (borda ? '' : ' stroke-dasharray="' + (14 * u) + ' ' + (12 * u) + '"') + '/>';
+      }
+      var carros = [['#ffd25a', 0.62], ['#ff70ad', 0.44], ['#63e7d0', 0.78], ['#8b9bff', 0.32]];
+      for (var c = 0; c < 4; c++) {
+        var cd = carros[c][1], cx = x((c + 0.5) / 4, cd), cy = y(cd), r = (3 + 20 * cd) * u;
+        var td = Math.max(0, cd - 0.22), tx = x((c + 0.5) / 4, td), ty = y(td);
+        s += '<line x1="' + cx + '" y1="' + cy + '" x2="' + tx + '" y2="' + ty + '" stroke="' + carros[c][0] + '" stroke-opacity=".35" stroke-width="' + (r * 1.3) + '" stroke-linecap="round"/>' +
+          '<circle cx="' + cx + '" cy="' + cy + '" r="' + (r * 1.9) + '" fill="' + carros[c][0] + '" fill-opacity=".18"/>' +
+          '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="' + carros[c][0] + '"/>';
+      }
+      s += '</svg>';
+      return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s);
+    }
+    function imagemCapa(j) { return j.arte === 'corrida' ? (j._capa = j._capa || arteCorrida(300, 400, 150, 230)) : j.capa; }
+    function imagemFundo(j) { return j.arte === 'corrida' ? (j._fundo = j._fundo || arteCorrida(1600, 900, 1100, 1000)) : j.fundo; }
+
+    /* ---------- Montagem ---------- */
+    var $ = function (id) { return document.getElementById(id); };
+    var prateleira = $('prateleira'), botaoJogar = $('botao-jogar'), destaque = $('destaque');
+    var camadas = document.querySelectorAll('.palco-arte'), camadaAtiva = 0;
+    var cartoes = [], atual = -1;
+    var modoTV = window.matchMedia && matchMedia('(min-width: 900px) and (orientation: landscape)').matches &&
+      !matchMedia('(pointer: coarse)').matches;
+
+    function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+    JOGOS.forEach(function (j, i) {
+      var a = document.createElement('a');
+      a.className = 'cartao';
+      a.href = j.link;
+      a.setAttribute('data-indice', i);
+      a.innerHTML = '<span class="cartao-capa">' + (j.selo ? '<span class="cartao-etiqueta">' + esc(j.selo) + '</span>' : '') +
+        '<img src="' + imagemCapa(j) + '" alt="" loading="lazy" decoding="async"></span>' +
+        '<span class="cartao-nome">' + esc(j.nome) + '<small>' + esc(j.fichas[0] ? j.fichas[0].texto : '') + '</small></span>';
+      a.addEventListener('focus', function () { a.classList.add('focado'); selecionar(i); });
+      a.addEventListener('blur', function () { a.classList.remove('focado'); });
+      a.addEventListener('mouseenter', function () { if (modoTV) a.focus({ preventScroll: true }); });
+      prateleira.appendChild(a);
+      cartoes.push(a);
+      if (j.fundo || j.arte) { var pre = new Image(); pre.src = imagemFundo(j); } // carrega antes de trocar
+    });
+    for (var v = 0; v < VAGAS_EM_BREVE; v++) {
+      var b = document.createElement('div');
+      b.className = 'cartao breve';
+      b.setAttribute('aria-hidden', 'true');
+      b.innerHTML = '<span class="cartao-capa"><span><span class="breve-icone">+</span><span class="breve-texto">Em breve</span></span></span>' +
+        '<span class="cartao-nome">Novo jogo<small>a caminho</small></span>';
+      prateleira.appendChild(b);
+    }
+
+    function selecionar(i) {
+      if (i === atual || !JOGOS[i]) return;
+      atual = i;
+      var j = JOGOS[i];
+      document.documentElement.style.setProperty('--cor-jogo', j.cor || '#ffcf6e');
+      cartoes.forEach(function (c, k) { c.classList.toggle('escolhido', k === i); });
+
+      $('destaque-selo').textContent = j.selo || '';
+      var titulo = $('destaque-titulo');
+      titulo.textContent = j.nome;
+      titulo.className = 'destaque-titulo' + (j.estilo ? ' estilo-' + j.estilo : '');
+      $('destaque-fichas').innerHTML = j.fichas.map(function (f) { return '<li>' + icone(f.icone) + esc(f.texto) + '</li>'; }).join('');
+      $('destaque-resumo').textContent = j.resumo || '';
+      $('destaque-extra').textContent = j.extra || '';
+      botaoJogar.href = j.link;
+      botaoJogar.setAttribute('aria-label', 'Jogar ' + j.nome);
+      destaque.classList.remove('entrando'); void destaque.offsetWidth; destaque.classList.add('entrando');
+
+      var proxima = camadas[1 - camadaAtiva], anterior = camadas[camadaAtiva];
+      proxima.style.backgroundImage = 'url("' + imagemFundo(j) + '")';
+      proxima.classList.add('visivel'); anterior.classList.remove('visivel');
+      camadaAtiva = 1 - camadaAtiva;
+
+      try { localStorage.setItem('ackerplay.ultimoJogo', j.id); } catch (e) { /* sem armazenamento */ }
+    }
+
+    /* ---------- Controle remoto da TV (setas + OK) ---------- */
+    botaoJogar.addEventListener('focus', function () { botaoJogar.classList.add('focado'); });
+    botaoJogar.addEventListener('blur', function () { botaoJogar.classList.remove('focado'); });
+    function focar(el) { try { el.focus({ preventScroll: true }); } catch (e) { el.focus(); } }
+
+    document.addEventListener('keydown', function (e) {
+      var k = e.keyCode, el = document.activeElement;
+      var noCartao = el && el.classList && el.classList.contains('cartao');
+      var noBotao = el === botaoJogar;
+      if (k === 37 || k === 39) {                       // ◀ ▶ troca de jogo
+        var n = Math.max(0, Math.min(cartoes.length - 1, atual + (k === 39 ? 1 : -1)));
+        if (noBotao) selecionar(n); else focar(cartoes[n]);
+        e.preventDefault();
+      } else if (k === 38) {                            // ▲ vai para o botão Jogar
+        if (!noBotao) { focar(botaoJogar); e.preventDefault(); }
+      } else if (k === 40) {                            // ▼ volta para a lista
+        if (!noCartao) { focar(cartoes[atual]); e.preventDefault(); }
+      } else if (k === 13 && !noCartao && !noBotao) {   // OK sem nada focado: joga o escolhido
+        location.href = JOGOS[atual].link;
+      }
+    });
+
+    /* ---------- Início: volta ao último jogo escolhido ---------- */
+    var inicial = 0;
+    try {
+      var ultimo = localStorage.getItem('ackerplay.ultimoJogo');
+      JOGOS.forEach(function (j, i) { if (j.id === ultimo) inicial = i; });
+    } catch (e) { /* sem armazenamento */ }
+    selecionar(inicial);
+    if (modoTV) focar(cartoes[inicial]);
+
+    // Ao voltar de um jogo pelo botão Voltar, o navegador pode reaproveitar a página: refoca.
+    window.addEventListener('pageshow', function () { if (modoTV && cartoes[atual]) focar(cartoes[atual]); });
+  })();
+  </script>
 </body>
 </html>
