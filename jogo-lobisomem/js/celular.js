@@ -84,10 +84,11 @@
   function telaVoto(C, p) {
     var alvo = C.jogo.votos[p.id];
     if (alvo !== undefined) return { chave: 'votou', html: '<div class="cel-titulo">✅ Voto registrado</div>' +
-      '<p class="cel-texto">Você votou em <b>' + nome(C, alvo) + '</b>.<br>Os votos aparecem todos juntos na TV.</p>' + cartaHtml('', { pequena: true }) };
+      '<p class="cel-texto">Você votou em <b>' + (alvo === R.PAZ ? '🕊️ Paz na vila' : nome(C, alvo)) + '</b>.<br>Os votos aparecem todos juntos na TV.</p>' + cartaHtml('', { pequena: true }) };
     return { chave: 'voto', html: '<div class="cel-titulo">⚖️ Vote em segredo</div><p class="cel-texto">Quem é <b>lobisomem agora</b>? Não vale votar em si mesmo.</p>' +
-      '<div class="opcoes uma">' + C.jogo.jogadores.filter(function (o) { return o.id !== p.id; }).map(function (o) { return opcaoJogador(C, o, 'votar'); }).join('') + '</div>' +
-      '<div class="nota">Sai quem tiver mais votos. Se todos tiverem só 1 voto, ninguém sai.</div>' };
+      '<div class="opcoes uma">' + C.jogo.jogadores.filter(function (o) { return o.id !== p.id; }).map(function (o) { return opcaoJogador(C, o, 'votar'); }).join('') +
+      opcao('🕊️ Paz na vila <small>(não tem lobo aqui)</small>', 'votar', 'data-alvo="paz"') + '</div>' +
+      '<div class="nota">Sai quem tiver mais votos. Se a <b>Paz na vila</b> empatar ou ganhar, ninguém sai.</div>' };
   }
 
   function telaFim(C, p) {

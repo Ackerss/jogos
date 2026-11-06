@@ -1,5 +1,16 @@
 # Registro de alterações
 
+## 06/11/2026 — Paz na vila e abertura sem corte (Claude)
+- **Votação:**
+  - novo botão **🕊️ Paz na vila**, para quem acha que não há lobo entre os jogadores;
+  - se a Paz empatar com o mais votado ou ganhar, ninguém sai;
+  - na TV aparece um alvo com a pomba no centro, e as setas e o contador apontam para ele.
+- **Bots:** às vezes pedem paz. A Vidente que viu 2 lobos no centro sempre pede, e um lobo sozinho pede com mais frequência.
+- **Narração:**
+  - novo momento `paz_na_vila`, com 2 frases neutras que não revelam se havia lobo;
+  - a abertura ("Era uma vez…") não é mais cortada, porque o jogo espera o narrador antes do "olhe a sua carta".
+- **Testes:** novos testes da regra da Paz (14 no total).
+
 ## 06/11/2026 — Narração gravada e publicada (Claude)
 - O Antigravity gravou as 62 frases com a voz "Narrador Lobos" (modelo eleven_multilingual_v2).
 - O Claude:

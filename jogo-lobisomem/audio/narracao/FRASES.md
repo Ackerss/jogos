@@ -2,7 +2,7 @@
 
 Gerado por `node scripts/frases.js` a partir de `js/narracao.js` (não edite à mão: mude lá e rode de novo).
 
-Total: **62 arquivos**, **2927 caracteres** (cabe no plano grátis do ElevenLabs).
+Total: **64 arquivos**, **3027 caracteres** (cabe no plano grátis do ElevenLabs).
 
 Salve cada MP3 nesta pasta (`jogo-lobisomem/audio/narracao/`) com o **nome exato** da coluna Arquivo.
 
@@ -48,6 +48,8 @@ Salve cada MP3 nesta pasta (`jogo-lobisomem/audio/narracao/`) com o **nome exato
 | `empate_2.mp3` | Deu empate... e todos os mais votados saem. | Empate: mais de uma pessoa sai | surpreso, dramático |
 | `ninguem_sai_1.mp3` | Cada um recebeu um voto só. Ninguém sai da vila. | Ninguém recebeu mais de um voto | intrigado |
 | `ninguem_sai_2.mp3` | Votos espalhados... Ninguém foi expulso. | Ninguém recebeu mais de um voto | intrigado |
+| `paz_na_vila_1.mp3` | A vila escolheu a paz... Ninguém sai desta vez. | A vila votou em "Paz na vila" e ninguém sai | sereno, com um fio de suspense |
+| `paz_na_vila_2.mp3` | Paz na vila! Mas será que não tinha mesmo um lobo aí? | A vila votou em "Paz na vila" e ninguém sai | sereno, com um fio de suspense |
 | `replay_inicio_1.mp3` | Agora, vamos ver o que realmente aconteceu nesta noite. | As cartas viram para mostrar a noite | revelação, suspense |
 | `replay_inicio_2.mp3` | Hora da verdade. Estas eram as cartas quando a noite começou. | As cartas viram para mostrar a noite | revelação, suspense |
 | `troca_ladrao_1.mp3` | O ladrão agiu... e levou uma carta. | Replay: mostra a troca do ladrão | malandro |

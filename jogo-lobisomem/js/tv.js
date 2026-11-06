@@ -104,13 +104,14 @@
         chave: 'votacao',
         html: topo(C, 'JULGAMENTO') + cabeca('Hora de <em>votar</em>', 'No celular, escolha quem você acha que é <b>lobisomem agora</b>.') +
           rotuloCentro('CENTRO') +
-          '<div class="p-base"><span>Os votos aparecem todos juntos.</span><span id="tvVotos">' + progresso(votos, n, 'votaram') + '</span><strong>Todos com 1 voto: ninguém sai</strong></div>'
+          '<div class="p-base"><span>Os votos aparecem todos juntos.</span><span id="tvVotos">' + progresso(votos, n, 'votaram') + '</span><strong>🕊️ Paz na vila empatou ou ganhou: ninguém sai</strong></div>'
       };
     }
     if (f === 'apuracao') {
       var r = j.resultado, sub = '';
       if (C.ui.apurPasso >= 1) {
-        if (!r.eliminados.length) sub = 'Ninguém recebeu mais de 1 voto: <b>ninguém sai</b>.';
+        if (r.pazVenceu) sub = '🕊️ <b>Paz na vila</b> teve ' + r.paz + (r.paz === 1 ? ' voto' : ' votos') + ': <b>ninguém sai</b>.';
+        else if (!r.eliminados.length) sub = 'Ninguém recebeu mais de 1 voto: <b>ninguém sai</b>.';
         else if (r.eliminados.length === 1) sub = '<b>' + nome(C, r.eliminados[0]) + '</b> recebeu ' + r.maior + ' votos e <b>saiu</b>.';
         else sub = 'Empate com ' + r.maior + ' votos: <b>' + lista(r.eliminados.map(function (id) { return nome(C, id); })) + '</b> saem.';
       }

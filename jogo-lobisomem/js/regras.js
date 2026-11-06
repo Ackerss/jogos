@@ -161,8 +161,10 @@
     return etapaAtual(estado);
   }
 
+  /* Voto especial: "Paz na vila" (acho que não há lobo entre nós). */
+  var PAZ = 'paz';
   function votar(estado, id, alvo) {
-    if (!jogador(estado, id) || !jogador(estado, alvo) || id === alvo) return { ok: false, erro: 'Voto inválido.' };
+    if (!jogador(estado, id) || (alvo !== PAZ && (!jogador(estado, alvo) || id === alvo))) return { ok: false, erro: 'Voto inválido.' };
     if (estado.votos[id] !== undefined) return { ok: false, erro: 'Você já votou.' };
     estado.votos[id] = alvo;
     return { ok: true };
@@ -174,15 +176,17 @@
   /* Regras do julgamento:
      - Sai quem tiver mais votos (empate no topo: saem todos os empatados).
      - Se ninguém tiver mais de 1 voto, ninguém sai.
+     - "Paz na vila" com tantos votos quanto o mais votado (ou mais): ninguém sai.
      - Há lobo entre os jogadores: a aldeia vence se ao menos um lobo sair.
      - Não há lobo entre os jogadores: a aldeia vence se ninguém sair; se alguém sair, ninguém vence. */
   function apurar(estado) {
-    var contagem = {};
+    var contagem = {}, paz = 0;
     estado.jogadores.forEach(function (j) { contagem[j.id] = 0; });
-    Object.keys(estado.votos).forEach(function (k) { contagem[estado.votos[k]]++; });
+    Object.keys(estado.votos).forEach(function (k) { if (estado.votos[k] === PAZ) paz++; else contagem[estado.votos[k]]++; });
     var maior = 0;
     Object.keys(contagem).forEach(function (k) { if (contagem[k] > maior) maior = contagem[k]; });
-    var eliminados = maior > 1 ? estado.jogadores.filter(function (j) { return contagem[j.id] === maior; }).map(function (j) { return j.id; }) : [];
+    var pazVenceu = paz > 0 && paz >= maior;
+    var eliminados = maior > 1 && !pazVenceu ? estado.jogadores.filter(function (j) { return contagem[j.id] === maior; }).map(function (j) { return j.id; }) : [];
     var lobos = estado.jogadores.filter(function (j) { return papelAtual(estado, j.id) === 'wolf'; }).map(function (j) { return j.id; });
     var loboSaiu = eliminados.some(function (id) { return lobos.indexOf(id) >= 0; });
     var time, motivo;
@@ -197,7 +201,7 @@
       var lobo = papelAtual(estado, j.id) === 'wolf';
       return time === 'lobos' ? lobo : !lobo;
     }).map(function (j) { return j.id; });
-    estado.resultado = { contagem: contagem, maior: maior, eliminados: eliminados, lobos: lobos, time: time, motivo: motivo, vencedores: vencedores };
+    estado.resultado = { contagem: contagem, maior: maior, paz: paz, pazVenceu: pazVenceu, eliminados: eliminados, lobos: lobos, time: time, motivo: motivo, vencedores: vencedores };
     return estado.resultado;
   }
 
@@ -215,7 +219,7 @@
   }
 
   var Regras = {
-    PAPEIS: PAPEIS, ORDEM_NOITE: ORDEM_NOITE, MIN_JOGADORES: MIN_JOGADORES, MAX_JOGADORES: MAX_JOGADORES,
+    PAZ: PAZ, PAPEIS: PAPEIS, ORDEM_NOITE: ORDEM_NOITE, MIN_JOGADORES: MIN_JOGADORES, MAX_JOGADORES: MAX_JOGADORES,
     nomePapel: nomePapel, embaralhar: embaralhar, montarBaralho: montarBaralho, criarPartida: criarPartida,
     jogador: jogador, papelAtual: papelAtual, papelDaCarta: papelDaCarta, etapaAtual: etapaAtual,
     podeAgir: podeAgir, agir: agir, iniciarEtapa: iniciarEtapa, trocarCartas: trocarCartas,

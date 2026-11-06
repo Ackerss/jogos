@@ -4,7 +4,8 @@ Histórico e estado da narração. Atualizado em 06/11/2026.
 
 ## Estado atual
 - **A narração está gravada e publicada (06/11/2026).** São 62 MP3 com a voz "Narrador Lobos", cerca de 3,5 min no total (3,5 MB).
-- **O roteiro tem 62 frases** em `js/narracao.js`: 54 da narração completa e 8 curtas do modo rápido, 2.927 caracteres. A lista está em `audio/narracao/FRASES.md`.
+- **O roteiro tem 64 frases** em `js/narracao.js`: 56 da narração completa e 8 curtas do modo rápido.
+- **06/11, Paz na vila:** entrou o voto "Paz na vila" e o momento `paz_na_vila`, com 2 frases neutras que não revelam se havia lobo. O Claude gravou as duas no site do ElevenLabs com a mesma voz e os mesmos ajustes. A lista está em `audio/narracao/FRASES.md`.
 - Se algum MP3 faltar, o jogo fala a mesma frase com a voz do navegador. Nada quebra.
 - **Voz escolhida pelo Jacson:** "Narrador Lobos".
   - Criada pelo Claude em 05/11/2026 no Voice Design do ElevenLabs.
@@ -44,6 +45,7 @@ As transições esperam o narrador terminar a frase. As etapas da noite têm tem
 2. **05/11, v2:** as frases foram reescritas sem "fechem os olhos". O Antigravity achou 6 vozes brasileiras na Voice Library, mas o plano grátis bloqueia essas vozes na API (erro 402).
 3. **05/11, v3:** o Claude criou 3 vozes pelo Voice Design no site e o Jacson escolheu a 3, "Narrador Lobos". Também foi criado o modo rápido.
 4. **06/11:** o Antigravity gravou as 62 frases com essa voz. O Claude ajustou, testou e publicou.
+5. **06/11:** a abertura parou de ser cortada pelo "olhe a sua carta", porque o jogo agora espera o narrador terminar. Também entrou a Paz na vila, com 2 frases novas.
 
 ## Arquivos
 | Arquivo | Função |

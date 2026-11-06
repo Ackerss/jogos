@@ -283,3 +283,13 @@ h1,h2,h3,p{margin:0}
   .carta,.lugar,.carta-giro,.carta-voo,.fala,.cel-corpo>*{animation:none!important;transition-duration:.01s!important}
 }
 .mesa[data-layout="final"] .lugar .selo{bottom:auto;top:5%}
+
+/* Alvo "Paz na vila" na apuração */
+.paz-alvo{position:absolute;z-index:7;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*.3);padding:calc(var(--u)*.9) calc(var(--u)*.6);border-radius:calc(var(--u)*1.2);background:rgba(18,30,52,.86);border:2px solid rgba(190,225,255,.55);box-shadow:0 0 calc(var(--u)*2.4) rgba(160,210,255,.35);color:#eaf4ff;text-align:center;opacity:0;pointer-events:none;transition:opacity .5s ease,transform .6s cubic-bezier(.34,1.56,.64,1);transform:translate(-50%,-50%) scale(.8)}
+.paz-alvo.visivel{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.paz-alvo .pomba{font-size:calc(var(--u)*2.6);line-height:1}
+.paz-alvo .rot{font-weight:900;letter-spacing:.08em;font-size:calc(var(--u)*.95)}
+.paz-alvo .contador{position:absolute;right:-12%;top:-14%;min-width:calc(var(--u)*2.3);height:calc(var(--u)*2.3);border-radius:999px;display:grid;place-items:center;font-weight:900;font-size:calc(var(--u)*1.25);background:linear-gradient(180deg,#ffd27a,#d98a2b);color:#2a1606;border:2px solid #fff3d6;opacity:0;transform:scale(.3);transition:opacity .3s,transform .5s cubic-bezier(.34,1.56,.64,1)}
+.paz-alvo .contador.ativo{opacity:1;transform:scale(1)}
+.opcao[data-alvo="paz"]{border-color:rgba(190,225,255,.5);background:rgba(120,170,230,.12)}
+.opcao[data-alvo="paz"] small{opacity:.7;font-weight:500}

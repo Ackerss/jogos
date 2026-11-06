@@ -68,6 +68,12 @@
       if (c.id === null || c.id === bot.id || !/desconfi|suspeit|quieto/i.test(c.msg)) return;
       notas.forEach(function (x) { if (c.msg.indexOf(nome(estado, x.id)) >= 0) x.v += 0.4; });
     });
+    // "Paz na vila": a Vidente que viu 2 lobos no centro sabe que não há lobo entre os jogadores;
+    // um lobo às vezes pede paz para escapar.
+    var paz = rnd() * 2.2;
+    if (ini === 'seer' && n.centroVisto.length === 2 && n.centroVisto.every(function (c) { return c.papel === 'wolf'; })) paz += 8;
+    if (ini === 'wolf' && !n.aliados.length) paz += 0.8;
+    notas.push({ id: 'paz', v: paz });
     notas.sort(function (a, b) { return b.v - a.v; });
     return notas[0].id;
   }
