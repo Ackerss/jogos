@@ -370,3 +370,42 @@ html[data-modo="tv"],html[data-modo="tv"] body{height:100%;margin:0;overflow:hid
 .ctl .enviando{opacity:.55}
 .campo.fixo{font-weight:900;color:var(--ouro2)}
 .btn.sair{min-height:40px;font-size:13px;background:none;border-color:#2d3a5c;color:#a9b3cf}
+
+/* Celular de verdade: letras maiores (leitura de longe, na sala) */
+.ctl .cel-titulo{font-size:24px}
+.ctl .cel-texto{font-size:17px;line-height:1.5}
+.ctl .cel-texto.grande{font-size:18.5px;margin-top:6px}
+.ctl .nota{font-size:16px;line-height:1.5;padding:12px 14px}
+.ctl .nota.grande{font-size:17.5px}
+.ctl .nota ul{padding-left:20px}
+.ctl .legenda-carta{font-size:16px;margin-top:0}
+.ctl .rotulo{font-size:12.5px}
+.ctl .opcao{font-size:16px;min-height:54px}
+.ctl .opcao img{width:30px;height:30px}
+.ctl .btn{font-size:17px;min-height:56px}
+.ctl .cel-topo b{font-size:16px}
+.ctl .cel-topo .tempo{font-size:16px}
+.ctl .cel-rodape{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px}
+.link-regras{background:none;border:1px solid #2d3a5c;color:#cfd6ea;border-radius:999px;padding:6px 12px;font-size:13px;font-weight:800}
+.ctl-regras{position:fixed;top:0;right:0;bottom:0;left:0;z-index:60;background:rgba(3,5,12,.82);overflow-y:auto;padding:16px}
+.ctl-regras[hidden]{display:none}
+.ctl-regras-caixa{max-width:520px;margin:0 auto;background:linear-gradient(180deg,#1b2340,#0c1122);border:1px solid rgba(233,190,113,.55);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.ctl-regras-caixa h2{font-family:var(--serif);color:var(--ouro2);font-size:24px;text-align:center}
+.regras-lista{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:16px;line-height:1.5;color:#e5e9f6}
+.regras-lista ul{margin:6px 0 0;padding-left:4px;list-style:none;display:flex;flex-direction:column;gap:5px}
+.regras-lista b{color:var(--ouro2)}
+/* Regras na TV */
+.regras-caixa{width:84%;max-height:92%}
+.regras-caixa .regras-lista li{display:list-item;background:none;padding:0;border-radius:0;font-size:inherit}
+.regras-caixa .regras-lista{columns:2;column-gap:calc(var(--u)*2.4);display:block}
+.regras-caixa .regras-lista>li{break-inside:avoid;margin-bottom:calc(var(--u)*.6)}
+.regras-caixa .regras-lista ul{display:block}
+.regras-caixa .regras-lista ul li{margin:calc(var(--u)*.2) 0}
+.conversa-sala p{margin:0}
+.regras-caixa h2{font-size:calc(var(--u)*2.2)}
+.regras-caixa .regras-lista{font-size:calc(var(--u)*1.3);gap:calc(var(--u)*.35);line-height:1.4}
+/* Conversa só entre pessoas: a TV pede para conversar na sala */
+.conversa-sala{position:absolute;left:35%;right:4%;top:24%;display:flex;flex-direction:column;align-items:center;gap:calc(var(--u)*.6);text-align:center;padding:calc(var(--u)*1.6) calc(var(--u)*2);background:rgba(7,10,19,.62);border:1px solid rgba(233,190,113,.35);border-radius:calc(var(--u)*1);font-size:calc(var(--u)*1.35);line-height:1.45;color:#e5e9f6;box-shadow:0 12px 30px rgba(0,0,0,.4)}
+.conversa-sala span{font-size:calc(var(--u)*3.2);line-height:1}
+.conversa-sala b{font-family:var(--serif);font-size:calc(var(--u)*2.3);color:var(--ouro2)}
+.conversa-sala em{font-style:normal;font-weight:800;color:var(--ouro2)}

@@ -15,7 +15,8 @@
   function esc(x) { return String(x).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
 
   raiz.innerHTML = '<div class="cel-tela ctl"><div class="cel-topo"><div><b class="cel-nome">🐺 A Noite dos Lobos</b><small class="cel-sala"></small></div><span class="tempo"></span></div>' +
-    '<div class="ctl-status" hidden></div><div class="cel-corpo"></div><div class="cel-rodape">🔒 Só você vê esta tela</div></div>';
+    '<div class="ctl-status" hidden></div><div class="cel-corpo"></div><div class="cel-rodape"><span>🔒 Só você vê esta tela</span><button class="link-regras" data-local="regras">📜 Regras</button></div>' +
+    '<div class="ctl-regras" hidden><div class="ctl-regras-caixa">' + Cel.regrasHtml() + '<button class="btn principal" data-local="fecharRegras">Fechar</button></div></div></div>';
   var telaEl = raiz.querySelector('.cel-tela'), corpo = raiz.querySelector('.cel-corpo'), status = raiz.querySelector('.ctl-status');
 
   /* A tela vem da TV pela internet: só deixa passar o HTML do próprio jogo (sem scripts nem eventos). */
@@ -100,6 +101,7 @@
     var b = e.target.closest('button'); if (!b || b.disabled) return;
     if (b.dataset.local === 'entrar') { entrar(false); return; }
     if (b.dataset.local === 'souEu') { entrar(true); return; }
+    if (b.dataset.local === 'regras' || b.dataset.local === 'fecharRegras') { var rg = raiz.querySelector('.ctl-regras'); rg.hidden = b.dataset.local === 'fecharRegras'; if (!rg.hidden) rg.scrollTop = 0; return; }
     var acao = b.dataset.acao; if (!acao || !rede) return;
     if (acao === 'sair') { rede.sair(); recebeu = false; tela = null; chave = ''; mostrar(); return; }
     if (acao === 'nada') return;

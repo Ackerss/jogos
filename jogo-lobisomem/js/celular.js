@@ -69,16 +69,35 @@
 
   function telaDebate(C, p) {
     var ini = C.jogo.inicial[p.id], pistas = R.pistas(C.jogo, p.id), outros = C.jogo.jogadores.filter(function (o) { return o.id !== p.id; });
-    var quer = !!C.ui.querVotar[p.id];
-    return { chave: 'debate-' + quer, html:
-      '<div class="cel-titulo">☀️ Hora de conversar</div>' +
-      '<div class="nota ouro">Sua carta <b>inicial</b>: <b>' + papelTxt(ini, p.genero) + '</b>. Ela pode ter sido trocada à noite!</div>' +
-      (pistas.length ? '<div class="nota"><b>Suas pistas secretas</b><ul>' + pistas.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul></div>' : '') +
-      '<div class="rotulo">Falar na conversa (vale blefar)</div>' +
+    var quer = !!C.ui.querVotar[p.id], temBots = C.jogo.jogadores.some(function (o) { return !o.humano; });
+    var topoDebate = '<div class="cel-titulo">☀️ Hora de conversar</div>' +
+      '<div class="nota ouro grande">Sua carta <b>inicial</b>: <b>' + papelTxt(ini, p.genero) + '</b>. Ela pode ter sido trocada à noite!</div>' +
+      (pistas.length ? '<div class="nota grande"><b>Suas pistas secretas</b><ul>' + pistas.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul></div>' : '');
+    var botao = quer ? btn('✅ Esperando os outros para votar', 'nada', 'disabled', 'verde') : btn('⚖️ Quero votar agora', 'querVotar', '', 'principal');
+    // Só pessoas na mesa: a conversa é em voz alta, na sala. Os botões de "falar" existem só para conversar com os bots.
+    if (!temBots) return { chave: 'debate-' + quer, html: topoDebate +
+      '<p class="cel-texto grande">🗣️ Conversem em voz alta. Contem o que viram, ou blefem!<br>Quando todos tocarem em <b>Quero votar</b>, a votação começa.</p>' + botao };
+    return { chave: 'debate-' + quer, html: topoDebate +
+      '<div class="rotulo">Falar com os bots na conversa (vale blefar)</div>' +
       '<div class="opcoes">' + ['villager', 'seer', 'robber', 'trouble', 'wolf'].map(function (r) { return opcao(R.PAPEIS[r].icone + ' Eu era ' + papelTxt(r, p.genero), 'dizer', 'data-fala="afirmar" data-papel="' + r + '"'); }).join('') +
       opcao('❔ Lobos no centro?', 'dizer', 'data-fala="centro"') + '</div>' +
       '<div class="rotulo">Desconfiar de</div><div class="opcoes">' + outros.map(function (o) { return opcao('👉 ' + esc(o.nome), 'dizer', 'data-fala="desconfiar" data-alvo="' + o.id + '"'); }).join('') + '</div>' +
-      (quer ? btn('✅ Esperando os outros para votar', 'nada', 'disabled', 'verde') : btn('⚖️ Quero votar agora', 'querVotar', '', 'principal')) };
+      botao };
+  }
+
+  /* Regras resumidas (botão 📜 Regras na TV e no celular). */
+  function regrasHtml() {
+    return '<h2>📜 Regras</h2><ol class="regras-lista">' +
+      '<li>Cada um recebe <b>1 carta secreta</b>. <b>3 cartas ficam no centro</b>. São <b>2 lobos</b> no baralho: eles podem estar com jogadores ou no centro.</li>' +
+      '<li><b>À noite</b>, cada papel age na sua vez, pelo celular:<ul>' +
+      '<li>🐺 <b>Lobisomens</b>: se reconhecem. Lobo sozinho pode espiar <b>1 carta do centro</b>.</li>' +
+      '<li>🔮 <b>Vidente</b>: olha a carta de <b>1 jogador</b> OU <b>2 cartas do centro</b>.</li>' +
+      '<li>🗝️ <b>Ladrão</b>: troca a sua carta com a de outro jogador e <b>vê a nova</b>.</li>' +
+      '<li>🃏 <b>Encrenqueiro</b>: troca as cartas de <b>2 outros jogadores</b>, sem ver.</li>' +
+      '<li>🧑‍🌾 <b>Aldeão</b>: não faz nada à noite.</li></ul></li>' +
+      '<li>Por causa das trocas, você pode virar lobo sem saber. <b>Vale a carta do fim da noite.</b></li>' +
+      '<li><b>De dia</b>, conversem (vale blefar) e votem em segredo. Sai quem tiver <b>2 votos ou mais</b> (empate: saem os empatados). Se a <b>🕊️ Paz na vila</b> empatar ou ganhar, ninguém sai.</li>' +
+      '<li><b>A aldeia vence</b> se sair pelo menos 1 lobo. <b>Os lobos vencem</b> se nenhum lobo sair. Se os 2 lobos estavam no centro, a aldeia vence só se ninguém sair.</li></ol>';
   }
 
   function telaVoto(C, p) {
@@ -168,7 +187,7 @@
   }
 
   var Celular = {
-    tela: tela, aplicar: aplicar, aplicarRev: aplicarRev, tempoDe: tempoDe,
+    tela: tela, aplicar: aplicar, aplicarRev: aplicarRev, tempoDe: tempoDe, regrasHtml: regrasHtml,
     el: null, telas: {},
     iniciar: function (el) { this.el = el; },
     desenhar: function (C) {
