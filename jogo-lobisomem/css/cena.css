@@ -183,4 +183,5 @@
 .tv[data-quality="leve"] .mist-band,.tv[data-quality="leve"] .house-lights,.tv[data-quality="leve"] .window-flicker,.tv[data-quality="leve"] .ground-reflections,.tv[data-quality="leve"] .moon-halo,.tv[data-quality="leve"] .moonbeams,.tv[data-quality="leve"] .sunbeams,.tv[data-quality="leve"] .stage-aura,.tv[data-quality="leve"] .fog{display:none}
 .tv[data-quality="leve"] .cinema-world{animation:none;transform:scale(1.01)}
 .tv[data-quality="leve"] .cinema-transition{display:none}
+.tv[data-quality="leve"] .cinema{will-change:auto;mix-blend-mode:normal!important}
 @media (prefers-reduced-motion:reduce){.tv .cinema-world,.tv .cinema-night,.tv .cinema-day,.tv .house-lights,.tv .window-flicker,.tv .ground-reflections,.tv .moon-halo,.tv .moonbeams,.tv .sunbeams,.tv .mist-band,.tv .cinema-transition{animation:none!important;transition:none!important}}

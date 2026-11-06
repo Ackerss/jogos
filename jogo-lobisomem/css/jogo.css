@@ -198,7 +198,7 @@ h1,h2,h3,p{margin:0}
 .debate-tempo .barra-prog{width:100%}
 .debate-tempo small{font-size:calc(var(--u)*.85);color:#cfd6ea}
 @keyframes pulsar{to{transform:scale(1.06)}}
-.chat{position:absolute;left:35%;right:4%;bottom:33%;max-height:43%;display:flex;flex-direction:column;justify-content:flex-end;gap:calc(var(--u)*.45);overflow:hidden;padding:calc(var(--u)*.8);background:rgba(7,10,19,.5);border:1px solid rgba(233,190,113,.25);border-radius:calc(var(--u)*1);backdrop-filter:blur(4px);-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 18%)}
+.chat{position:absolute;left:35%;right:4%;bottom:33%;max-height:43%;display:flex;flex-direction:column;justify-content:flex-end;gap:calc(var(--u)*.45);overflow:hidden;padding:calc(var(--u)*.8);background:rgba(7,10,19,.72);border:1px solid rgba(233,190,113,.25);border-radius:calc(var(--u)*1);-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 18%)}
 .fala{display:flex;gap:calc(var(--u)*.7);align-items:flex-start;background:rgba(10,14,28,.82);border:1px solid rgba(233,190,113,.22);border-radius:calc(var(--u)*.7);padding:calc(var(--u)*.45) calc(var(--u)*.8);font-size:calc(var(--u)*1.02);line-height:1.35;animation:falaEntra .45s var(--ease) both}
 .fala b{color:var(--ouro2);white-space:nowrap}
 .fala.humano{border-color:rgba(96,165,250,.6)}
