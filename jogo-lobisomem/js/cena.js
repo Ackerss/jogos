@@ -52,14 +52,12 @@ function initCinematicEffects(){
     {x:.826,y:.592,scale:.92,phase:2.4}  // Na penumbra dos arbustos à direita
   ];
 
-  /* Navegador de Smart TV (LG webOS etc.): GPU fraca, então começa no "leve".
-     A escolha manual fica guardada; sem escolha, o jogo mede a fluidez e
-     rebaixa sozinho um nível se a TV estiver engasgando. */
+  /* Os efeitos começam no nível de sempre. A escolha manual fica guardada;
+     sem escolha, o jogo mede a fluidez e só rebaixa um nível se a tela
+     estiver realmente engasgando (rede de segurança, não corte). */
   const CHAVE='lobos-efeitos';
-  const EH_TV=/Web0S|webOS|SmartTV|SMART-TV|NetCast|Tizen|BRAVIA|AFT[A-Z]|CrKey|HbbTV/i.test(navigator.userAgent||'');
   let escolhaManual=false;
   try{const salvo=localStorage.getItem(CHAVE);if(settings[salvo]){escolhaManual=true;preset.value=salvo}}catch(e){}
-  if(!escolhaManual&&EH_TV)preset.value='leve';
   let medInicio=0,medQuadros=0,medLentas=0;
 
   function applyQuality(q){

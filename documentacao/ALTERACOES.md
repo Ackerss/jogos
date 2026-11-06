@@ -1,11 +1,10 @@
 # Registro de alterações
 
 ## 06/11/2026 — Lobos mais leve na TV LG (Claude)
-- **A TV entra sozinha no modo de efeitos "Leve"**: o jogo reconhece o navegador de Smart TV (LG webOS e outras) e desliga as camadas mais caras do cenário (névoa com desfoque, raios de luz, brilhos com mistura de cores). A vila, a lua e as animações principais continuam.
-- **Rebaixa sozinho se engasgar**: em computadores, se a animação ficar abaixo de ~24 quadros por segundo por 8 segundos, o efeito cai um nível. Se a pessoa escolher o nível no seletor "🎞️ Efeitos", a escolha fica guardada e é respeitada.
+- **Efeitos iguais aos de antes** (nível "Média"), sem cortar nada. Só se a animação ficar abaixo de ~24 quadros por segundo por 8 segundos (engasgando de verdade) o efeito cai um nível. Se a pessoa escolher o nível no seletor "🎞️ Efeitos", a escolha fica guardada e é respeitada.
 - **Narração na TV**: os 64 MP3 não são mais baixados todos de uma vez ao abrir; a TV lê só o cabeçalho e baixa cada fala quando ela toca.
 - **Caixa de conversa** sem desfoque de fundo (fundo um pouco mais escuro no lugar).
-- Verificado pelo Claude em Chromium simulando o navegador da LG (cai no "Leve") e um PC (fica no "Média"), sem erros. **Não testado na TV LG física.**
+- Verificado pelo Claude em Chromium simulando o navegador da LG e um PC (os dois ficam no "Média"), sem erros. **Não testado na TV LG física.**
 
 ## 06/11/2026 — Conversa limpa, letras maiores e botão de Regras (Claude)
 Pedido do Jacson antes do primeiro teste com amigos.
