@@ -41,13 +41,28 @@
     return '<div class="progresso"><div class="barra-prog"><i style="width:' + (100 * feitos / total) + '%"></i></div><span>' + feitos + ' de ' + total + ' ' + texto + '</span></div>';
   }
 
+  /* Frase curta que explica POR QUE o time venceu (TV e celular usam a mesma). */
+  function motivoFinal(C) {
+    var res = C.jogo.resultado, nm = function (id) { return nome(C, id); };
+    var lobos = res.lobos.map(nm), elim = res.eliminados.map(nm);
+    var eram = lobos.length > 1 ? ' eram lobos' : ' era lobo';
+    var saiu = elim.length > 1 ? ' foram expulsos' : ' foi expulso';
+    return {
+      'lobo-eliminado': lista(res.eliminados.filter(function (id) { return res.lobos.indexOf(id) >= 0; }).map(nm)) + saiu + ' e' + (elim.length > 1 ? ' tinha lobo entre eles.' : ' era lobo.'),
+      'eliminou-inocente': lista(elim) + saiu + ' sem ser lobo. ' + lista(lobos) + eram + '.',
+      'ninguem-eliminado': (res.pazVenceu ? 'A vila escolheu a paz' : 'Ninguém saiu') + ', mas ' + lista(lobos) + eram + '.',
+      'sem-lobos-com-eliminado': 'Os 2 lobos estavam no centro e ' + lista(elim) + saiu + ' à toa. Era a hora da 🕊️ Paz na vila.',
+      'sem-lobos-sem-eliminado': 'Os 2 lobos estavam no centro e ninguém inocente saiu. Perfeito!'
+    }[res.motivo];
+  }
+
   /* Monta o painel da fase atual. Retorna {chave, html}. */
   function montar(C) {
     var f = C.ui.fase, s = C.sala, j = C.jogo, n = s.jogadores.length;
     if (f === 'lobby') return {
       chave: 'lobby-' + n,
       html: topo(C, 'NOVA PARTIDA') + cabeca('A Noite <em>dos Lobos</em>',
-        'Uma noite, uma conversa, um voto. Descubram quem <b>terminou</b> a noite como lobisomem.',
+        'Descubram quem <b>terminou</b> a noite como lobisomem. São <b>2 lobos</b> no baralho, e eles podem ter ficado nas cartas do centro.',
         '<div class="passos"><span><b>1</b>Veja sua carta no celular</span><span><b>2</b>À noite, cada papel age em segredo</span><span><b>3</b>De dia, conversem e votem</span></div>') +
         '<div class="p-acao"><button class="botao-tv" data-tv="comecar">▶ Começar partida</button></div>' +
         '<div class="p-base"><span>' + n + ' jogadores · ' + (n + 3) + ' cartas (3 ficam no centro)</span><strong>Ajuste nome e aparência no celular</strong></div>'
@@ -101,10 +116,10 @@
     if (f === 'votacao' || f === 'votacao-fim') {
       var votos = Object.keys(j.votos).length;
       return {
-        chave: 'votacao',
-        html: topo(C, 'JULGAMENTO') + cabeca('Hora de <em>votar</em>', 'No celular, escolha quem você acha que é <b>lobisomem agora</b>.') +
+        chave: 'votacao-' + (C.ui.votoLembrete ? 1 : 0),
+        html: topo(C, 'JULGAMENTO') + cabeca('Hora de <em>votar</em>', 'No celular, vote em quem é <b>lobisomem agora</b>. Acha que não há lobo entre vocês? Vote <b>🕊️ Paz na vila</b>.') +
           rotuloCentro('CENTRO') +
-          '<div class="p-base"><span>Os votos aparecem todos juntos.</span><span id="tvVotos">' + progresso(votos, n, 'votaram') + '</span><strong>🕊️ Paz na vila empatou ou ganhou: ninguém sai</strong></div>'
+          '<div class="p-base"><span>Os votos aparecem todos juntos.</span><span id="tvVotos">' + progresso(votos, n, 'votaram') + '</span><strong>' + (C.ui.votoLembrete ? '⏰ Faltam 30 s: quem não votar fica sem voto' : '🕊️ Paz empatou ou ganhou? Ninguém sai') + '</strong></div>'
       };
     }
     if (f === 'apuracao') {
@@ -130,14 +145,7 @@
     if (f === 'resultado') {
       var res = j.resultado;
       var titulo = res.time === 'aldeia' ? '🏡 A aldeia venceu!' : res.time === 'lobos' ? '🐺 Os lobos venceram!' : '🌫️ Ninguém venceu';
-      var lobos = res.lobos.map(function (id) { return nome(C, id); });
-      var motivo = {
-        'lobo-eliminado': (res.eliminados.length > 1 ? 'Saíram ' + lista(res.eliminados.map(function (id) { return nome(C, id); })) + '. ' : '') + 'Um lobo foi eliminado: ' + lista(res.eliminados.filter(function (id) { return res.lobos.indexOf(id) >= 0; }).map(function (id) { return nome(C, id); })) + '.',
-        'eliminou-inocente': 'A aldeia eliminou um inocente. Lobo' + (lobos.length > 1 ? 's' : '') + ': ' + lista(lobos) + '.',
-        'ninguem-eliminado': 'Ninguém saiu, e ' + lista(lobos) + (lobos.length > 1 ? ' eram lobos.' : ' era lobo.'),
-        'sem-lobos-com-eliminado': 'Os dois lobos estavam no centro, mas a aldeia eliminou alguém.',
-        'sem-lobos-sem-eliminado': 'Os lobos estavam no centro e ninguém foi eliminado. Perfeito!'
-      }[res.motivo];
+      var motivo = motivoFinal(C);
       var classe = res.time === 'lobos' ? 'lobos' : res.time === 'aldeia' ? 'aldeia' : '';
       return {
         chave: 'resultado',
@@ -152,6 +160,7 @@
   }
 
   var TV = {
+    motivoFinal: motivoFinal,
     el: null, painelEl: null, chave: '',
     iniciar: function (tv) {
       this.el = tv;

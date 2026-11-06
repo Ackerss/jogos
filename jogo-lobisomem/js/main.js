@@ -9,16 +9,18 @@
     botPronto: [1200, 4200], // bots "olham" a carta por este tempo
     antesDaNoite: 1600,   // "Todos prontos!" antes de escurecer
     anoitecer: 2800,      // a vila adormece
-    fecharEtapa: 1700,    // carta do papel fecha e a próxima abre
+    fecharEtapa: 1300,    // carta do papel fecha e a próxima abre
     amanhecer: 3400,      // "Amanheceu!" antes da conversa
     falaBot: [9000, 14000], // intervalo entre comentários dos bots
     botVoto: [900, 3800], // bots pensando no voto
     aposVotos: 900,       // pausa depois do último voto
+    votoLembrete: 30000,  // aviso "faltam 30 s" para quem ainda não votou
+    votoLimite: 60000,    // depois disso a votação fecha; quem não votou fica sem voto
     seta: 320,            // intervalo entre as setas dos votos
     lerEliminacao: 3200,  // tempo para ler quem saiu
     virarInicio: 120,     // intervalo entre cartas virando no replay
-    lerInicio: 2200,      // tempo olhando as cartas iniciais
-    troca: 2600,          // cada troca da noite no replay
+    lerInicio: 1700,      // tempo olhando as cartas iniciais
+    troca: 2300,          // cada troca da noite no replay
     antesDoResultado: 1200
   };
   var NOMES = ['Léo', 'Ana', 'Alex', 'Bia', 'Caio', 'Dani'], GENEROS = ['m', 'f', 'm', 'f', 'm', 'f'];
@@ -92,7 +94,7 @@
     sala.rodada++;
     $('#ajustes').classList.add('oculto');
     jogo = R.criarPartida(sala.jogadores, rnd);
-    ui.views = {}; ui.chat = []; ui.querVotar = {}; ui.fechando = false; ui.apurPasso = 0;
+    ui.views = {}; ui.chat = []; ui.querVotar = {}; ui.fechando = false; ui.apurPasso = 0; ui.votoPendente = false; ui.votoLembrete = false;
     sala.jogadores.forEach(function (j) { ui.views[j.id] = { aberta: false, olhou: false, pronto: false, selecao: [], aviso: '' }; });
     Mesa.limparSetas(); Mesa.limparSelos();
     Mesa.assentos(sala.jogadores, sala.placar);
@@ -141,17 +143,20 @@
 
   /* Toda etapa dura o MESMO tempo, mesmo quando o papel está no centro.
      Assim ninguém descobre, pela demora, quem tem cada carta. */
+  /* Segundos de cada etapa. Com narração completa (1ª partida, iniciantes) nunca menos de 12 s,
+     porque a fala de instrução ocupa ~5 s e ainda é preciso ler e escolher no celular. */
+  function segNoite() { return narracaoCurta() ? sala.config.noite : Math.max(sala.config.noite, 12); }
   function etapa(k) {
     var papel = R.iniciarEtapa(jogo, k);
     ui.fase = 'noite'; ui.fechando = false;
-    ui.fimEtapa = Date.now() + sala.config.noite * 1000;
+    ui.fimEtapa = Date.now() + segNoite() * 1000;
     jogo.jogadores.forEach(function (j) { ui.views[j.id].selecao = []; ui.views[j.id].aviso = ''; });
     TV.cena('night', papel);
     Mesa.heroi(papel);
     narra(NARRA_ETAPA[papel] + '_acorda');
     jogo.jogadores.forEach(function (j) { if (!j.humano) depois(entre([1500, 4500]), function () { B.agirNoite(jogo, j, rnd); }); });
     desenhar();
-    depois(sala.config.noite * 1000, function () { fimEtapa(k); });
+    depois(segNoite() * 1000, function () { fimEtapa(k); });
   }
   function fimEtapa(k) {
     var papel = R.etapaAtual(jogo);
@@ -206,7 +211,15 @@
   /* ---------- 5. Votação ---------- */
   function votacao() {
     if (ui.fase !== 'debate') return;
-    ui.fase = 'votacao';
+    // Não corta o narrador (ex.: todos pedem para votar logo no começo da conversa).
+    if (restaFala() > 400) {
+      if (!ui.votoPendente) { ui.votoPendente = true; depois(restaFala() + 200, function () { ui.votoPendente = false; votacao(); }); }
+      return;
+    }
+    ui.fase = 'votacao'; ui.votoLembrete = false;
+    // Ninguém fica esperando para sempre: aviso aos 30 s e fim da votação aos 60 s.
+    depois(TEMPO.votoLembrete, function () { if (ui.fase === 'votacao') { ui.votoLembrete = true; Som.sino(); desenhar(); } });
+    depois(TEMPO.votoLimite, function () { if (ui.fase === 'votacao') { ui.fase = 'votacao-fim'; desenhar(); depois(TEMPO.aposVotos, apuracao); } });
     TV.cena('vote');
     Mesa.layout('votacao');
     narra('votacao');

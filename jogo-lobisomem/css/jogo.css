@@ -165,7 +165,7 @@ h1,h2,h3,p{margin:0}
 .passos span{display:flex;align-items:center;gap:calc(var(--u)*.5);font-size:calc(var(--u)*1.02);font-weight:700;background:rgba(8,12,20,.66);border:1px solid rgba(233,190,113,.35);border-radius:999px;padding:calc(var(--u)*.35) calc(var(--u)*.95) calc(var(--u)*.35) calc(var(--u)*.35)}
 .passos b{display:grid;place-items:center;width:calc(var(--u)*1.7);height:calc(var(--u)*1.7);border-radius:50%;background:var(--ouro);color:#2a1606;font-size:calc(var(--u)*.95)}
 
-.p-base{position:absolute;left:3.2%;right:3.2%;bottom:2.6%;display:flex;justify-content:space-between;align-items:center;gap:2%;font-size:calc(var(--u)*.92);color:#d9dff0;text-shadow:0 2px 8px #000}
+.p-base{position:absolute;left:3.2%;right:3.2%;bottom:2.6%;display:flex;justify-content:space-between;align-items:center;gap:2%;font-size:calc(var(--u)*1.12);color:#d9dff0;text-shadow:0 2px 8px #000}
 .p-base strong{color:var(--ouro2)}
 
 .botao-tv{font-weight:900;letter-spacing:.06em;color:#fff6e9;font-size:calc(var(--u)*1.35);padding:calc(var(--u)*.85) calc(var(--u)*2.4);border-radius:calc(var(--u)*.9);
@@ -214,7 +214,7 @@ h1,h2,h3,p{margin:0}
 .faixa-final.aldeia .p-titulo{color:#e8ffe9;text-shadow:0 0 28px rgba(74,222,128,.55),0 4px 4px #000}
 @keyframes titulo{0%{opacity:0;transform:scale(.88);filter:brightness(2)}100%{opacity:1;transform:none;filter:none}}
 .final-baixo{position:absolute;left:27%;right:3%;bottom:4%;display:flex;gap:1.4%;align-items:flex-end}
-.rastros{flex:1;background:rgba(7,10,19,.72);border:1px solid rgba(233,190,113,.3);border-radius:calc(var(--u)*.9);padding:calc(var(--u)*.7) calc(var(--u)*1);font-size:calc(var(--u)*.92);line-height:1.45;overflow:hidden;animation:surgir .6s var(--ease) both}
+.rastros{flex:1;background:rgba(7,10,19,.72);border:1px solid rgba(233,190,113,.3);border-radius:calc(var(--u)*.9);padding:calc(var(--u)*.7) calc(var(--u)*1);font-size:calc(var(--u)*1.1);line-height:1.4;overflow:hidden;animation:surgir .6s var(--ease) both}
 .rastros strong{display:block;color:var(--ouro2);font-size:calc(var(--u)*.85);letter-spacing:.12em;margin-bottom:calc(var(--u)*.2)}
 .rastros div{color:#dfe5f5}
 .final-botoes{display:flex;flex-direction:column;gap:calc(var(--u)*.6);justify-content:center;animation:surgir .6s var(--ease) .15s both}
@@ -292,4 +292,5 @@ h1,h2,h3,p{margin:0}
 .paz-alvo .contador{position:absolute;right:-12%;top:-14%;min-width:calc(var(--u)*2.3);height:calc(var(--u)*2.3);border-radius:999px;display:grid;place-items:center;font-weight:900;font-size:calc(var(--u)*1.25);background:linear-gradient(180deg,#ffd27a,#d98a2b);color:#2a1606;border:2px solid #fff3d6;opacity:0;transform:scale(.3);transition:opacity .3s,transform .5s cubic-bezier(.34,1.56,.64,1)}
 .paz-alvo .contador.ativo{opacity:1;transform:scale(1)}
 .opcao[data-alvo="paz"]{border-color:rgba(190,225,255,.5);background:rgba(120,170,230,.12)}
-.opcao[data-alvo="paz"] small{opacity:.7;font-weight:500}
+.opcao[data-alvo="paz"]{flex-wrap:wrap}
+.opcao[data-alvo="paz"] small{flex-basis:100%;opacity:.7;font-weight:500}

@@ -2,7 +2,7 @@
 
 Gerado por `node scripts/frases.js` a partir de `js/narracao.js` (não edite à mão: mude lá e rode de novo).
 
-Total: **64 arquivos**, **3027 caracteres** (cabe no plano grátis do ElevenLabs).
+Total: **61 arquivos**, **2898 caracteres** (cabe no plano grátis do ElevenLabs).
 
 Salve cada MP3 nesta pasta (`jogo-lobisomem/audio/narracao/`) com o **nome exato** da coluna Arquivo.
 
@@ -32,7 +32,6 @@ Salve cada MP3 nesta pasta (`jogo-lobisomem/audio/narracao/`) com o **nome exato
 | `encrenqueiro_dorme_1.mp3` | O encrenqueiro se esconde... e espera pra ver a confusão. | Noite: fim da vez do encrenqueiro | travesso, divertido |
 | `amanhecer_1.mp3` | O dia amanheceu na vila. Mas cuidado: algumas cartas podem ter mudado de dono. | O dia nasce e a conversa vai começar | energético, mas desconfiado |
 | `amanhecer_2.mp3` | O galo cantou! Será que todo mundo ainda é quem era ontem? | O dia nasce e a conversa vai começar | energético, mas desconfiado |
-| `amanhecer_3.mp3` | Bom dia, vila... Tem lobo entre vocês. Descubram quem é. | O dia nasce e a conversa vai começar | energético, mas desconfiado |
 | `debate_inicio_1.mp3` | Contem o que fizeram durante a noite. Vale blefar! | Começa a conversa | provocador, divertido |
 | `debate_inicio_2.mp3` | Hora da conversa. Quem está falando a verdade? | Começa a conversa | provocador, divertido |
 | `debate_30s_1.mp3` | Trinta segundos! Decidam logo. | Faltam 30 segundos de conversa | urgente |
@@ -46,8 +45,7 @@ Salve cada MP3 nesta pasta (`jogo-lobisomem/audio/narracao/`) com o **nome exato
 | `eliminado_3.mp3` | Fora da vila! Será que vocês acertaram? | Uma pessoa foi eliminada (o nome aparece na TV) | dramático, impactante |
 | `empate_1.mp3` | Empate! Os mais votados deixam a vila juntos. | Empate: mais de uma pessoa sai | surpreso, dramático |
 | `empate_2.mp3` | Deu empate... e todos os mais votados saem. | Empate: mais de uma pessoa sai | surpreso, dramático |
-| `ninguem_sai_1.mp3` | Cada um recebeu um voto só. Ninguém sai da vila. | Ninguém recebeu mais de um voto | intrigado |
-| `ninguem_sai_2.mp3` | Votos espalhados... Ninguém foi expulso. | Ninguém recebeu mais de um voto | intrigado |
+| `ninguem_sai_1.mp3` | Votos espalhados... Ninguém foi expulso. | Ninguém recebeu mais de um voto | intrigado |
 | `paz_na_vila_1.mp3` | A vila escolheu a paz... Ninguém sai desta vez. | A vila votou em "Paz na vila" e ninguém sai | sereno, com um fio de suspense |
 | `paz_na_vila_2.mp3` | Paz na vila! Mas será que não tinha mesmo um lobo aí? | A vila votou em "Paz na vila" e ninguém sai | sereno, com um fio de suspense |
 | `replay_inicio_1.mp3` | Agora, vamos ver o que realmente aconteceu nesta noite. | As cartas viram para mostrar a noite | revelação, suspense |
@@ -68,7 +66,6 @@ Salve cada MP3 nesta pasta (`jogo-lobisomem/audio/narracao/`) com o **nome exato
 | `curto_vidente_1.mp3` | Vez da vidente. | Modo rápido: vez da vidente | místico |
 | `curto_ladrao_1.mp3` | Vez do ladrão. | Modo rápido: vez do ladrão | sorrateiro |
 | `curto_encrenqueiro_1.mp3` | Vez do encrenqueiro. | Modo rápido: vez do encrenqueiro | travesso |
-| `curto_amanhecer_1.mp3` | Amanheceu! Quem é o lobo? | Modo rápido: amanheceu | energético |
-| `curto_amanhecer_2.mp3` | Bom dia, vila! Conversem. | Modo rápido: amanheceu | energético |
+| `curto_amanhecer_1.mp3` | Bom dia, vila! Conversem. | Modo rápido: amanheceu | energético |
 | `curto_votacao_1.mp3` | Hora de votar! | Modo rápido: hora de votar | firme |
 | `ninguem_venceu_1.mp3` | Não havia lobisomem entre vocês... e mesmo assim alguém saiu. Ninguém venceu. | Ninguém venceu (não havia lobos e um inocente saiu) | lamentando |
