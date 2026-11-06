@@ -2,7 +2,7 @@
 
 Gerado por `node scripts/frases.js` a partir de `js/narracao.js` (não edite à mão: mude lá e rode de novo).
 
-Total: **54 arquivos**, **2782 caracteres** (cabe no plano grátis do ElevenLabs).
+Total: **62 arquivos**, **2927 caracteres** (cabe no plano grátis do ElevenLabs).
 
 Salve cada MP3 nesta pasta (`jogo-lobisomem/audio/narracao/`) com o **nome exato** da coluna Arquivo.
 
@@ -61,4 +61,12 @@ Salve cada MP3 nesta pasta (`jogo-lobisomem/audio/narracao/`) com o **nome exato
 | `vitoria_lobos_1.mp3` | Os lobisomens venceram! A vila caiu na conversa deles. | Os lobisomens venceram | sombrio, debochado |
 | `vitoria_lobos_2.mp3` | Vitória dos lobos! Enganaram todo mundo. | Os lobisomens venceram | sombrio, debochado |
 | `vitoria_lobos_3.mp3` | Os lobisomens venceram... e a vila nem desconfiou. | Os lobisomens venceram | sombrio, debochado |
+| `curto_anoitecer_1.mp3` | A noite caiu. | Modo rápido: começo da noite | firme, grave |
+| `curto_lobo_1.mp3` | Vez dos lobisomens. | Modo rápido: vez dos lobisomens | sombrio |
+| `curto_vidente_1.mp3` | Vez da vidente. | Modo rápido: vez da vidente | místico |
+| `curto_ladrao_1.mp3` | Vez do ladrão. | Modo rápido: vez do ladrão | sorrateiro |
+| `curto_encrenqueiro_1.mp3` | Vez do encrenqueiro. | Modo rápido: vez do encrenqueiro | travesso |
+| `curto_amanhecer_1.mp3` | Amanheceu! Quem é o lobo? | Modo rápido: amanheceu | energético |
+| `curto_amanhecer_2.mp3` | Bom dia, vila! Conversem. | Modo rápido: amanheceu | energético |
+| `curto_votacao_1.mp3` | Hora de votar! | Modo rápido: hora de votar | firme |
 | `ninguem_venceu_1.mp3` | Não havia lobisomem entre vocês... e mesmo assim alguém saiu. Ninguém venceu. | Ninguém venceu (não havia lobos e um inocente saiu) | lamentando |

@@ -89,8 +89,32 @@
         textos: ['Os lobisomens venceram! A vila caiu na conversa deles.',
                  'Vitória dos lobos! Enganaram todo mundo.',
                  'Os lobisomens venceram... e a vila nem desconfiou.'] },
+      curto_anoitecer: { quando: 'Modo rápido: começo da noite', tom: 'firme, grave',
+        textos: ['A noite caiu.'] },
+      curto_lobo: { quando: 'Modo rápido: vez dos lobisomens', tom: 'sombrio',
+        textos: ['Vez dos lobisomens.'] },
+      curto_vidente: { quando: 'Modo rápido: vez da vidente', tom: 'místico',
+        textos: ['Vez da vidente.'] },
+      curto_ladrao: { quando: 'Modo rápido: vez do ladrão', tom: 'sorrateiro',
+        textos: ['Vez do ladrão.'] },
+      curto_encrenqueiro: { quando: 'Modo rápido: vez do encrenqueiro', tom: 'travesso',
+        textos: ['Vez do encrenqueiro.'] },
+      curto_amanhecer: { quando: 'Modo rápido: amanheceu', tom: 'energético',
+        textos: ['Amanheceu! Quem é o lobo?', 'Bom dia, vila! Conversem.'] },
+      curto_votacao: { quando: 'Modo rápido: hora de votar', tom: 'firme',
+        textos: ['Hora de votar!'] },
       ninguem_venceu: { quando: 'Ninguém venceu (não havia lobos e um inocente saiu)', tom: 'lamentando',
         textos: ['Não havia lobisomem entre vocês... e mesmo assim alguém saiu. Ninguém venceu.'] }
+    },
+    /* Modo rápido (partidas repetidas): cada momento vira uma frase curta, ou null = sem fala.
+       Momentos fora desta lista (eliminação, vitória, 30 segundos) continuam iguais. */
+    curto: {
+      distribuir: null, nova_partida: null, olhar_carta: null, debate_inicio: null, votos: null,
+      replay_inicio: null, troca_ladrao: null, troca_encrenqueiro: null, replay_fim: null, replay_sem_trocas: null,
+      lobo_dorme: null, vidente_dorme: null, ladrao_dorme: null, encrenqueiro_dorme: null,
+      anoitecer: 'curto_anoitecer', lobo_acorda: 'curto_lobo', vidente_acorda: 'curto_vidente',
+      ladrao_acorda: 'curto_ladrao', encrenqueiro_acorda: 'curto_encrenqueiro',
+      amanhecer: 'curto_amanhecer', votacao: 'curto_votacao'
     },
     /* Nome do arquivo de cada versão. */
     arquivo: function (momento, i) { return momento + '_' + (i + 1) + '.mp3'; }
