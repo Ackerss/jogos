@@ -1,5 +1,16 @@
 # Registro de alterações
 
+## 06/11/2026 — Novo jogo: Grande Prêmio dos Bichos (Claude)
+Pedido do Jacson: corrida de apostas que até a filha de 4 anos consiga jogar.
+- **Jogo em `jogo-bichos/`**, publicado em `bichos/` e com cartão na central (primeiro da fila, selo "Novo").
+- **Como é:** 5 bichos correm na TV, ninguém tem bicho próprio. Na vez, o celular mostra 3 botões grandes com desenho: Dado (um bicho anda, +1 moeda), Apostar (bilhetes de 5, 3 e 2) e Banana (o bicho escorrega e o dono ganha 1 moeda). Quem cai em cima de outro pega carona. Regras completas em `jogo-bichos/README.md`.
+- **2 a 8 jogadores**, com bots opcionais (0 a 7) que simulam a volta para decidir. Tempo da vez ajustável. Campeões guardados na TV.
+- **Leve para a TV LG:** desenhos em SVG no código (sem imagens e sem emoji), sem blur, animações só com transform/opacity, MP3 do locutor baixado só na hora de tocar.
+- **Conexão:** mesmo motor Doot e relay público. A TV manda dados (não HTML) e o celular desenha. `jogo-bichos/rede/rede.ts` serve de modelo para os próximos jogos.
+- **Locutor:** 35 frases prontas para o ElevenLabs (`jogo-bichos/audio/narracao/FRASES.md`) e o pedido para o Antigravity (`PROMPT_ANTIGRAVITY.md`). Até os MP3 chegarem, as frases principais usam a voz do navegador.
+- **Testado pela IA em navegador:** 300 corridas só com bots nos testes; partida completa no simulador; partida completa com TV + 3 celulares em páginas separadas pelo relay local, incluindo celular recarregado voltando sozinho. Sem erros. **Não testado na TV LG física nem no relay público** (o relay público não abre a partir do ambiente da IA).
+- Pastas vazias `jogo-arena`, `jogo-impostor` e `jogo-mentira` criadas no PC do Jacson para os próximos jogos.
+
 ## 06/11/2026 — Conversa limpa, letras maiores e botão de Regras (Claude)
 Pedido do Jacson antes do primeiro teste com amigos.
 - **Conversa só entre pessoas** (sem bots na mesa):
