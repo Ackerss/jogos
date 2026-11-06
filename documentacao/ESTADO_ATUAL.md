@@ -53,7 +53,7 @@ O registro contém mecânicas e hipóteses de bots; não há implementação ou 
 
 ## A Noite dos Lobos (05/11/2026)
 
-Simulador revisado em `jogo-lobisomem/` (TV + celulares na mesma página, com bots), publicado em https://ackerss.github.io/jogos/lobisomem/ após aprovação do PR. Detalhes de fases, tempos e arquivos em `jogo-lobisomem/README.md`. Ainda não conecta celulares reais: a integração com o motor Doot (cartas secretas por celular) é o próximo passo, quando o usuário pedir. O protótipo original continua intacto na pasta local `JOGO LOBISOMEN ACKER/`.
+Jogo em `jogo-lobisomem/`, publicado em https://ackerss.github.io/jogos/lobisomem/. **Desde 06/11 é o jogo oficial TV + celulares de verdade:** a TV mostra QR Code/código, cada pessoa entra pelo celular (motor Doot + relay público, como a Corrida). Tem bots opcionais, ranking por nome guardado na TV, botões de teste escondidos ("teste tv" e "teste pc") e o simulador antigo em `?modo=pc`. Testado pela IA só em navegador com relay local; **falta o teste na TV LG física com celulares reais.** Detalhes em `jogo-lobisomem/README.md`. O protótipo original continua intacto na pasta local `JOGO LOBISOMEN ACKER/`.
 
 **Narração (06/11):** o jogo já toca MP3. Sem o arquivo, usa a voz do navegador. A voz escolhida é "Narrador Lobos", criada no Voice Design e salva na conta grátis pessoal do Jacson no ElevenLabs. Há um modo automático: a 1ª partida tem narração completa e as seguintes são rápidas. As 62 frases foram gravadas pelo Antigravity, ajustadas (volume −16 LUFS) e publicadas pelo Claude. Testado no navegador; falta o Jacson ouvir e testar na TV LG. Registro em `jogo-lobisomem/NARRACAO.md`.
 

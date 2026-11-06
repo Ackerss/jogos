@@ -124,6 +124,6 @@
     vitoria: function () { [523, 659, 784, 1046].forEach(function (f, i) { tom(f, 0.9, 0.05, i * 0.12, 'triangle'); }); },
     derrota: function () { [330, 294, 247].forEach(function (f, i) { tom(f, 1, 0.05, i * 0.2, 'sawtooth'); }); }
   };
-  prepararNarracao();
+  if (window.MODO !== 'celular') prepararNarracao(); // o celular não toca a narração
   window.Som = Som;
 })();

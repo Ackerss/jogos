@@ -56,9 +56,58 @@
     }[res.motivo];
   }
 
+  /* ---------- Modo TV oficial ---------- */
+  var ROTULOS = {
+    bots: function (v) { return '🤖 Bots: ' + (v ? v : 'nenhum'); },
+    noite: function (v) { return '🌙 Noite: ' + v + ' s por papel'; },
+    debate: function (v) { return '💬 Conversa: ' + (v / 60) + ' min'; },
+    narracao: function (v) { return '🎙️ Narração: ' + ({ auto: 'automática', completa: 'completa', curta: 'rápida' })[v]; }
+  };
+  function rankingHtml(C) {
+    var l = C.ranking().slice(0, 8);
+    return '<div class="ranking-fundo"><div class="ranking-caixa"><h2>🏆 Ranking da casa</h2>' +
+      (l.length ? '<ol>' + l.map(function (r, i) {
+        return '<li><span class="pos">' + (r.v && i < 3 ? ['🥇', '🥈', '🥉'][i] : (i + 1) + 'º') + '</span><b>' + esc(r.nome) + '</b><span class="v">' + r.v + (r.v === 1 ? ' vitória' : ' vitórias') + '</span><small>' + r.p + (r.p === 1 ? ' partida' : ' partidas') + '</small></li>';
+      }).join('') + '</ol>' : '<p class="vazio">Ninguém venceu ainda. Joguem uma partida!</p>') +
+      '<p class="nota-rank">Conta as vitórias de cada nome, nesta TV. Bots não entram.</p>' +
+      '<div class="ranking-botoes"><button class="botao-tv" data-tv="ranking" data-foco>Fechar</button>' +
+      (l.length ? '<button class="botao-tv fantasma" data-tv="zerar">' + (C.ui.zerar ? '⚠️ Apertar de novo apaga tudo' : '🗑️ Zerar ranking') + '</button>' : '') + '</div></div></div>';
+  }
+  function miniRanking(C) {
+    var l = C.ranking().filter(function (r) { return r.v > 0; }).slice(0, 4);
+    return l.length ? '<span class="mini-rank">🏆 ' + l.map(function (r) { return esc(r.nome) + ' <b>' + r.v + '</b>'; }).join(' · ') + '</span>' : '';
+  }
+  function lobbyTV(C) {
+    var s = C.sala, rd = C.rede || {}, n = s.jogadores.length, pessoas = s.jogadores.filter(function (p) { return p.humano; }).length;
+    var url = rd.link ? rd.link.replace(/^https?:\/\//, '').replace(/\?.*$/, '') : '';
+    var qr = rd.erro ? '<div class="qr-erro">⚠️ ' + esc(rd.erro) + '<button class="botao-tv alt" data-tv="recarregar" data-foco>Tentar de novo</button></div>'
+      : rd.qr ? '<div class="qr">' + rd.qr + '</div>' : '<div class="qr carregando"><span>Abrindo a sala…</span></div>';
+    var cfg = ['bots', 'noite', 'debate', 'narracao'].map(function (k) {
+      return '<button class="chip-cfg" data-tv="cfg" data-cfg="' + k + '">' + ROTULOS[k](s.config[k]) + '</button>';
+    }).join('');
+    var falta = Math.max(0, 3 - n);
+    var chave = 'lobby|' + JSON.stringify([s.jogadores.map(function (p) { return [p.nome, p.genero, p.humano]; }), s.config.bots, s.config.noite, s.config.debate, s.config.narracao,
+      rd.codigo, !!rd.qr, rd.erro, C.ui.ranking, C.ui.zerar]);
+    return {
+      chave: chave,
+      html: topo(C, 'NOVA PARTIDA') +
+        '<div class="lobby-esq"><h1 class="p-titulo">A Noite <em>dos Lobos</em></h1>' +
+        '<p class="p-sub">Entre pelo celular: aponte a câmera para o <b>QR Code</b>. De 3 a 6 jogadores, e bots completam a mesa se faltar gente.</p>' +
+        '<div class="passos"><span><b>1</b>Entre pelo QR</span><span><b>2</b>Veja sua carta no celular</span><span><b>3</b>Conversem e votem</span></div></div>' +
+        '<div class="qr-cartao">' + qr + '<div class="qr-info"><small>OU ABRA NO CELULAR</small><span>' + esc(url) + '</span><small>E DIGITE O CÓDIGO</small><strong class="codigo">' + esc(rd.codigo || '····') + '</strong></div></div>' +
+        (n ? '' : '<div class="lobby-vazio">📱 Esperando os jogadores entrarem…</div>') +
+        '<div class="lobby-baixo"><div class="cfgs">' + cfg + '<button class="chip-cfg" data-tv="ranking">🏆 Ranking</button></div>' +
+        '<button class="botao-tv" data-tv="comecar" data-foco' + (falta ? ' disabled' : '') + '>' + (falta ? 'Faltam ' + falta + (falta === 1 ? ' jogador' : ' jogadores') : '▶ Começar partida') + '</button>' +
+        '<small class="lobby-dica">' + n + ' na mesa (' + pessoas + ' 📱 · ' + (n - pessoas) + ' 🤖)' + (falta ? ' · mínimo 3: chame mais gente ou aumente os 🤖 bots' : '') + '</small></div>' +
+        '<div class="escondidos" aria-label="Testes"><button data-tv="testeTV" title="Teste na TV com bots">teste tv</button><button data-tv="testePC" title="Simulador do computador">teste pc</button><button data-tv="telaCheia" title="Tela cheia">⛶</button></div>' +
+        (C.ui.ranking ? rankingHtml(C) : '')
+    };
+  }
+
   /* Monta o painel da fase atual. Retorna {chave, html}. */
   function montar(C) {
     var f = C.ui.fase, s = C.sala, j = C.jogo, n = s.jogadores.length;
+    if (f === 'lobby' && C.tvmode) return lobbyTV(C);
     if (f === 'lobby') return {
       chave: 'lobby-' + n,
       html: topo(C, 'NOVA PARTIDA') + cabeca('A Noite <em>dos Lobos</em>',
@@ -148,12 +197,14 @@
       var motivo = motivoFinal(C);
       var classe = res.time === 'lobos' ? 'lobos' : res.time === 'aldeia' ? 'aldeia' : '';
       return {
-        chave: 'resultado',
+        chave: 'resultado|' + (C.ui.ranking ? 1 : 0) + (C.ui.zerar ? 1 : 0),
         html: topo(C, 'FIM DA RODADA') +
-          '<div class="faixa-final ' + classe + '"><h1 class="p-titulo">' + titulo + '</h1><span class="legenda">' + motivo + '</span></div>' +
+          '<div class="faixa-final ' + classe + '"><h1 class="p-titulo">' + titulo + '</h1><span class="legenda">' + motivo + '</span>' + (C.tvmode ? miniRanking(C) : '') + '</div>' +
           rotuloCentro('CENTRO') +
           '<div class="final-baixo"><div class="rastros"><strong>🌙 RASTROS DA NOITE</strong>' + C.rastros().map(function (t) { return '<div>• ' + t + '</div>'; }).join('') + '</div>' +
-          '<div class="final-botoes"><button class="botao-tv" data-tv="denovo">🔄 Jogar de novo</button><button class="botao-tv fantasma" data-tv="inicio">⚙️ Mudar jogadores</button></div></div>'
+          '<div class="final-botoes"><button class="botao-tv" data-tv="denovo" data-foco>🔄 Jogar de novo</button><button class="botao-tv fantasma" data-tv="inicio">⚙️ Mudar jogadores</button>' +
+          (C.tvmode ? '<button class="botao-tv fantasma" data-tv="ranking">🏆 Ranking</button>' : '') + '</div></div>' +
+          (C.tvmode && C.ui.ranking ? rankingHtml(C) : '')
       };
     }
     return { chave: 'vazio', html: '' };
@@ -184,12 +235,22 @@
     desenhar: function (C) {
       var m = montar(C);
       if (m.chave !== this.chave) {
+        // Só anima a entrada quando muda de fase (no lobby a tela é atualizada a cada celular que entra).
+        var novaFase = m.chave.split('|')[0] !== this.chave.split('|')[0];
+        var ativo = document.activeElement, foco = null, tinhaFoco = ativo && (ativo === document.body || this.painelEl.contains(ativo));
+        if (ativo && this.painelEl.contains(ativo) && ativo.dataset) foco = (ativo.dataset.tv || '') + ':' + (ativo.dataset.cfg || '');
         this.chave = m.chave;
-        this.painelEl.classList.remove('entrar');
+        if (novaFase) this.painelEl.classList.remove('entrar');
         this.painelEl.innerHTML = m.html;
-        void this.painelEl.offsetWidth;
-        this.painelEl.classList.add('entrar');
+        if (novaFase) { void this.painelEl.offsetWidth; this.painelEl.classList.add('entrar'); }
         this.chatVisto = 0;
+        // Controle remoto: o foco continua no mesmo botão (ou vai para o botão principal).
+        if (C.tvmode && tinhaFoco) {
+          var alvo = null, bs = this.painelEl.querySelectorAll('button');
+          for (var i = 0; i < bs.length && foco && !C.ui.ranking; i++) if ((bs[i].dataset.tv || '') + ':' + (bs[i].dataset.cfg || '') === foco && !bs[i].disabled) alvo = bs[i];
+          if (!alvo) alvo = this.painelEl.querySelector('.ranking-caixa [data-foco]') || this.painelEl.querySelector('[data-foco]:not([disabled])');
+          if (alvo) try { alvo.focus({ preventScroll: true }); } catch (e) { alvo.focus(); }
+        }
       }
       this.atualizar(C);
     },
@@ -221,7 +282,7 @@
     relogios: function (C) {
       var f = C.ui.fase, q = function (id) { return document.getElementById(id); };
       if (f === 'noite' && !C.ui.fechando && q('tvRelogio')) {
-        var rest = C.restanteEtapa(), total = C.sala.config.noite;
+        var rest = C.restanteEtapa(), total = C.ui.durEtapa || C.sala.config.noite;
         q('tvRelogio').textContent = rest;
         q('tvAnel').style.strokeDashoffset = (276.5 * (1 - rest / total)).toFixed(1);
       }

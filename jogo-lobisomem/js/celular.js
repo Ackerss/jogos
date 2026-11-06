@@ -100,7 +100,7 @@
       '<p class="cel-texto">' + (window.TV && TV.motivoFinal ? TV.motivoFinal(C) : '') + '</p>' +
       cartaHtml(arteCarta(C, C.jogo.maos[p.id]), { abrir: true }) +
       '<p class="legenda-carta">Você terminou como <b>' + papelTxt(final, p.genero) + '</b>' + (final !== ini ? ' (começou como ' + papelTxt(ini, p.genero) + ')' : '') + '.</p>' +
-      '<div class="nota">🏅 Suas vitórias: <b>' + (C.sala.placar[p.id] || 0) + '</b></div>' +
+      '<div class="nota">🏅 Suas vitórias: <b>' + (C.vitorias ? C.vitorias(p) : (C.sala.placar[p.id] || 0)) + '</b></div>' +
       btn('🔄 Jogar de novo', 'denovo', '', 'principal') };
   }
 
@@ -108,10 +108,11 @@
     var f = C.ui.fase, v = C.ui.views[p.id] || {};
     if (f === 'lobby') return { chave: 'lobby-' + p.genero, html:
       '<div class="cel-titulo">🎭 Seu personagem</div><div class="rotulo">Seu nome</div>' +
-      '<input class="campo" data-nome="' + p.id + '" maxlength="14" value="' + esc(p.nome) + '" aria-label="Seu nome">' +
+      (C.tvmode ? '<div class="campo fixo">' + esc(p.nome) + '</div>'
+        : '<input class="campo" data-nome="' + p.id + '" maxlength="14" value="' + esc(p.nome) + '" aria-label="Seu nome">') +
       '<div class="rotulo">Aparência</div><div class="generos">' + opcao('♂ Homem', 'genero', 'data-genero="m"', p.genero === 'm') + opcao('♀ Mulher', 'genero', 'data-genero="f"', p.genero === 'f') + '</div>' +
       '<img class="cel-retrato" src="' + window.Mesa.retrato(p.genero) + '" alt="">' +
-      '<p class="cel-texto">Pronto! A partida começa pela TV.</p>' };
+      '<p class="cel-texto">Pronto! A partida começa pela TV.</p>' + (C.tvmode ? '<button class="btn sair" data-acao="sair">Trocar de nome / sair</button>' : '') };
     if (f === 'distribuir') return { chave: 'dist', html: '<div class="cel-titulo">🂠 Sua carta está chegando…</div>' + cartaHtml('', { chegando: true }) + '<p class="cel-texto">Não mostre a tela para ninguém.</p>' };
     if (f === 'revelar' || f === 'prontos') {
       if (v.pronto) return { chave: 'rev-ok', html: '<div class="cel-titulo">✅ Pronto!</div>' + cartaHtml('', { pequena: true }) + '<p class="cel-texto">Sua carta está escondida.<br>Aguarde os outros jogadores.</p>' };
@@ -119,15 +120,7 @@
       return { chave: 'rev', html: '<div class="cel-titulo">🤫 Sua carta secreta</div>' + cartaHtml(arteCarta(C, cid), {}) +
         '<p class="legenda-carta" data-mostrar-aberta style="visibility:hidden"><b>' + papelTxt(ini, p.genero) + '</b> — ' + R.PAPEIS[ini].resumo + '</p>' +
         btn('👁️ Ver minha carta', 'ver', 'data-alternar', '') + btn('✅ Pronto', 'pronto', 'disabled data-pronto', 'principal'),
-        atualizar: function (el) {
-          var carta = el.querySelector('.cel-carta'); if (!carta) return;
-          var tinhaAberta = carta.classList.contains('aberta');
-          carta.classList.toggle('aberta', !!v.aberta);
-          if (tinhaAberta !== !!v.aberta && window.Som) Som.virar();
-          el.querySelector('[data-mostrar-aberta]').style.visibility = v.aberta ? 'visible' : 'hidden';
-          el.querySelector('[data-alternar]').innerHTML = v.aberta ? '🙈 Esconder carta' : '👁️ Ver minha carta';
-          el.querySelector('[data-pronto]').disabled = !v.olhou;
-        } };
+        rev: { aberta: !!v.aberta, olhou: !!v.olhou } };
     }
     if (f === 'anoitecer') return { chave: 'dorme', escura: true, html: '<div class="zzz">🌙</div><div class="cel-titulo">A noite chegou</div><p class="cel-texto">Deixe o celular com você, sem mostrar a tela. Quando for a vez da sua carta, esta tela muda sozinha.</p>' };
     if (f === 'noite') {
@@ -144,7 +137,38 @@
     return { chave: 'vazio', html: '' };
   }
 
+  /* Tela de "Ver minha carta": abre/fecha sem redesenhar (estado vindo da TV). */
+  function aplicarRev(el, rev) {
+    var carta = el.querySelector('.cel-carta'); if (!carta || !rev) return;
+    var tinhaAberta = carta.classList.contains('aberta');
+    carta.classList.toggle('aberta', !!rev.aberta);
+    if (tinhaAberta !== !!rev.aberta && window.Som) Som.virar();
+    var leg = el.querySelector('[data-mostrar-aberta]'); if (leg) leg.style.visibility = rev.aberta ? 'visible' : 'hidden';
+    var alt = el.querySelector('[data-alternar]'); if (alt) alt.innerHTML = rev.aberta ? '🙈 Esconder carta' : '👁️ Ver minha carta';
+    var pr = el.querySelector('[data-pronto]'); if (pr) pr.disabled = !rev.olhou;
+  }
+  /* Mostra uma tela num celular (simulado ou de verdade). corpo = .cel-corpo, tela = .cel-tela */
+  function aplicar(corpo, telaEl, t, anterior) {
+    if (anterior !== t.chave) {
+      corpo.innerHTML = t.html;
+      if (telaEl) telaEl.classList.toggle('escura', !!t.escura);
+      // Cartas reveladas viram sozinhas logo depois de aparecer.
+      corpo.querySelectorAll('[data-abrir]').forEach(function (c, i) {
+        setTimeout(function () { c.classList.add('aberta'); if (window.Som) Som.virar(); }, 380 + i * 220);
+      });
+    }
+    if (t.rev) aplicarRev(corpo, t.rev);
+    return t.chave;
+  }
+  /* Texto do relógio no topo do celular. */
+  function tempoDe(C, p) {
+    if (C.ui.fase === 'noite' && !C.ui.fechando && R.podeAgir(C.jogo, p.id)) return '⏳ ' + C.restanteEtapa() + 's';
+    if (C.ui.fase === 'debate') return '⏳ ' + C.formatarTempo(C.restanteDebate());
+    return '';
+  }
+
   var Celular = {
+    tela: tela, aplicar: aplicar, aplicarRev: aplicarRev, tempoDe: tempoDe,
     el: null, telas: {},
     iniciar: function (el) { this.el = el; },
     desenhar: function (C) {
@@ -160,17 +184,7 @@
       humanos.forEach(function (p) {
         var raiz = self.el.querySelector('[data-jogador="' + p.id + '"]'), corpo = raiz.querySelector('.cel-corpo');
         raiz.querySelector('.cel-nome').textContent = p.nome;
-        var t = tela(C, p);
-        if (self.telas[p.id] !== t.chave) {
-          self.telas[p.id] = t.chave;
-          corpo.innerHTML = t.html;
-          raiz.querySelector('.cel-tela').classList.toggle('escura', !!t.escura);
-          // Cartas reveladas viram sozinhas logo depois de aparecer.
-          corpo.querySelectorAll('[data-abrir]').forEach(function (c, i) {
-            setTimeout(function () { c.classList.add('aberta'); if (window.Som) Som.virar(); }, 380 + i * 220);
-          });
-        }
-        if (t.atualizar) t.atualizar(corpo);
+        self.telas[p.id] = aplicar(corpo, raiz.querySelector('.cel-tela'), tela(C, p), self.telas[p.id]);
       });
       this.relogios(C);
     },
@@ -179,10 +193,7 @@
       C.sala.jogadores.forEach(function (p) {
         if (!p.humano) return;
         var raiz = self.el.querySelector('[data-jogador="' + p.id + '"]'); if (!raiz) return;
-        var t = '';
-        if (C.ui.fase === 'noite' && !C.ui.fechando && R.podeAgir(C.jogo, p.id)) t = '⏳ ' + C.restanteEtapa() + 's';
-        if (C.ui.fase === 'debate') t = '⏳ ' + C.formatarTempo(C.restanteDebate());
-        raiz.querySelector('.tempo').textContent = t;
+        raiz.querySelector('.tempo').textContent = tempoDe(C, p);
       });
     }
   };
