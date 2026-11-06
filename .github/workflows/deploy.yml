@@ -48,6 +48,13 @@ jobs:
           npm test
           cd ..
 
+      - name: Check and test Arena Escorregadia
+        run: |
+          cd jogo-arena
+          npm run check
+          npm test
+          cd ..
+
       - name: Assemble site directory
         run: |
           mkdir -p _site
@@ -60,6 +67,8 @@ jobs:
           cp -r jogo-corrida/dist/* _site/corrida/
           mkdir -p _site/lobisomem
           cp -r jogo-lobisomem/index.html jogo-lobisomem/css jogo-lobisomem/js jogo-lobisomem/arte jogo-lobisomem/audio _site/lobisomem/
+          mkdir -p _site/arena
+          cp -r jogo-arena/index.html jogo-arena/css jogo-arena/js jogo-arena/arte _site/arena/
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
