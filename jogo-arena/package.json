@@ -1,0 +1,12 @@
+{
+  "name": "acker-arena-escorregadia",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Arena Escorregadia — sumô no gelo para TV + celulares (ACKER PLAY).",
+  "scripts": {
+    "check": "node scripts/verificar.js",
+    "test": "node --test tests/fisica.test.js",
+    "rede": "node scripts/rede.mjs",
+    "relay-local": "node scripts/relay-local.mjs 8791"
+  }
+}

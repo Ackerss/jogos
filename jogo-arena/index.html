@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0b2a4d">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Arena Escorregadia · ACKER PLAY</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+  <link rel="stylesheet" href="css/arena.css">
+</head>
+<body>
+<script>
+  /* Modo da página: "tv" (TV + celulares de verdade, padrão), "pc" (teclado no computador, sem internet)
+     ou "celular" (controle do jogador, aberto pelo QR Code com ?sala=CODIGO). */
+  (function () {
+    var q = new URLSearchParams(location.search);
+    var fone = false;
+    try { fone = matchMedia('(pointer:coarse)').matches && Math.min(screen.width, screen.height) < 600; } catch (e) { /* navegador antigo */ }
+    window.MODO = q.has('sala') ? 'celular' : q.get('modo') === 'pc' ? 'pc' : q.get('modo') === 'tv' ? 'tv' : fone ? 'celular' : 'tv';
+    document.documentElement.setAttribute('data-modo', window.MODO);
+  })();
+</script>
+
+<!-- Celular: o controle (joystick + TRANCO). Montado por js/controle.js -->
+<div id="controle" class="controle" hidden></div>
+
+<!-- TV: a arena -->
+<div id="tv" class="tv" hidden>
+  <canvas id="palco" class="palco"></canvas>
+
+  <!-- Sala de espera: QR Code, quem entrou e ajustes -->
+  <section id="sala" class="sala" hidden>
+    <div class="sala-esq">
+      <a class="marca" href="../" title="Voltar à central de jogos"><span>ACKER PLAY</span></a>
+      <h1 class="logo"><span>ARENA</span><b>ESCORREGADIA</b></h1>
+      <p class="chamada">Empurre todo mundo para fora do gelo!</p>
+      <ol class="como">
+        <li><i class="ic-joy"></i><span><b>Joystick</b> no celular para deslizar</span></li>
+        <li><i class="ic-tranco"></i><span><b>TRANCO</b> dá um empurrão forte</span></li>
+        <li><i class="ic-gelo"></i><span>A borda do gelo <b>quebra a cada 15 s</b></span></li>
+        <li><i class="ic-fantasma"></i><span>Caiu? Vira <b>fantasma</b> e sopra os outros</span></li>
+      </ol>
+      <div class="ajustes" id="ajustes"></div>
+    </div>
+    <div class="sala-dir">
+      <div class="cartao-qr">
+        <div class="qr" id="qr"><div class="qr-carregando">Abrindo a arena…</div></div>
+        <div class="qr-texto">
+          <small>Aponte a câmera do celular</small>
+          <div class="codigo" id="codigo">····</div>
+          <small id="linkSala" class="link-sala"></small>
+        </div>
+      </div>
+      <div class="na-sala">
+        <h2 id="tituloSala">Na arena</h2>
+        <ul id="listaSala" class="lista-sala"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Durante a partida -->
+  <section id="hud" class="hud" hidden>
+    <div class="placar" id="placar"></div>
+    <div class="topo-dir">
+      <div class="rodada" id="rodada">RODADA 1 DE 5</div>
+      <div class="relogio" id="relogio"></div>
+      <ul class="noticias" id="noticias"></ul>
+      <div class="lembrete"><span><i class="ic-joy"></i> andar</span><span><i class="ic-tranco"></i> tranco</span><span><i class="ic-fantasma"></i> sopro</span></div>
+    </div>
+  </section>
+
+  <div id="faixa" class="faixa" hidden></div>
+
+  <!-- Fim da partida -->
+  <section id="podio" class="podio" hidden></section>
+
+  <div class="escondidos" aria-label="Testes">
+    <button data-acao="testeTV" title="Começar agora com bots">teste tv</button>
+    <button data-acao="testePC" title="Jogar com o teclado do computador">teste pc</button>
+    <button data-acao="telaCheia" title="Tela cheia">⛶</button>
+  </div>
+  <div class="aviso" id="aviso" role="status"></div>
+</div>
+
+<script src="js/fisica.js"></script>
+<script src="js/bots.js"></script>
+<script src="js/som.js"></script>
+<script src="js/rede.js"></script>
+<script src="js/desenho.js"></script>
+<script src="js/tv.js"></script>
+<script src="js/controle.js"></script>
+</body>
+</html>

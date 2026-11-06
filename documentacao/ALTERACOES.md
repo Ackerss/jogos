@@ -1,5 +1,13 @@
 # Registro de alterações
 
+## 06/11/2026 — Novo jogo: Arena Escorregadia (Claude)
+- **Sumô no gelo para 2 a 8 jogadores** em `jogo-arena/`: bolinhas num lago de gelo que encolhe a cada 15 s, joystick + **TRANCO** no celular. Quem cai vira fantasma e **sopra** os outros. +3 para quem sobra, +1 por derrubada. 3, 5 ou 7 rodadas e pódio no fim.
+- **Sala de espera = treino livre:** quem entra já mexe a sua bolinha na TV.
+- **Bots** completam a arena (Automático = até 4). Botões escondidos "teste tv" e "teste pc" (teclado).
+- **Leve para a TV LG:** Canvas 2D sem desfoque, desenho pronto em telas escondidas, modo leve automático no navegador da TV.
+- Entrou na central (`index.html`) e no `deploy.yml`.
+- **Testado pela IA em navegador,** com relay local e sem erros: TV + 2 celulares simulados (um em pé, outro deitado), joystick, tranco, fantasma, recarregar o celular no meio, pódio e "Jogar de novo" pelo OK. 15 testes da física (inclui 300 rodadas só com bots).
+
 ## 06/11/2026 — Conversa limpa, letras maiores e botão de Regras (Claude)
 Pedido do Jacson antes do primeiro teste com amigos.
 - **Conversa só entre pessoas** (sem bots na mesa):
