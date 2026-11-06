@@ -310,11 +310,12 @@
     },
     limparSetas: function () { this.svg.querySelectorAll('.seta').forEach(function (p) { p.remove(); }); this.paz(0); },
 
-    /* Alvo "Paz na vila": fica sobre as cartas do centro (que estão apagadas na apuração). */
+    /* Alvo "Paz na vila": fica ao lado das cartas do centro na apuração. */
     posPaz: function () {
-      var c = this.geo && this.geo.centro && this.geo.centro[1]; if (!c) return null;
-      this.pos(this.pazEl, { x: c.x, y: c.y, w: c.w * 1.5 });
-      return { x: c.x, y: c.y, w: c.w * 0.7 };
+      var c = this.geo && this.geo.centro && this.geo.centro[2]; if (!c) return null;
+      var x = c.x + c.w * 2.1;
+      this.pos(this.pazEl, { x: x, y: c.y, w: c.w * 1.4 });
+      return { x: x, y: c.y, w: c.w * 0.7 };
     },
     paz: function (n) {
       if (!this.pazEl) return;

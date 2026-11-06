@@ -24,7 +24,6 @@ window.NARRACAO_PRONTOS = [
  "encrenqueiro_dorme_1.mp3",
  "amanhecer_1.mp3",
  "amanhecer_2.mp3",
- "amanhecer_3.mp3",
  "debate_inicio_1.mp3",
  "debate_inicio_2.mp3",
  "debate_30s_1.mp3",
@@ -39,7 +38,6 @@ window.NARRACAO_PRONTOS = [
  "empate_1.mp3",
  "empate_2.mp3",
  "ninguem_sai_1.mp3",
- "ninguem_sai_2.mp3",
  "paz_na_vila_1.mp3",
  "paz_na_vila_2.mp3",
  "replay_inicio_1.mp3",
@@ -61,7 +59,6 @@ window.NARRACAO_PRONTOS = [
  "curto_ladrao_1.mp3",
  "curto_encrenqueiro_1.mp3",
  "curto_amanhecer_1.mp3",
- "curto_amanhecer_2.mp3",
  "curto_votacao_1.mp3",
  "ninguem_venceu_1.mp3"
 ];

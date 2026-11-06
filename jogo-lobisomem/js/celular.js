@@ -83,23 +83,25 @@
 
   function telaVoto(C, p) {
     var alvo = C.jogo.votos[p.id];
+    if (alvo === undefined && C.ui.fase === 'votacao-fim') return { chave: 'semvoto', html: '<div class="cel-titulo">⌛ Tempo esgotado</div><p class="cel-texto">A votação fechou e você ficou sem voto. Olhe para a TV!</p>' };
     if (alvo !== undefined) return { chave: 'votou', html: '<div class="cel-titulo">✅ Voto registrado</div>' +
       '<p class="cel-texto">Você votou em <b>' + (alvo === R.PAZ ? '🕊️ Paz na vila' : nome(C, alvo)) + '</b>.<br>Os votos aparecem todos juntos na TV.</p>' + cartaHtml('', { pequena: true }) };
-    return { chave: 'voto', html: '<div class="cel-titulo">⚖️ Vote em segredo</div><p class="cel-texto">Quem é <b>lobisomem agora</b>? Não vale votar em si mesmo.</p>' +
+    return { chave: 'voto-' + (C.ui.votoLembrete ? 1 : 0), html: '<div class="cel-titulo">⚖️ Vote em segredo</div><p class="cel-texto">Quem é <b>lobisomem agora</b>? Não vale votar em si mesmo.</p>' +
       '<div class="opcoes uma">' + C.jogo.jogadores.filter(function (o) { return o.id !== p.id; }).map(function (o) { return opcaoJogador(C, o, 'votar'); }).join('') +
-      opcao('🕊️ Paz na vila <small>(não tem lobo aqui)</small>', 'votar', 'data-alvo="paz"') + '</div>' +
-      '<div class="nota">Sai quem tiver mais votos. Se a <b>Paz na vila</b> empatar ou ganhar, ninguém sai.</div>' };
+      opcao('🕊️ Paz na vila <small>(nenhum lobo entre os jogadores)</small>', 'votar', 'data-alvo="paz"') + '</div>' +
+      (C.ui.votoLembrete ? '<div class="nota ouro">⏰ Faltam 30 segundos. Quem não votar fica sem voto.</div>' : '') +
+      '<div class="nota">Sai quem tiver 2 votos ou mais. Se a <b>Paz na vila</b> empatar ou ganhar, ninguém sai.</div>' };
   }
 
   function telaFim(C, p) {
     var r = C.jogo.resultado, venceu = r.vencedores.indexOf(p.id) >= 0, final = R.papelAtual(C.jogo, p.id), ini = C.jogo.inicial[p.id];
-    var primeiro = C.sala.jogadores.filter(function (j) { return j.humano; })[0];
     return { chave: 'fim', html:
       '<div class="cel-titulo">' + (venceu ? '🏆 Você venceu!' : r.time === 'ninguem' ? '🌫️ Ninguém venceu' : '💔 Não foi desta vez') + '</div>' +
+      '<p class="cel-texto">' + (window.TV && TV.motivoFinal ? TV.motivoFinal(C) : '') + '</p>' +
       cartaHtml(arteCarta(C, C.jogo.maos[p.id]), { abrir: true }) +
       '<p class="legenda-carta">Você terminou como <b>' + papelTxt(final, p.genero) + '</b>' + (final !== ini ? ' (começou como ' + papelTxt(ini, p.genero) + ')' : '') + '.</p>' +
       '<div class="nota">🏅 Suas vitórias: <b>' + (C.sala.placar[p.id] || 0) + '</b></div>' +
-      (primeiro && primeiro.id === p.id ? btn('🔄 Jogar de novo', 'denovo', '', 'principal') : '<p class="cel-texto">Aguarde a próxima rodada.</p>') };
+      btn('🔄 Jogar de novo', 'denovo', '', 'principal') };
   }
 
   function tela(C, p) {
@@ -127,10 +129,13 @@
           el.querySelector('[data-pronto]').disabled = !v.olhou;
         } };
     }
-    if (f === 'anoitecer') return { chave: 'dorme', escura: true, html: '<div class="zzz">🌙</div><div class="cel-titulo">A noite chegou</div><p class="cel-texto">Deixe o celular com você, sem mostrar a tela. Quando chegar a vez da sua carta, ele avisa.</p>' };
+    if (f === 'anoitecer') return { chave: 'dorme', escura: true, html: '<div class="zzz">🌙</div><div class="cel-titulo">A noite chegou</div><p class="cel-texto">Deixe o celular com você, sem mostrar a tela. Quando for a vez da sua carta, esta tela muda sozinha.</p>' };
     if (f === 'noite') {
       if (C.jogo.inicial[p.id] === R.etapaAtual(C.jogo) && !C.ui.fechando) return R.podeAgir(C.jogo, p.id) ? telaAcao(C, p, v) : telaFeito(C, p, v);
-      return { chave: 'dorme', escura: true, html: '<div class="zzz">🌙</div><div class="cel-titulo">Aguarde…</div><p class="cel-texto">Ainda não é a sua vez. Quando chegar, este celular avisa.</p>' };
+      var ordem = R.ORDEM_NOITE, minha = ordem.indexOf(C.jogo.inicial[p.id]), agora = R.etapaAtual(C.jogo), k = ordem.indexOf(agora);
+      var txt = minha < 0 ? 'Seu papel não age à noite. Aguarde o dia.' : minha < k || (minha === k && C.ui.fechando) ? 'Você já fez a sua parte. Aguarde o dia.' : 'Ainda não é a sua vez. Esta tela muda sozinha quando chegar.';
+      return { chave: 'dorme-' + k + '-' + (C.ui.fechando ? 1 : 0), escura: true, html: '<div class="zzz">🌙</div><div class="cel-titulo">Aguarde…</div><p class="cel-texto">' + txt + '</p>' +
+        '<div class="nota">Agora: <b>' + ({ wolf: 'vez dos Lobisomens', seer: 'vez da Vidente', robber: 'vez do Ladrão', trouble: 'vez do Encrenqueiro' })[agora] + '</b> · ' + (k + 1) + ' de ' + ordem.length + '</div>' };
     }
     if (f === 'amanhecer' || f === 'debate') return telaDebate(C, p);
     if (f === 'votacao' || f === 'votacao-fim') return telaVoto(C, p);

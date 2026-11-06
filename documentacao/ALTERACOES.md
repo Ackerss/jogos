@@ -1,5 +1,26 @@
 # Registro de alterações
 
+## 06/11/2026 — Ajustes após testes de partida (Claude)
+Foram testadas 15 partidas automáticas, simulando uma família na sala: 8 sobre ritmo e esperas, 7 sobre a clareza das telas.
+- **Votação:**
+  - aos 30 s aparece um aviso na TV e no celular;
+  - aos 60 s a votação fecha, e quem não votou fica sem voto, para ninguém travar a mesa;
+  - a votação espera o narrador terminar.
+- **Noite:**
+  - na narração completa (1ª partida), cada etapa tem no mínimo 12 s, para dar tempo de ler e escolher;
+  - o fechamento de cada etapa caiu de 1,7 para 1,3 s;
+  - quem espera vê "Agora: vez do Ladrão · 3 de 4" e uma frase própria: papel sem ação ou "você já fez a sua parte".
+- **Replay:** um pouco mais rápido (leitura inicial de 1,7 s e 2,3 s por troca).
+- **Textos:**
+  - a TV explica no início que são 2 lobos e que eles podem estar no centro;
+  - a votação na TV cita a Paz na vila;
+  - a regra no celular agora diz "2 votos ou mais";
+  - o resultado diz por que o time venceu, na TV e no celular;
+  - letras maiores no rodapé e nos rastros da noite;
+  - a pomba da Paz na vila fica ao lado das cartas do centro.
+- **Celular:** "Jogar de novo" aparece no celular de todos os humanos.
+- **Narração:** saíram 3 frases que afirmavam haver lobo, ou que podiam ficar falsas. O roteiro ficou com 61 frases.
+
 ## 06/11/2026 — Paz na vila e abertura sem corte (Claude)
 - **Votação:**
   - novo botão **🕊️ Paz na vila**, para quem acha que não há lobo entre os jogadores;

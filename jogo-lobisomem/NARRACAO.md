@@ -3,8 +3,13 @@
 Histórico e estado da narração. Atualizado em 06/11/2026.
 
 ## Estado atual
-- **A narração está gravada e publicada (06/11/2026).** São 64 MP3 com a voz "Narrador Lobos", cerca de 3,6 min no total (3,6 MB).
-- **O roteiro tem 64 frases** em `js/narracao.js`: 56 da narração completa e 8 curtas do modo rápido.
+- **A narração está gravada e publicada (06/11/2026).** São 61 MP3 com a voz "Narrador Lobos", cerca de 3,5 min no total.
+- **O roteiro tem 61 frases** em `js/narracao.js`: 54 da narração completa e 7 curtas do modo rápido.
+- **06/11, após testes:** saíram 3 frases que afirmavam haver lobo entre os jogadores, ou que podiam ficar falsas:
+  - "Bom dia, vila... Tem lobo entre vocês.";
+  - "Amanheceu! Quem é o lobo?";
+  - "Cada um recebeu um voto só.".
+  Os MP3 que sobraram foram renumerados.
 - **06/11, Paz na vila:** entrou o voto "Paz na vila" e o momento `paz_na_vila`, com 2 frases neutras que não revelam se havia lobo. O Claude gravou as duas no site do ElevenLabs com a mesma voz e os mesmos ajustes. A lista está em `audio/narracao/FRASES.md`.
 - Se algum MP3 faltar, o jogo fala a mesma frase com a voz do navegador. Nada quebra.
 - **Voz escolhida pelo Jacson:** "Narrador Lobos".
@@ -54,7 +59,7 @@ As transições esperam o narrador terminar a frase. As etapas da noite têm tem
 | `js/som.js` | Toca o MP3; sem o arquivo, usa a voz do navegador |
 | `js/main.js` | `narra()` escolhe entre narração completa e curta |
 | `scripts/frases.js` | Gera `FRASES.md` e `prontos.js` e confere os arquivos que faltam ou estão com nome errado |
-| `audio/narracao/` | 64 MP3, `FRASES.md`, `prontos.js` (gerado), `PROMPT_ANTIGRAVITY.md`, `VOZ.txt` |
+| `audio/narracao/` | 61 MP3, `FRASES.md`, `prontos.js` (gerado), `PROMPT_ANTIGRAVITY.md`, `VOZ.txt` |
 | `audio/amostras/` | Amostras de voz antigas. Já apagada; não vai para o GitHub. |
 
 Para trocar uma frase:
