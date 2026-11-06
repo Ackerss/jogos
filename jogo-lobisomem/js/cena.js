@@ -52,11 +52,33 @@ function initCinematicEffects(){
     {x:.826,y:.592,scale:.92,phase:2.4}  // Na penumbra dos arbustos à direita
   ];
 
+  /* Navegador de Smart TV (LG webOS etc.): GPU fraca, então começa no "leve".
+     A escolha manual fica guardada; sem escolha, o jogo mede a fluidez e
+     rebaixa sozinho um nível se a TV estiver engasgando. */
+  const CHAVE='lobos-efeitos';
+  const EH_TV=/Web0S|webOS|SmartTV|SMART-TV|NetCast|Tizen|BRAVIA|AFT[A-Z]|CrKey|HbbTV/i.test(navigator.userAgent||'');
+  let escolhaManual=false;
+  try{const salvo=localStorage.getItem(CHAVE);if(settings[salvo]){escolhaManual=true;preset.value=salvo}}catch(e){}
+  if(!escolhaManual&&EH_TV)preset.value='leve';
+  let medInicio=0,medQuadros=0,medLentas=0;
+
   function applyQuality(q){
     quality=settings[q]?q:'alta';
     tv.dataset.quality=quality;
     preset.value=quality;
+    medInicio=0;medQuadros=0;medLentas=0;
     resizeCanvas();
+  }
+
+  function medirFluidez(t){
+    if(escolhaManual||quality==='leve')return;
+    if(!medInicio){medInicio=t;medQuadros=0;return}
+    medQuadros++;
+    if(t-medInicio<4000)return;
+    const fps=medQuadros*1000/(t-medInicio);
+    medInicio=t;medQuadros=0;
+    medLentas=fps<24?medLentas+1:0;
+    if(medLentas>=2)applyQuality(quality==='alta'?'media':'leve');
   }
 
   function resizeCanvas(){
@@ -540,7 +562,8 @@ function initCinematicEffects(){
 
   function paint(t){
     raf=requestAnimationFrame(paint);
-    if(!visible||document.hidden||reduced)return;
+    if(!visible||document.hidden||reduced){medInicio=0;return}
+    medirFluidez(t);
     const cfg=settings[quality];
     if(t-frameTime<1000/cfg.fps)return;
     frameTime=t;
@@ -567,10 +590,14 @@ function initCinematicEffects(){
     transition.classList.add('phase-'+scene);
   }
 
-  preset.addEventListener('change',()=>applyQuality(preset.value));
+  preset.addEventListener('change',()=>{
+    escolhaManual=true;
+    try{localStorage.setItem(CHAVE,preset.value)}catch(e){}
+    applyQuality(preset.value);
+  });
   if(window.ResizeObserver){observer=new ResizeObserver(resizeCanvas);observer.observe(tv)}
   window.addEventListener('resize',resizeCanvas,{passive:true});
-  document.addEventListener('visibilitychange',()=>{frameTime=0});
+  document.addEventListener('visibilitychange',()=>{frameTime=0;medInicio=0});
   if(window.IntersectionObserver){
     const io=new IntersectionObserver(entries=>{visible=entries[0]?.isIntersecting??true},{threshold:.01});io.observe(tv);
   }

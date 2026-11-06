@@ -7,6 +7,7 @@
   var ligado = true, ctx = null;
   var N = window.NARRACAO, arquivos = {}, tocando = null, ultima = {};
 
+  var EH_TV = /Web0S|webOS|SmartTV|SMART-TV|NetCast|Tizen|BRAVIA|HbbTV/i.test(navigator.userAgent || '');
   /* Pré-carrega os MP3 de narração; os que não existirem ficam marcados como "erro". */
   function prepararNarracao() {
     if (!N || typeof Audio === 'undefined') return;
@@ -17,7 +18,7 @@
         if (prontos && prontos.indexOf(nome) < 0) { reg.erro = true; arquivos[nome] = reg; return; }
         try {
           var a = new Audio();
-          a.preload = 'auto';
+          a.preload = EH_TV ? 'metadata' : 'auto'; // TV: não baixa os 64 MP3 de uma vez
           a.addEventListener('error', function () { reg.erro = true; });
           a.src = N.pasta + nome;
           reg.a = a;

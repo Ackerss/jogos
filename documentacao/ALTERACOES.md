@@ -1,5 +1,12 @@
 # Registro de alterações
 
+## 06/11/2026 — Lobos mais leve na TV LG (Claude)
+- **A TV entra sozinha no modo de efeitos "Leve"**: o jogo reconhece o navegador de Smart TV (LG webOS e outras) e desliga as camadas mais caras do cenário (névoa com desfoque, raios de luz, brilhos com mistura de cores). A vila, a lua e as animações principais continuam.
+- **Rebaixa sozinho se engasgar**: em computadores, se a animação ficar abaixo de ~24 quadros por segundo por 8 segundos, o efeito cai um nível. Se a pessoa escolher o nível no seletor "🎞️ Efeitos", a escolha fica guardada e é respeitada.
+- **Narração na TV**: os 64 MP3 não são mais baixados todos de uma vez ao abrir; a TV lê só o cabeçalho e baixa cada fala quando ela toca.
+- **Caixa de conversa** sem desfoque de fundo (fundo um pouco mais escuro no lugar).
+- Verificado pelo Claude em Chromium simulando o navegador da LG (cai no "Leve") e um PC (fica no "Média"), sem erros. **Não testado na TV LG física.**
+
 ## 06/11/2026 — Nova central de jogos (Claude)
 - **Tela inicial redesenhada** (`index.html` + `portal.css`), no estilo "menu de console": a arte do jogo escolhido ocupa a tela, com nome grande, informações e o botão **JOGAR**. Embaixo, a fileira de jogos em cartões tipo pôster.
 - **Feita para a TV:** tudo cabe numa tela 16:9 sem rolar (1280×720 ou 1920×1080), letras grandes para ver do sofá e anel branco grosso no item escolhido. Controle remoto: ◀ ▶ troca o jogo, OK joga, ▲ vai para o botão JOGAR, ▼ volta à lista. O ponteiro do Magic Remote também escolhe ao passar por cima. A TV lembra o último jogo escolhido.
