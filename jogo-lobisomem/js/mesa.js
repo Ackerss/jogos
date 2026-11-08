@@ -341,7 +341,7 @@
       });
     },
 
-    arteDoPapel: arteDoPapel, retrato: retrato, altura: altura
+    arteDoPapel: arteDoPapel, retrato: retrato, altura: altura, VERSO: VERSO
   };
 
   window.Mesa = Mesa;

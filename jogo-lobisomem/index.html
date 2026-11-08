@@ -9,6 +9,7 @@
   <link rel="preload" as="image" href="arte/vila-noite.webp">
   <link rel="stylesheet" href="css/cena.css">
   <link rel="stylesheet" href="css/jogo.css">
+  <link rel="stylesheet" href="css/manual.css">
 </head>
 <body>
 <script>
@@ -29,6 +30,7 @@
     <a class="marca-jogo" href="../" title="Voltar aos jogos"><span class="selo-logo">🐺</span><span>ACKER PLAY<small>A NOITE DOS LOBOS · SIMULADOR (TESTE)</small></span></a>
     <div class="ferramentas">
       <a class="botao-mini" href="./" title="Jogar na TV com os celulares de verdade">📺 Modo TV oficial</a>
+      <button class="botao-mini" type="button" data-manual="abrir" title="Mostrar as cartas e o que cada uma faz">🃏 Manual das cartas</button>
       <label class="botao-mini" for="qualidade">🎞️ Efeitos
         <select id="qualidade" aria-label="Qualidade das animações"><option value="alta">Alta</option><option value="media" selected>Média</option><option value="leve">Leve</option></select>
       </label>
@@ -107,6 +109,7 @@
 <script src="js/mesa.js"></script>
 <script src="js/tv.js"></script>
 <script src="js/celular.js"></script>
+<script src="js/manual.js"></script>
 <script src="js/rede.js"></script>
 <script src="js/main.js"></script>
 <script src="js/controle.js"></script>

@@ -636,6 +636,7 @@
   }).join('');
 
   TV.iniciar($('#tv'));
+  if (window.Manual) window.Manual.iniciar($('#tv'));
   Cel.iniciar($('#celulares'));
 
   if (TVMODE && window.Rede) {
