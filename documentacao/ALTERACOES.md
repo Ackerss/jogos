@@ -1,5 +1,14 @@
 # Registro de alterações
 
+## 08/11/2026 — Lobos: Manual das cartas na TV (Claude)
+Pedido do Jacson: mostrar as cartas para todos na sala, uma de cada vez, com efeito bonito.
+- **Botão 🃏 Cartas** no lobby da TV (ao lado de Ranking e Regras) e **🃏 Manual das cartas** na barra do simulador.
+- **Grade com as 6 cartas:** Lobisomem, Vidente, Ladrão, Encrenqueiro, Aldeão e "Como se joga" (ordem da noite e quem vence).
+- **Carta grande:** voa da grade, gira e pousa com brilho na cor do papel. Ao lado: time, quantas cartas há no baralho, quando age, "À noite", "Para vencer" e uma dica.
+- **Controle remoto:** ◀ ▶ troca de carta, OK vira a carta (mostra a versão mulher/homem), Voltar retorna à grade e depois fecha. Mouse e ponteiro do Magic Remote também funcionam.
+- Arquivos novos `js/manual.js` e `css/manual.css`. Só transform/opacity nas animações; no efeito "Leve" saem as faíscas e a flutuação.
+- **Testado pela IA em navegador** (1920×1080 e 1280×720, modo TV e simulador), sem erros. **Não testado na TV LG física.**
+
 ## 06/11/2026 — Conversa limpa, letras maiores e botão de Regras (Claude)
 Pedido do Jacson antes do primeiro teste com amigos.
 - **Conversa só entre pessoas** (sem bots na mesa):

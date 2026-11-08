@@ -18,6 +18,7 @@ Jogo de blefe e dedução para 3 a 6 jogadores. A TV é a mesa e o narrador. Cad
 ### Na TV (controle remoto: setas + OK)
 - **Ajustes** (cada OK passa para a próxima opção, e eles ficam guardados na TV): 🤖 bots (0–5), 🌙 segundos por papel à noite, 💬 minutos de conversa, 🎙️ narração.
 - **📜 Regras:** resumo das regras (também no rodapé do celular).
+- **🃏 Cartas (manual visual):** para mostrar as cartas a todos na sala. Grade com as 6 cartas (5 papéis + "Como se joga"); OK abre a carta grande com animação e o que ela faz. Na carta grande: ◀ ▶ troca, OK vira (versão mulher/homem), Voltar volta à grade e, de novo, fecha. Também tem no simulador (barra de cima). Código em `js/manual.js` e `css/manual.css`.
 - **Conversa:** sem bots na mesa, o celular mostra só pistas e "Quero votar" (conversa em voz alta). Com bots, aparecem os botões para falar com eles.
 - **🏆 Ranking:** vitórias e partidas por nome (guardado na TV, `localStorage`), sem bots. Zerar exige apertar duas vezes.
 - **Botões escondidos** no canto de cima, à direita:
@@ -65,6 +66,7 @@ Cada etapa da noite dura sempre o mesmo tempo, mesmo quando o papel está no cen
 | `js/mesa.js` | Mesa da TV: cartas e lugares fixos que se movem (distribuir, virar, trocar, setas dos votos). |
 | `js/tv.js` | Textos e indicadores da TV por fase. |
 | `js/celular.js` | Telas dos celulares (as mesmas no simulador e no celular de verdade). |
+| `js/manual.js`, `css/manual.css` | Manual visual das cartas (botão 🃏 Cartas da TV): textos de cada carta e animações. |
 | `js/controle.js` | O celular de verdade: entrar com nome, mostrar a tela que vem da TV, devolver os toques. |
 | `rede/rede.ts`, `js/rede.js` | Conexão TV ↔ celulares (Doot). `js/rede.js` é gerado: não edite à mão. |
 | `scripts/relay-local.mjs` | Relay de teste local para testes automáticos. |

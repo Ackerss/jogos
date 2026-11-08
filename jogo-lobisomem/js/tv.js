@@ -100,7 +100,7 @@
         '<div class="passos"><span><b>1</b>Entre pelo QR</span><span><b>2</b>Veja sua carta no celular</span><span><b>3</b>Conversem e votem</span></div></div>' +
         '<div class="qr-cartao">' + qr + '<div class="qr-info"><small>OU ABRA NO CELULAR</small><span>' + esc(url) + '</span><small>E DIGITE O CÓDIGO</small><strong class="codigo">' + esc(rd.codigo || '····') + '</strong></div></div>' +
         (n ? '' : '<div class="lobby-vazio">📱 Esperando os jogadores entrarem…</div>') +
-        '<div class="lobby-baixo"><div class="cfgs">' + cfg + '<button class="chip-cfg" data-tv="ranking">🏆 Ranking</button><button class="chip-cfg" data-tv="regras">📜 Regras</button></div>' +
+        '<div class="lobby-baixo"><div class="cfgs">' + cfg + '<button class="chip-cfg" data-tv="ranking">🏆 Ranking</button><button class="chip-cfg" data-tv="regras">📜 Regras</button><button class="chip-cfg chip-manual" data-manual="abrir">🃏 Cartas</button></div>' +
         '<button class="botao-tv" data-tv="comecar" data-foco' + (falta ? ' disabled' : '') + '>' + (falta ? 'Faltam ' + falta + (falta === 1 ? ' jogador' : ' jogadores') : '▶ Começar partida') + '</button>' +
         '<small class="lobby-dica">' + n + ' na mesa (' + pessoas + ' 📱 · ' + (n - pessoas) + ' 🤖)' + (falta ? ' · mínimo 3: chame mais gente ou aumente os 🤖 bots' : '') + '</small></div>' +
         '<div class="escondidos" aria-label="Testes"><button data-tv="testeTV" title="Teste na TV com bots">teste tv</button><button data-tv="testePC" title="Simulador do computador">teste pc</button><button data-tv="telaCheia" title="Tela cheia">⛶</button></div>' +
