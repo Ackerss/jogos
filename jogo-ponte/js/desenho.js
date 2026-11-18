@@ -228,9 +228,19 @@
         var x = sx(m, o.x); if (x < -60 || x > W + 60) return;
         var y = PISTA_Y[o.pista];
         if (o.tipo === 'buraco' || (o.tipo === 'rachada' && o.estado === 2)) {
-          g.fillStyle = '#1a0a10'; rr(x - 32, y - 36, 64, 68, 10); g.fill();
-          g.fillStyle = T.fundoBuraco; rr(x - 26, y - 22, 52, 50, 8); g.fill();
-          g.fillStyle = T.brilho; g.globalAlpha = 0.6; g.fillRect(x - 18, y + 4 + Math.sin(tempo * 6 + o.x) * 4, 36, 4); g.globalAlpha = 1;
+          var yt = y - ALT / 2, hh = ALT - 4;
+          g.fillStyle = '#12060c'; g.fillRect(x - 30, yt, 60, hh);
+          g.fillStyle = T.fundoBuraco; g.fillRect(x - 30, yt + hh * 0.55, 60, hh * 0.45);
+          g.fillStyle = T.brilho; g.globalAlpha = 0.7;
+          for (var bb = 0; bb < 3; bb++) { g.beginPath(); g.arc(x - 16 + bb * 16, yt + hh * 0.62 + Math.sin(tempo * 5 + bb + o.x) * 4, 4, 0, 7); g.fill(); }
+          g.globalAlpha = 1;
+          // pontas de tábua quebrada nas bordas
+          g.fillStyle = T.tabua;
+          for (var d2 = 0; d2 < 4; d2++) {
+            var ty2 = yt + d2 * hh / 4;
+            g.beginPath(); g.moveTo(x - 31, ty2); g.lineTo(x - 18, ty2 + hh / 8); g.lineTo(x - 31, ty2 + hh / 4); g.fill();
+            g.beginPath(); g.moveTo(x + 31, ty2); g.lineTo(x + 20, ty2 + hh / 8); g.lineTo(x + 31, ty2 + hh / 4); g.fill();
+          }
         } else if (o.tipo === 'espinhos') {
           g.fillStyle = T.espinho; rr(x - 30, y + 6, 60, 18, 5); g.fill();
           for (var i = 0; i < 4; i++) { g.fillStyle = i % 2 ? T.espinho2 : T.espinho; g.beginPath(); g.moveTo(x - 28 + i * 15, y + 10); g.lineTo(x - 21 + i * 15, y - 26); g.lineTo(x - 13 + i * 15, y + 10); g.fill(); }

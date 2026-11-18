@@ -404,7 +404,7 @@
       if (!g) { t.f = 'cheia'; rede.tela(p.pid, t); return; }
       t.c = g.cor;
       var j = jogadorDe(g.id), r = m && M.corredor(m, g.id);
-      if (r) { t.pw = r.poder || ''; t.cr = r.cristais; t.ch = r.chegou ? 1 : 0; t.cai = r.caido > 0 ? 1 : 0; t.lu = r.lugar || 0; }
+      if (r) { t.pw = r.poder || ''; t.cr = r.cristais; t.ch = r.chegou ? 1 : 0; t.cai = r.caido > 0 ? 1 : 0; t.lu = r.lugar || 0; t.cd = Math.ceil(r.cd); t.fa = r.facil ? 1 : 0; }
       if (sala.fase !== 'sala') {
         if (!j || !r) t.f = sala.fase === 'podio' || sala.fase === 'resultado' ? sala.fase : 'espera';
         t.p = j ? j.pontos : 0;
