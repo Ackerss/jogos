@@ -8,7 +8,7 @@ import {RoomRuntime, createClaspRelay, makeRoomCode, isValidRoomCode, addr, type
 import qrcode from 'qrcode-generator';
 
 const PLUGIN = 'acker-arena';
-const jogo: LoadedGame = {meta:{pluginId:PLUGIN,pluginVersion:'0.1.0',title:'Arena Escorregadia',themeId:'acker',playerCap:8},config:{},rounds:[{timer:0}],resumable:true} as unknown as LoadedGame;
+const jogo: LoadedGame = {meta:{pluginId:PLUGIN,pluginVersion:'0.2.0',title:'Arena Escorregadia',themeId:'acker',playerCap:8},config:{},rounds:[{timer:0}],resumable:true} as unknown as LoadedGame;
 const guardar = (k: string, v: string) => {try{sessionStorage.setItem(k,v);}catch{/* opcional */}};
 const ler = (k: string) => {try{return sessionStorage.getItem(k);}catch{return null;}};
 const uuid = () => typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -61,7 +61,7 @@ function linkBase(): string {
 }
 
 export interface Pessoa {pid: string; nome: string}
-export interface Controle {x: number; y: number; t: number}
+export interface Controle {x: number; y: number; t: number; f: boolean}
 type Ouvinte = () => void;
 
 /* ---------- TV (anfitriã) ---------- */
@@ -88,12 +88,12 @@ export function criarSala() {
         room.publishExtra('arena/sessao', sessao);
         // Joystick e trancos de cada celular. "n" cresce sempre: mensagem velha que chega atrasada é ignorada.
         room.onExtra('arena/ctl/*', (v, k) => {
-          const pid = k.slice('arena/ctl/'.length), m = v as {s?: string; n?: number; x?: number; y?: number; t?: number};
+          const pid = k.slice('arena/ctl/'.length), m = v as {s?: string; n?: number; x?: number; y?: number; t?: number; f?: number};
           if (!m || m.s !== sessao || typeof m.n !== 'number') return;
           if ((ultimos.get(pid) || 0) >= m.n) return;
           ultimos.set(pid, m.n);
           const num = (q: unknown) => typeof q === 'number' && isFinite(q) ? q : 0;
-          aoControle(pid, {x: Math.max(-1, Math.min(1, num(m.x))), y: Math.max(-1, Math.min(1, num(m.y))), t: Math.max(0, Math.floor(num(m.t)))});
+          aoControle(pid, {x: Math.max(-1, Math.min(1, num(m.x))), y: Math.max(-1, Math.min(1, num(m.y))), t: Math.max(0, Math.floor(num(m.t))), f: m.f === 1});
         });
         // Celular que (re)entra pede o estado de novo.
         room.onExtra('arena/oi/*', (_v, k) => {const pid = k.slice('arena/oi/'.length); enviadas.delete(pid); aoMudar();});
@@ -177,9 +177,9 @@ export function entrar() {
         aoMudar();
       }
     },
-    /* Joystick (x, y de -1 a 1) e contador de trancos (só cresce). */
-    controle(x: number, y: number, t: number) {
-      if (room && sessao && C.pid) room.publishExtra('arena/ctl/' + C.pid, {s: sessao, n: ++n, x: Math.round(x * 100) / 100, y: Math.round(y * 100) / 100, t} as unknown as RelayValue);
+    /* Joystick (x, y de -1 a 1), contador de trancos (só cresce) e modo criança (f). */
+    controle(x: number, y: number, t: number, f = false) {
+      if (room && sessao && C.pid) room.publishExtra('arena/ctl/' + C.pid, {s: sessao, n: ++n, x: Math.round(x * 100) / 100, y: Math.round(y * 100) / 100, t, f: f ? 1 : 0} as unknown as RelayValue);
     },
     aoTela(f: (t: Record<string, unknown>) => void) {aoTela = f;},
     aoMudar(f: Ouvinte) {aoMudar = f;},

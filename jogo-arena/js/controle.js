@@ -12,16 +12,20 @@
   var codigoUrl = (q.get('sala') || '').trim().toUpperCase().slice(0, 4);
   var est = null, chave = '';
   var stick = { x: 0, y: 0, id: null, ox: 0, oy: 0 }, trancos = 0, recargaAte = 0;
-  var enviado = { x: 9, y: 9, t: -1, em: 0 };
+  var enviado = { x: 9, y: 9, t: -1, f: false, em: 0 };
+  var crianca = false;
+  try { crianca = localStorage.getItem('arena-crianca') === '1'; } catch (e) { /* */ }
 
   function esc(x) { return String(x == null ? '' : x).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function vibrar(ms) { try { if (navigator.vibrate) navigator.vibrate(ms); } catch (e) { /* */ } }
 
   raiz.innerHTML =
     '<div class="cel">' +
-    '  <header class="cel-topo"><i class="bolinha grande" id="minhaCor"></i><div class="cel-quem"><b id="meuNome">Arena Escorregadia</b><small id="minhaInfo"></small></div><div class="cel-pontos" id="meusPontos"></div></header>' +
+    '  <header class="cel-topo"><i class="bolinha grande" id="minhaCor"></i><img class="cel-bicho" id="meuBicho" alt="" hidden><div class="cel-quem"><b id="meuNome">Arena Escorregadia</b><small id="minhaInfo"></small></div><div class="cel-pontos" id="meusPontos"></div></header>' +
     '  <div class="cel-status" id="status" hidden></div>' +
     '  <div class="cel-msg" id="msg"></div>' +
+    '  <button class="cel-crianca" id="btnCrianca" type="button" hidden></button>' +
+    '  <div class="cel-item" id="item" hidden></div>' +
     '  <div class="cel-pad" id="pad" hidden>' +
     '    <div class="zona-joy" id="zonaJoy"><div class="joy-base" id="joyBase"><div class="joy-pino" id="joyPino"></div></div><span class="joy-dica">arraste para deslizar</span></div>' +
     '    <button class="btn-tranco" id="btnTranco" type="button"><span class="anel" id="anel"></span><b id="rotTranco">TRANCO</b><small id="subTranco">empurrão forte</small></button>' +
@@ -102,6 +106,13 @@
   });
   ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(function (ev) { zona.addEventListener(ev, function (e) { if (e.pointerId === stick.id) soltarJoy(); }); });
 
+  /* ---------- Modo criança (boia + mais pesado) ---------- */
+  $('btnCrianca').addEventListener('click', function () {
+    crianca = !crianca;
+    try { localStorage.setItem('arena-crianca', crianca ? '1' : '0'); } catch (e) { /* */ }
+    vibrar(20); mandar(true); mostrar();
+  });
+
   /* ---------- TRANCO / SOPRO ---------- */
   var btn = $('btnTranco');
   btn.addEventListener('pointerdown', function (e) {
@@ -110,7 +121,7 @@
     var agora = Date.now();
     if (agora < recargaAte) { btn.classList.remove('nega'); void btn.offsetWidth; btn.classList.add('nega'); return; }
     trancos++;
-    recargaAte = agora + (est.e === 'fantasma' ? C.SOPRO_RECARGA : C.TRANCO_RECARGA) * 1000 + 120;
+    recargaAte = agora + recargaTotal() + 120;
     vibrar(25);
     btn.classList.add('apertado'); setTimeout(function () { btn.classList.remove('apertado'); }, 120);
     mandar(true);
@@ -118,13 +129,14 @@
   btn.addEventListener('contextmenu', function (e) { e.preventDefault(); });
   document.addEventListener('contextmenu', function (e) { if (rede && rede.pid) e.preventDefault(); });
 
+  function recargaTotal() { return (est && est.e === 'fantasma' ? C.SOPRO_RECARGA : est && est.it === 'turbo' ? C.TURBO_RECARGA : C.TRANCO_RECARGA) * 1000; }
   function mandar(agora) {
     if (!rede || !rede.pid) return;
     var t = Date.now();
     if (!agora && t - enviado.em < 45) return; // até ~20 por segundo
-    if (!agora && Math.abs(stick.x - enviado.x) < 0.04 && Math.abs(stick.y - enviado.y) < 0.04 && trancos === enviado.t) return;
-    enviado = { x: stick.x, y: stick.y, t: trancos, em: t };
-    rede.controle(stick.x, stick.y, trancos);
+    if (!agora && Math.abs(stick.x - enviado.x) < 0.04 && Math.abs(stick.y - enviado.y) < 0.04 && trancos === enviado.t && crianca === enviado.f) return;
+    enviado = { x: stick.x, y: stick.y, t: trancos, f: crianca, em: t };
+    rede.controle(stick.x, stick.y, trancos, crianca);
   }
   // Repete o último estado de tempos em tempos (a TV sabe que o celular continua ali).
   setInterval(function () { if (rede && rede.pid && Date.now() - enviado.em > 600) mandar(true); }, 300);
@@ -134,7 +146,7 @@
   function animarRecarga() {
     requestAnimationFrame(animarRecarga);
     if (!est) return;
-    var falta = Math.max(0, recargaAte - Date.now()), total = (est.e === 'fantasma' ? C.SOPRO_RECARGA : C.TRANCO_RECARGA) * 1000;
+    var falta = Math.max(0, recargaAte - Date.now()), total = recargaTotal();
     var k = falta > 0 ? 1 - falta / total : 1;
     var pronto = falta <= 0;
     if (pronto !== btn.classList.contains('pronto')) btn.classList.toggle('pronto', pronto);
@@ -158,15 +170,27 @@
         if (cv) $('ctlCodigo').value = cv;
       }
       $('meuNome').textContent = 'Arena Escorregadia'; $('minhaInfo').textContent = ''; $('meusPontos').textContent = '';
-      $('minhaCor').style.cssText = '';
+      $('minhaCor').style.cssText = ''; $('minhaCor').hidden = false; $('meuBicho').hidden = true;
+      $('btnCrianca').hidden = true; $('item').hidden = true;
       return;
     }
     $('form').hidden = true; chave = 'jogo';
     $('meuNome').textContent = rede.nome;
     if (!est) { raiz.className = 'controle'; $('msg').innerHTML = '<b>Você entrou!</b><span>Olhe para a TV.</span>'; $('pad').hidden = true; return; }
     var cor = est.c != null ? CORES[est.c % CORES.length] : null;
-    if (cor) { $('minhaCor').style.cssText = '--c:' + cor.hex + ';--e:' + cor.escura; raiz.style.setProperty('--minha', cor.hex); raiz.style.setProperty('--minha-escura', cor.escura); }
-    $('minhaInfo').textContent = cor ? 'Bolinha ' + cor.nome + ' · sala ' + rede.codigo : 'Sala ' + rede.codigo;
+    if (cor) {
+      $('minhaCor').style.cssText = '--c:' + cor.hex + ';--e:' + cor.escura; raiz.style.setProperty('--minha', cor.hex); raiz.style.setProperty('--minha-escura', cor.escura);
+      var url = window.Desenho.retrato(est.c % CORES.length, 128);
+      if (url && $('meuBicho').getAttribute('src') !== url) $('meuBicho').src = url;
+      $('meuBicho').hidden = !url; $('minhaCor').hidden = !!url;
+    }
+    $('minhaInfo').textContent = cor ? 'Você é ' + cor.art + ' ' + cor.bicho + ' ' + cor.nome.toLowerCase() + (est.fa ? ' · 🛟 ' + (est.bo || 0) : '') : 'Sala ' + rede.codigo;
+    $('btnCrianca').hidden = est.f !== 'sala';
+    $('btnCrianca').className = 'cel-crianca' + (crianca ? ' ligado' : '');
+    $('btnCrianca').innerHTML = '<b>🧸 Modo criança: ' + (crianca ? 'LIGADO' : 'desligado') + '</b><small>' + (crianca ? 'Boia salva 2 quedas por rodada e a bolinha fica mais pesada.' : 'Toque para ligar (bom para os pequenos).') + '</small>';
+    var itemInfo = est.it && window.Desenho.ITEM_INFO[est.it];
+    $('item').hidden = !itemInfo;
+    if (itemInfo) { $('item').style.setProperty('--ic', itemInfo.cor); $('item').innerHTML = '<b>' + itemInfo.nome + '!</b> ' + (est.it === 'gigante' ? 'Você está enorme e pesado.' : est.it === 'turbo' ? 'Tranco quase sem espera!' : 'Quem encostar em você voa longe.'); }
     $('meusPontos').innerHTML = est.p != null && est.f !== 'sala' ? '<b>' + est.p + '</b><small>pts</small>' : '';
     var fantasma = est.e === 'fantasma' || est.e === 'caindo';
     var ativo = est.f === 'sala' || est.f === 'jogo' || est.f === 'fim' || est.f === 'contagem';
@@ -178,7 +202,7 @@
     if (est.f === 'cheia') msg = '<b>Arena cheia!</b><span>Já tem 8 bolinhas. Espere a próxima partida.</span>';
     else if (est.f === 'sala') msg = est.e === 'gelo' || est.e === 'espera' || est.e === 'caindo' ? '<b>Treino livre!</b><span>Ache a sua bolinha na TV e teste. A partida começa pela TV.</span>' : '<b>Você entrou!</b><span>Olhe para a TV.</span>';
     else if (est.f === 'espera') msg = '<b>Você entra na próxima rodada.</b><span>Fique de olho na TV!</span>';
-    else if (est.f === 'contagem') msg = '<b class="grande">' + (est.k > 0 ? est.k : 'JÁ!') + '</b><span>Rodada ' + est.r + ' de ' + est.R + '</span>';
+    else if (est.f === 'contagem') msg = '<b class="grande">' + (est.k > 0 ? est.k : 'JÁ!') + '</b><span>Rodada ' + est.r + ' de ' + est.R + (est.a ? ' · ' + esc(est.a) : '') + '</span>';
     else if (est.f === 'jogo') msg = est.e === 'gelo' ? '<b>Empurre todo mundo para fora!</b>' : est.e === 'caindo' ? '<b>Splash! Você caiu.</b>' : '<b>Você virou fantasma 👻</b><span>Voe até alguém e aperte SOPRO.</span>';
     else if (est.f === 'fim') msg = est.g ? '<b class="grande">Você venceu a rodada!</b><span>+' + C.PONTOS_VENCEDOR + ' pontos</span>' : '<b>' + esc(est.v || 'Ninguém') + ' venceu a rodada</b><span>Próxima já vem…</span>';
     else if (est.f === 'podio') msg = '<b class="grande">' + (est.pos === 1 ? '🏆 Você é o campeão!' : est.pos + 'º lugar') + '</b><span>' + (est.pos === 1 ? 'Ninguém te tirou do gelo.' : 'Campeão: ' + esc(est.v)) + '</span><span>Para jogar de novo, aperte OK na TV.</span>';
@@ -188,8 +212,11 @@
     if (est.f === 'fim' && anterior.f !== 'fim' && est.g) vibrar([60, 60, 60, 60, 200]);
     if (est.f === 'contagem' && est.k !== anterior.k) vibrar(est.k > 0 ? 30 : 120);
     if (est.e === 'fantasma' && anterior.e !== 'fantasma') recargaAte = Date.now() + 1000;
+    if (est.h && anterior.h != null && est.h > anterior.h) vibrar(70);      // levou uma batida forte
+    if (est.it && !anterior.it) { vibrar([30, 40, 30]); if (est.it === 'turbo') recargaAte = 0; }
+    if (est.bo != null && anterior.bo != null && est.bo < anterior.bo) vibrar([40, 30, 40, 30, 120]); // a boia salvou
     if (est.f === 'contagem' && anterior.f !== 'contagem') recargaAte = 0;
-    anterior = { e: est.e, f: est.f, k: est.k };
+    anterior = { e: est.e, f: est.f, k: est.k, h: est.h || 0, it: est.it, bo: est.bo };
   }
 
   if (rede) {

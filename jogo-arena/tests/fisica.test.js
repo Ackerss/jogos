@@ -172,11 +172,12 @@ test('classificação: pontos, depois rodadas vencidas, depois derrubadas', () =
   assert.deepStrictEqual(cl.map(j => j.id), ['b', 'd', 'c', 'a']);
 });
 
-test('300 rodadas só com bots: sempre terminam, dentro do limite, com vencedor', () => {
+test('300 rodadas só com bots (nas 4 arenas, com itens e modo criança): sempre terminam, com vencedor', () => {
   let soma = 0;
   for (let s = 1; s <= 300; s++) {
     const n = 2 + (s % 7);
-    const { js, m } = rodada(n, s);
+    const js = Array.from({ length: n }, (_, i) => ({ id: 'j' + i, cor: i, facil: (s + i) % 5 === 0 }));
+    const m = F.novaRodada(js, { aleatorio: F.sorteio(s), arena: F.ARENAS[s % 4] });
     const mem = {}; js.forEach(j => { mem[j.id] = {}; });
     let passos = 0;
     while (!m.fim) {
@@ -190,4 +191,113 @@ test('300 rodadas só com bots: sempre terminam, dentro do limite, com vencedor'
   }
   const media = soma / 300;
   assert.ok(media > 8 && media < 60, 'duração média ' + media.toFixed(1) + ' s');
+});
+
+test('itens aparecem no gelo, quem passa por cima pega, e o efeito acaba depois de um tempo', () => {
+  const { m } = rodada(2, 21);
+  m.bolas[0].x = -6; m.bolas[0].y = 0; m.bolas[1].x = 6; m.bolas[1].y = 0;
+  andar(m, C.ITEM_PRIMEIRO + 2.1, {});
+  assert.strictEqual(m.itens.length, 1, 'um item no gelo');
+  const it = m.itens[0], b = m.bolas[0];
+  b.x = it.x; b.y = it.y; b.vx = b.vy = 0;
+  F.passo(m, 1 / 60, {});
+  assert.strictEqual(b.item, it.tipo);
+  assert.strictEqual(m.itens.length, 0);
+  andar(m, C.ITEM_DURACAO + 0.2, {});
+  assert.strictEqual(b.item, null);
+});
+
+test('gigante: fica maior e mais pesado (empurra mais do que é empurrado)', () => {
+  const { m } = rodada(2, 22, { itens: false });
+  const [a, b] = m.bolas;
+  a.item = 'gigante'; a.itemAte = 99;
+  andar(m, 1, {});
+  assert.ok(F.raioBola(a) > C.RAIO_BOLA * 1.4);
+  a.x = -3; a.y = 0; a.vx = 4; a.vy = 0; b.x = 0; b.y = 0; b.vx = -4; b.vy = 0;
+  andar(m, 0.5, {});
+  assert.ok(b.vx > 2 && a.vx > -1, 'gigante ganha a batida: a=' + a.vx.toFixed(2) + ' b=' + b.vx.toFixed(2));
+});
+
+test('turbo: o tranco recarrega muito mais rápido', () => {
+  const { m } = rodada(2, 23, { itens: false });
+  const b = m.bolas[0]; b.x = 0; b.y = 0; m.bolas[1].x = 0; m.bolas[1].y = 7;
+  b.item = 'turbo'; b.itemAte = 99;
+  F.passo(m, 1 / 60, { j0: { x: 1, y: 0, tranco: true } });
+  assert.ok(b.recarga <= C.TURBO_RECARGA + 1e-9);
+});
+
+test('mola: quem encosta em quem tem a mola é arremessado', () => {
+  const sem = rodada(2, 24, { itens: false }).m, com = rodada(2, 24, { itens: false }).m;
+  for (const m of [sem, com]) { const [a, b] = m.bolas; a.x = -2; a.y = 0; a.vx = 0; a.vy = 0; b.x = 0; b.y = 0; b.vx = -3; b.vy = 0; }
+  com.bolas[0].item = 'mola'; com.bolas[0].itemAte = 99;
+  andar(sem, 0.4, {}); andar(com, 0.4, {});
+  assert.ok(com.bolas[1].vx > sem.bolas[1].vx + 2, 'com mola: ' + com.bolas[1].vx.toFixed(2) + ' sem: ' + sem.bolas[1].vx.toFixed(2));
+});
+
+test('modo criança: a boia salva da queda 2 vezes e depois cai normalmente', () => {
+  const js = [{ id: 'k', cor: 0, facil: true }, { id: 'a', cor: 1 }, { id: 'b', cor: 2 }];
+  const m = F.novaRodada(js, { aleatorio: F.sorteio(25), itens: false });
+  const k = m.bolas[0]; m.bolas[1].x = -3; m.bolas[1].y = 0; m.bolas[2].x = -3; m.bolas[2].y = 3;
+  for (let vez = 0; vez < 2; vez++) {
+    k.x = 9.9; k.y = 0; k.vx = 6; k.vy = 0;
+    andar(m, 0.6, {});
+    assert.strictEqual(k.estado, 'gelo', 'boia ' + (vez + 1) + ' salvou');
+    assert.ok(k.vx < 0, 'voltou para dentro');
+  }
+  assert.strictEqual(k.boias, 0);
+  k.x = 9.9; k.y = 0; k.vx = 6; k.vy = 0;
+  andar(m, 0.6, {});
+  assert.notStrictEqual(k.estado, 'gelo');
+});
+
+test('arena Gelo Fino: buraco avisa antes, depois abre, e quem pisa cai', () => {
+  const { m } = rodada(3, 26, { arena: 'buracos', itens: false });
+  m.bolas.forEach((b, i) => { b.x = -8 + i * 0.1; b.y = (i - 1) * 2.2; });
+  andar(m, C.BURACO_PRIMEIRO + 0.1, {});
+  assert.strictEqual(m.buracos.length, 1);
+  const h = m.buracos[0];
+  assert.ok(!h.aberto, 'primeiro só a rachadura');
+  andar(m, C.BURACO_AVISO, {});
+  assert.ok(h.aberto);
+  const b = m.bolas[0]; b.x = h.x; b.y = h.y; b.vx = b.vy = 0;
+  F.passo(m, 1 / 60, {});
+  assert.strictEqual(b.estado, 'caindo');
+  assert.ok(b.noBuraco);
+});
+
+test('arena Ventania: avisa e depois o vento empurra todo mundo para o mesmo lado', () => {
+  const { m } = rodada(2, 27, { arena: 'ventania', itens: false });
+  m.bolas[0].x = -1; m.bolas[0].y = 0; m.bolas[1].x = 1; m.bolas[1].y = 0;
+  let aviso = false, sopra = false;
+  for (let i = 0; i < 60 * (C.VENTO_PRIMEIRO + C.VENTO_AVISO + 1); i++) {
+    F.passo(m, 1 / 60, {});
+    for (const e of F.tirarEventos(m)) { if (e.tipo === 'ventoAviso') aviso = true; if (e.tipo === 'vento') { sopra = true; assert.ok(aviso, 'aviso antes'); } }
+    m.bolas.forEach(b => { if (Math.hypot(b.x, b.y) > 6) { b.x *= 0.5; b.y *= 0.5; } });
+  }
+  assert.ok(sopra && m.vento.k > 0);
+  const b = m.bolas[0]; b.vx = b.vy = 0;
+  F.passo(m, 1 / 60, {});
+  assert.ok(b.vx * m.vento.dx + b.vy * m.vento.dy > 0, 'empurrado na direção do vento');
+});
+
+test('arena Pinball: o pino rebate quem bate nele', () => {
+  const { m } = rodada(2, 28, { arena: 'pinball', itens: false });
+  const p = m.pinos[0], b = m.bolas[0];
+  m.bolas[1].x = -p.x; m.bolas[1].y = -p.y; m.pinos[3].vivo = false;
+  const ux = p.x / Math.hypot(p.x, p.y), uy = p.y / Math.hypot(p.x, p.y);
+  b.x = p.x - ux * 2.5; b.y = p.y - uy * 2.5; b.vx = ux * 5; b.vy = uy * 5;
+  let bateu = false;
+  for (let i = 0; i < 40; i++) { F.passo(m, 1 / 60, {}); if (F.tirarEventos(m).some(e => e.tipo === 'pino')) bateu = true; }
+  assert.ok(bateu);
+  assert.ok(b.vx * ux + b.vy * uy < -3, 'voltou rebatido');
+});
+
+test('ordem das arenas: começa na Clássica e não repete a mesma seguida', () => {
+  for (let s = 1; s < 50; s++) {
+    const o = F.ordemArenas(7, F.sorteio(s));
+    assert.strictEqual(o.length, 7);
+    assert.strictEqual(o[0], 'classica');
+    for (let i = 1; i < 7; i++) assert.notStrictEqual(o[i], o[i - 1]);
+    assert.ok(F.ARENAS.every(a => o.includes(a)), 'as 4 aparecem em 7 rodadas');
+  }
 });

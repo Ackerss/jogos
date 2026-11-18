@@ -49,8 +49,9 @@ html[data-modo="tv"], html[data-modo="pc"] { font-size: min(1.04vw, 1.85vh); }
 .como li { display: flex; gap: .9rem; align-items: center; }
 .como b { color: #fff; }
 .ajustes { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: .7rem; margin-top: auto; }
-.ajustes button, .podio button { border: .14rem solid rgba(159,220,243,.35); background: rgba(11,42,77,.92); border-radius: 1rem; padding: .7rem .5rem; display: flex; flex-direction: column; align-items: center; gap: .25rem; font-size: 1.05rem; color: var(--suave); }
-.ajustes button b { color: #fff; font-size: 1.25rem; }
+.ajustes button, .podio button { border: .14rem solid rgba(159,220,243,.35); background: rgba(11,42,77,.92); border-radius: 1rem; padding: .5rem .4rem; display: flex; flex-direction: column; align-items: center; gap: .25rem; font-size: 1.05rem; color: var(--suave); }
+.ajustes button b { color: #fff; font-size: 1.15rem; white-space: nowrap; }
+.ajustes button { font-size: .95rem; }
 .ajustes .principal { grid-column: 1 / -1; flex-direction: row; justify-content: center; font-size: 2rem; font-weight: 900; color: #10223d; background: linear-gradient(#ffe27a, #ffb238); border-color: #fff3c4; padding: 1rem; letter-spacing: .06em; }
 .ajustes .principal[disabled] { opacity: .45; filter: grayscale(.6); }
 button:focus { outline: none; }
@@ -199,3 +200,40 @@ html[data-modo="celular"] body { overscroll-behavior: none; touch-action: none; 
 .btn[disabled] { opacity: .6; }
 .erro { background: rgba(163,18,42,.6); padding: .6rem .8rem; border-radius: .8rem; margin: 0; }
 .dica { color: var(--suave); font-size: .9rem; text-align: center; margin: 0; }
+
+/* ====================== v0.2: bichinhos, itens, modo criança ====================== */
+img.bicho { width: 1.7em; height: 1.7em; flex: none; vertical-align: middle; margin: -.2em 0; object-fit: contain; }
+.placar img.bicho { width: 2.1em; height: 2.1em; margin: -.35em -.1em; }
+.lista-sala img.bicho { width: 2em; height: 2em; margin: -.3em 0; }
+.tag-crianca { font-size: .7em; font-weight: 800; color: #10223d; background: #ffd23f; border-radius: .5em; padding: .05em .4em; vertical-align: middle; }
+.ic-item { display: inline-block; width: 1.6em; height: 1.6em; flex: none; position: relative; vertical-align: middle; border-radius: 50%; border: .14em solid #fff;
+  background: radial-gradient(circle at 35% 30%, #fff 0 10%, #ffd23f 30%, #b26b00 100%); }
+.ic-item::after { content: ""; position: absolute; left: 50%; top: 18%; width: .38em; height: .9em; margin-left: -.19em; background: #fff; clip-path: polygon(60% 0, 0 60%, 45% 60%, 30% 100%, 100% 38%, 55% 38%); }
+.faixa .arena-nome { display: block; font-size: 2.1rem; letter-spacing: .25em; color: var(--ouro); margin-bottom: .2rem; text-shadow: .15rem .15rem 0 #0b2a4d; }
+.faixa .arena-dica { display: inline-block; font-size: 1.7rem; color: #fff; background: rgba(7,26,53,.88); border-radius: 1rem; padding: .4rem 1.2rem; margin-top: .6rem; }
+.degrau img.bicho { width: 7rem; height: 7rem; margin: 0; }
+.d1 img.bicho { width: 8.5rem; height: 8.5rem; animation: pula 1s ease-in-out infinite alternate; }
+@keyframes pula { from { transform: translateY(0); } to { transform: translateY(-.8rem); } }
+.premios { list-style: none; margin: .6rem 0 0; padding: 0; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+.premios li { display: flex; gap: .7rem; align-items: center; background: rgba(7,26,53,.75); border: .12rem solid rgba(255,210,63,.45); border-radius: 1rem; padding: .5rem 1rem; text-align: left; font-size: 1.4rem; }
+.premios img.bicho { width: 3.2rem; height: 3.2rem; margin: 0; }
+.premios div { display: flex; flex-direction: column; line-height: 1.15; }
+.premios small { color: var(--ouro); font-weight: 900; letter-spacing: .08em; text-transform: uppercase; font-size: .85rem; }
+.premios em { font-style: normal; color: var(--suave); font-size: .95rem; }
+.podio .detalhe { margin: .5rem 0 0; }
+.degraus { height: 21rem; }
+
+/* celular */
+.cel-bicho { width: 3.4rem; height: 3.4rem; flex: none; margin: -.4rem 0; }
+.cel-crianca { margin: 0 1rem .5rem; border: 2px dashed rgba(255,210,63,.6); background: rgba(255,210,63,.08); border-radius: 1rem; padding: .55rem .8rem; display: flex; flex-direction: column; gap: .1rem; text-align: center; touch-action: manipulation; }
+.cel-crianca b { font-size: 1.05rem; color: #fff; }
+.cel-crianca small { font-size: .82rem; color: var(--suave); }
+.cel-crianca.ligado { border-style: solid; border-color: #ffd23f; background: rgba(255,210,63,.22); }
+.cel-crianca.ligado b { color: #ffd23f; }
+.cel-item { margin: 0 1rem .5rem; border-radius: 1rem; padding: .5rem .8rem; text-align: center; background: var(--ic, #ffd23f); color: #10223d; font-size: .95rem; animation: entra .3s ease-out both; }
+.cel-item b { font-size: 1.15rem; }
+@media (orientation: landscape) {
+  .cel-bicho { width: 2.6rem; height: 2.6rem; }
+  .cel-crianca { flex-direction: row; gap: .6rem; align-items: baseline; justify-content: center; padding: .35rem .8rem; margin-bottom: .3rem; }
+  .cel-item { padding: .3rem .8rem; margin-bottom: .3rem; }
+}
