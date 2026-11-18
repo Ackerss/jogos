@@ -10,7 +10,7 @@ O jogo já funciona sem os áudios: sem MP3, as frases mais importantes saem pel
    - use só a que já existe no PC do Jacson (a mesma da narração dos Lobos, conta **grátis pessoal**, não a da NatuBrava);
    - **nunca copie a chave para arquivo novo, commit, log ou documentação**;
    - apague no final os scripts temporários que criar.
-3. Esta rodada usa cerca de **1.300 caracteres**: são **35 frases** curtas. Confira se a conta tem crédito.
+3. Esta rodada usa cerca de **1.600 caracteres**: são **44 frases** curtas. Confira se a conta tem crédito.
 
 ## 1. Criar a voz "Locutor Bichos" (Voice Design)
 A voz "Narrador Lobos" é grave e lenta, não serve para corrida. Crie uma nova, do mesmo jeito que a dos Lobos foi criada (voz criada na conta funciona pela API no plano grátis):
@@ -22,7 +22,7 @@ A voz "Narrador Lobos" é grave e lenta, não serve para corrida. Crie uma nova,
 - Gere as opções e fique com a de **sotaque brasileiro mais natural e mais empolgada**. Se der, deixe o Jacson escolher ouvindo.
 - Salve com o nome **"Locutor Bichos"**.
 
-## 2. Gravar as 35 frases
+## 2. Gravar as 44 frases
 - A lista está em `jogo-bichos\audio\narracao\FRASES.md`, com o nome do arquivo, a frase, quando toca e o tom.
 - Modelo: **Eleven Multilingual v2** (o mesmo dos Lobos). Se o v3 soar mais brasileiro num teste rápido com `largada_1`, pode usar o v3 em todas.
 - Ajustes iguais em todas:

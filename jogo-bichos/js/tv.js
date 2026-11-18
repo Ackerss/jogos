@@ -149,13 +149,15 @@
   }
   function pecaPisada(c) { var b = els.pecas.querySelector('.peca-pista[data-casa="' + c + '"]'); if (b) { b.classList.remove('pisou'); void b.offsetWidth; b.classList.add('pisou'); } }
 
+  var saidosAntes = 0;
   function copo(p) {
-    var saiu = {};
+    var saiu = {}, novo = p.saidos.length > saidosAntes ? p.saidos[p.saidos.length - 1].bicho : null;
+    saidosAntes = p.saidos.length;
     p.saidos.forEach(function (s) { saiu[s.bicho] = s.valor; });
     els.volta.innerHTML = 'Volta <b>' + p.volta + '</b>';
     els.copo.innerHTML = A.copo('copo-ico') + R.IDS.map(function (id) {
       var b = R.bicho(id), v = saiu[id];
-      return '<span class="mini-dado' + (v ? ' saiu' : '') + '">' + A.dado(b.cor, v || 0) + (v ? '' : '<i>?</i>') + '</span>';
+      return '<span class="mini-dado' + (v ? ' saiu' : '') + (id === novo ? ' novo' : '') + '">' + A.dado(b.cor, v || 0) + (v ? '' : '<i>?</i>') + '</span>';
     }).join('');
   }
   function bilhetes(p) {

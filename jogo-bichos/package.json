@@ -1,6 +1,6 @@
 {
   "name": "acker-grande-premio-dos-bichos",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "description": "Grande Prêmio dos Bichos — corrida de apostas para TV + celulares (ACKER PLAY), com simulador para testes.",
   "scripts": {
