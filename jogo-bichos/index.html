@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#5ec4ff">
+  <title>Grande Prêmio dos Bichos · ACKER PLAY</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+  <link rel="stylesheet" href="css/jogo.css">
+</head>
+<body>
+<script>
+  /* Modo da página: "tv" (oficial, padrão), "pc" (simulador com celulares na mesma tela)
+     ou "celular" (controle do jogador, aberto pelo QR Code com ?sala=CODIGO). */
+  (function () {
+    var q = new URLSearchParams(location.search), fone = false;
+    try { fone = matchMedia('(pointer:coarse)').matches && Math.min(screen.width, screen.height) < 600; } catch (e) { /* navegador antigo */ }
+    window.MODO = q.has('sala') ? 'celular' : q.get('modo') === 'pc' ? 'pc' : q.get('modo') === 'tv' ? 'tv' : fone ? 'celular' : 'tv';
+    document.documentElement.setAttribute('data-modo', window.MODO);
+  })();
+</script>
+
+<div id="controle" class="controle" hidden></div>
+
+<div class="palco">
+  <div class="tv" id="tv"></div>
+  <div class="cantinho">
+    <a href="?modo=pc" title="Simulador: TV e celulares na mesma tela">teste pc</a>
+    <a href="../" title="Voltar à central de jogos">central</a>
+    <button id="btnTela" type="button" title="Tela cheia">⛶</button>
+  </div>
+</div>
+
+<section class="simulador" aria-label="Simulador">
+  <div class="sim-barra">
+    <b>Simulador</b>
+    <label>Celulares de pessoas <select id="simPessoas"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option></select></label>
+    <span>Bots e tempo: nos botões da própria TV. <a href="./">Modo TV oficial</a></span>
+  </div>
+  <div id="celulares" class="celulares"></div>
+</section>
+
+<script src="js/regras.js"></script>
+<script src="js/bots.js"></script>
+<script src="js/arte.js"></script>
+<script src="js/narracao.js"></script>
+<script src="audio/narracao/prontos.js"></script>
+<script src="js/som.js"></script>
+<script src="js/tv.js"></script>
+<script src="js/celular.js"></script>
+<script src="js/rede.js"></script>
+<script src="js/main.js"></script>
+<script src="js/controle.js"></script>
+</body>
+</html>

@@ -48,6 +48,13 @@ jobs:
           npm test
           cd ..
 
+      - name: Check and test Grande Prêmio dos Bichos
+        run: |
+          cd jogo-bichos
+          npm run check
+          npm test
+          cd ..
+
       - name: Assemble site directory
         run: |
           mkdir -p _site
@@ -60,6 +67,8 @@ jobs:
           cp -r jogo-corrida/dist/* _site/corrida/
           mkdir -p _site/lobisomem
           cp -r jogo-lobisomem/index.html jogo-lobisomem/css jogo-lobisomem/js jogo-lobisomem/arte jogo-lobisomem/audio _site/lobisomem/
+          mkdir -p _site/bichos
+          cp -r jogo-bichos/index.html jogo-bichos/css jogo-bichos/js jogo-bichos/arte jogo-bichos/audio _site/bichos/
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
