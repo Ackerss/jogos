@@ -113,6 +113,37 @@
       '<rect x="12" y="14" width="76" height="14" rx="6" fill="#a98aff" stroke="#2a1b2e" stroke-width="5"/><path d="M34 40 v36" stroke="#fff" stroke-width="5" opacity=".35" stroke-linecap="round"/></svg>';
   }
 
-  var Arte = { bicho: bicho, dado: dado, bilhete: bilhete, banana: banana, moeda: moeda, trofeu: trofeu, copo: copo };
+  /* Mola: quem pisa pula 1 casa para a frente. */
+  function mola(classe) {
+    return '<svg class="' + (classe || 'mola-svg') + '" viewBox="0 0 100 80" aria-hidden="true">' +
+      '<rect x="14" y="66" width="72" height="10" rx="5" fill="#8a8fa8" stroke="#2a1b2e" stroke-width="4"/>' +
+      '<path d="M26 64 Q50 58 74 62 Q50 54 26 52 Q50 46 74 50 Q50 42 26 40 Q50 34 74 38 Q50 30 26 28" fill="none" stroke="#2a1b2e" stroke-width="10" stroke-linecap="round"/>' +
+      '<path d="M26 64 Q50 58 74 62 Q50 54 26 52 Q50 46 74 50 Q50 42 26 40 Q50 34 74 38 Q50 30 26 28" fill="none" stroke="#ff4d6d" stroke-width="5" stroke-linecap="round"/>' +
+      '<rect x="12" y="10" width="76" height="16" rx="8" fill="#4fd1ff" stroke="#2a1b2e" stroke-width="4"/>' +
+      '<path d="M24 15 h30" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".6"/></svg>';
+  }
+  /* Peça da pista: banana ou mola. */
+  function peca(tipo, classe) { return tipo === 'mola' ? mola(classe) : banana(classe); }
+  function coroa(classe) {
+    return '<svg class="' + (classe || 'coroa-svg') + '" viewBox="0 0 100 70" aria-hidden="true">' +
+      '<path d="M10 60 L6 18 L30 38 L50 8 L70 38 L94 18 L90 60 Z" fill="#ffc933" stroke="#2a1b2e" stroke-width="5" stroke-linejoin="round"/>' +
+      '<rect x="10" y="52" width="80" height="12" rx="4" fill="#e09a00" stroke="#2a1b2e" stroke-width="4"/>' +
+      '<circle cx="50" cy="40" r="7" fill="#ff4d6d" stroke="#2a1b2e" stroke-width="3"/><circle cx="26" cy="46" r="5" fill="#4fa3ff" stroke="#2a1b2e" stroke-width="3"/><circle cx="74" cy="46" r="5" fill="#2fbf63" stroke="#2a1b2e" stroke-width="3"/></svg>';
+  }
+  function coracao(cor, classe) {
+    return '<svg class="' + (classe || 'coracao-svg') + '" viewBox="0 0 100 90" aria-hidden="true"><path d="M50 84 C20 62 4 46 4 28 A22 22 0 0 1 50 18 A22 22 0 0 1 96 28 C96 46 80 62 50 84Z" fill="' + (cor || '#ff4d6d') + '" stroke="#2a1b2e" stroke-width="6" stroke-linejoin="round"/>' +
+      '<path d="M22 28 a10 10 0 0 1 12 -8" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round" opacity=".6"/></svg>';
+  }
+  /* Carta de campeão: virada (escondida) ou com o bicho por cima. */
+  function cartaCampeao(id, classe) {
+    var dentro = id && DESENHOS[id]
+      ? '<g transform="translate(8 26) scale(.68)">' + DESENHOS[id]() + '</g>'
+      : '<g transform="translate(25 22) scale(.5)"><path d="M28 14 h44 v20 a22 22 0 0 1 -44 0z" fill="#ffc933" stroke="#2a1b2e" stroke-width="6"/><path d="M28 20 h-12 a12 14 0 0 0 14 22 M72 20 h12 a12 14 0 0 1 -14 22" fill="none" stroke="#2a1b2e" stroke-width="6"/><rect x="44" y="54" width="12" height="16" fill="#e09a00" stroke="#2a1b2e" stroke-width="5"/><rect x="30" y="70" width="40" height="14" rx="4" fill="#ffc933" stroke="#2a1b2e" stroke-width="6"/></g>';
+    return '<svg class="' + (classe || 'carta-svg') + '" viewBox="0 0 100 100" aria-hidden="true"><rect x="6" y="6" width="88" height="88" rx="14" fill="' + (id ? '#fff3c4' : '#7b4dff') + '" stroke="#2a1b2e" stroke-width="5"/>' +
+      (id ? '' : '<rect x="14" y="14" width="72" height="72" rx="9" fill="none" stroke="#b9a2ff" stroke-width="3" stroke-dasharray="6 5"/>') + dentro + '</svg>';
+  }
+
+  var Arte = { bicho: bicho, dado: dado, bilhete: bilhete, banana: banana, moeda: moeda, trofeu: trofeu, copo: copo,
+    mola: mola, peca: peca, coroa: coroa, coracao: coracao, cartaCampeao: cartaCampeao };
   if (typeof window !== 'undefined') window.Arte = Arte;
 })();

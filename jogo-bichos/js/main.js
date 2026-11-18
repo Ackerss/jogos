@@ -15,7 +15,11 @@
     escorregar: 650,        // escorregão na banana
     depoisDoDado: 700,      // pausa depois que o bicho para
     aposta: 1500,           // aviso de aposta na tela
-    banana: 1500,           // aviso de banana na tela
+    peca: 1500,             // aviso de banana/mola na tela
+    campeao: 1700,          // aviso de aposta de campeão
+    palpite: 3800,          // tempo para os outros chutarem qual bicho sai do copo
+    revelaCampeao: 1500,    // cada aposta de campeão virando no fim
+    torcer: 450,            // intervalo mínimo entre torcidas do mesmo celular
     largada: 420,           // cada bicho entrando na largada
     fimVolta: 6500,         // quadro do fim da volta
     ausente: 4000           // vez de quem saiu da sala (celular desligado) passa sozinha
@@ -59,7 +63,8 @@
   var lista = [];       // jogadores da corrida: {id, nome, cor, humano, pid}
   var porId = {};
   var p = null;         // partida (regras)
-  var ui = { fase: 'lobby', turno: 0, prazo: 0, prazoTotal: 0, volta: null, avisoReta: false };
+  var ui = { fase: 'lobby', turno: 0, prazo: 0, prazoTotal: 0, volta: null, avisoReta: false, palpites: {}, palpiteDe: null, palpiteAte: 0, campeao: null };
+  var ultimaTorcida = {};
   var vcasas = null;    // posições mostradas na TV (mudam passo a passo durante as animações)
   var geracao = 0;
   function depois(ms, fn) { var g = geracao; setTimeout(function () { if (g === geracao) fn(); }, ms); }
@@ -114,9 +119,11 @@
           '<div class="sala-desfile">' + R.IDS.map(function (id) { return A.bicho(id); }).join('') + '</div>' +
           '<ol class="sala-como">' +
             '<li>' + A.dado('#ffffff', 3) + '<span><b>Dado</b>um bicho anda</span></li>' +
-            '<li>' + A.bilhete('#ffd84a', 5) + '<span><b>Aposta</b>no bicho que vai ganhar</span></li>' +
-            '<li>' + A.banana() + '<span><b>Banana</b>na frente de um bicho</span></li>' +
+            '<li>' + A.bilhete('#ffd84a', 5) + '<span><b>Aposta</b>quem ganha a volta</span></li>' +
+            '<li><span class="duas">' + A.banana() + A.mola() + '</span><span><b>Banana ou Mola</b>atrapalha ou ajuda</span></li>' +
+            '<li>' + A.cartaCampeao(null) + '<span><b>Campeão</b>quem ganha a corrida</span></li>' +
           '</ol>' +
+          '<p class="sala-extra">Na vez dos outros: <b>adivinhe o dado</b> e <b>torça</b> pelo seu bicho no celular!</p>' +
           (top.length ? '<div class="sala-ranking"><b>Campeões</b>' + top.map(function (r) { return '<span>' + TV.esc(r.nome) + ' <i>' + r.v + '</i></span>'; }).join('') + '</div>' : '') +
         '</div>' +
         '<div class="sala-dir">' + entrar +
@@ -145,7 +152,8 @@
     if (lista.length < 2) return;
     geracao++;
     p = R.criarPartida(lista.map(function (j) { return { id: j.id, nome: j.nome, humano: j.humano }; }));
-    ui.fase = 'largada'; ui.turno = 0; ui.avisoReta = false;
+    ui.fase = 'largada'; ui.turno = 0; ui.avisoReta = false; ui.campeao = null; ui.palpites = {}; ui.palpiteDe = null;
+    TV.jogadores([], null, null);
     TV.overlay(''); tvEl.classList.remove('na-sala');
     vcasas = p.casas.map(function () { return []; });
     TV.transicao(0); TV.posicionar(vcasas);
@@ -157,7 +165,7 @@
       p.largada.forEach(function (l, i) {
         depois(900 + i * TEMPO.largada, function () { vcasas[l.valor - 1].push(l.bicho); TV.posicionar(vcasas); TV.pular([l.bicho]); Som.pulo(); });
       });
-      depois(1400 + p.largada.length * TEMPO.largada, iniciarVez);
+      depois(1400 + p.largada.length * TEMPO.largada, function () { TV.festa(); iniciarVez(); });
     });
     enviarTelas();
   }
@@ -174,6 +182,8 @@
     enviarTelas();
   }
 
+  function cracha(j) { return '<span class="cracha" style="--cor:' + j.cor + '">' + TV.esc(j.nome.charAt(0).toUpperCase()) + '</span>'; }
+
   /* Uma jogada (do celular, do bot ou automática quando o tempo acaba). */
   function jogar(j, d) {
     if (ui.fase !== 'vez' || R.daVez(p).id !== j.id) return;
@@ -182,27 +192,86 @@
       if (!ap) return recusar();
       ui.fase = 'anim';
       Som.aposta(); Som.narrar('aposta');
-      TV.aviso('<span class="cracha" style="--cor:' + j.cor + '">' + TV.esc(j.nome.charAt(0)) + '</span><b>' + TV.esc(j.nome) + '</b> apostou ' + A.bilhete(R.bicho(ap.bicho).cor, ap.valor) + A.bicho(ap.bicho), TEMPO.aposta);
+      TV.aviso(cracha(j) + '<b>' + TV.esc(j.nome) + '</b> apostou ' + A.bilhete(R.bicho(ap.bicho).cor, ap.valor) + A.bicho(ap.bicho), TEMPO.aposta);
       redesenhar();
       depois(TEMPO.aposta, proxima);
-    } else if (d.tipo === 'banana') {
-      var bn = R.porBanana(p, j.id, d.bicho);
+    } else if (d.tipo === 'peca' || d.tipo === 'banana') {
+      var bn = R.porPeca(p, j.id, d.bicho, d.qual || 'banana');
       if (!bn) return recusar();
       ui.fase = 'anim';
-      Som.banana(); Som.narrar('banana_posta');
-      TV.aviso('<span class="cracha" style="--cor:' + j.cor + '">' + TV.esc(j.nome.charAt(0)) + '</span><b>' + TV.esc(j.nome) + '</b> pôs uma ' + A.banana() + ' na frente ' + (R.bicho(bn.bicho).artigo === 'a' ? 'da' : 'do') + A.bicho(bn.bicho), TEMPO.banana);
+      var mola = bn.qual === 'mola';
+      if (mola) { Som.mola(); Som.narrar('mola_posta'); } else { Som.banana(); Som.narrar('banana_posta'); }
+      TV.aviso(cracha(j) + '<b>' + TV.esc(j.nome) + '</b> pôs ' + (mola ? 'uma mola ' + A.mola() : 'uma banana ' + A.banana()) + ' na frente ' + (R.bicho(bn.bicho).artigo === 'a' ? 'da' : 'do') + A.bicho(bn.bicho), TEMPO.peca);
       redesenhar();
-      depois(TEMPO.banana, proxima);
+      depois(TEMPO.peca, proxima);
+    } else if (d.tipo === 'campeao') {
+      var cp = R.apostarCampeao(p, j.id, d.bicho);
+      if (!cp) return recusar();
+      ui.fase = 'anim';
+      Som.aposta(); Som.narrar('campeao_aposta');
+      TV.aviso(cracha(j) + '<b>' + TV.esc(j.nome) + '</b> fez uma aposta de campeão ' + A.cartaCampeao(null) + '<small>segredo!</small>', TEMPO.campeao);
+      redesenhar();
+      depois(TEMPO.campeao, proxima);
     } else {
       ui.fase = 'anim';
-      vcasas = p.casas.map(function (c) { return c.slice(); });
-      var ev = R.rolar(p, j.id);
-      redesenhar(true);
-      animar(ev, 0, proxima);
+      if (precisaPalpite(j)) abrirPalpite(j); else rolarAgora(j);
     }
     enviarTelas();
   }
   function recusar() { ui.turno++; enviarTelas(); }
+
+  /* Palpite do dado: os outros jogadores chutam qual bicho sai do copo. Só abre se tiver outra PESSOA para chutar. */
+  function precisaPalpite(j) {
+    return p.copo.length > 1 && lista.some(function (x) { return x !== j && x.humano && presente(x); });
+  }
+  function quemPalpita() { return lista.filter(function (x) { return x.id !== ui.palpiteDe && (!x.humano || presente(x)); }); }
+  function desenharPalpite(revelado) {
+    TV.palpite(true, quemPalpita().map(function (x) {
+      return { cor: x.cor, letra: x.nome.charAt(0).toUpperCase(), bicho: ui.palpites[x.id] || null };
+    }), p.copo, revelado, cracha(porId[ui.palpiteDe]) + ' ' + TV.esc(porId[ui.palpiteDe].nome) + ' vai jogar o dado');
+  }
+  function abrirPalpite(j) {
+    ui.fase = 'palpite'; ui.palpites = {}; ui.palpiteDe = j.id; ui.palpiteAte = Date.now() + TEMPO.palpite;
+    TV.faixa('');
+    desenharPalpite(); Som.chacoalhar(); Som.narrar('palpite');
+    var t = ui.turno;
+    quemPalpita().forEach(function (x) {
+      if (x.humano) return;
+      depois(500 + Math.random() * (TEMPO.palpite - 1200), function () {
+        if (ui.fase !== 'palpite' || ui.turno !== t) return;
+        ui.palpites[x.id] = B.palpite(p); desenharPalpite(); Som.pulo();
+      });
+    });
+    depois(TEMPO.palpite, function () { if (ui.fase === 'palpite' && ui.turno === t) fecharPalpite(); });
+  }
+  function palpitar(j, bicho) {
+    if (ui.fase !== 'palpite' || j.id === ui.palpiteDe || ui.palpites[j.id] || p.copo.indexOf(bicho) < 0) return;
+    ui.palpites[j.id] = bicho; desenharPalpite(); Som.pulo(); enviarTelas();
+    // Todas as pessoas já chutaram: não precisa esperar o relógio.
+    var faltam = quemPalpita().some(function (x) { return x.humano && !ui.palpites[x.id]; });
+    var t = ui.turno;
+    if (!faltam) depois(700, function () { if (ui.fase === 'palpite' && ui.turno === t) fecharPalpite(); });
+  }
+  function fecharPalpite() {
+    var j = porId[ui.palpiteDe];
+    // Bots que ainda não chutaram chutam agora.
+    quemPalpita().forEach(function (x) { if (!x.humano && !ui.palpites[x.id]) ui.palpites[x.id] = B.palpite(p); });
+    ui.fase = 'anim';
+    rolarAgora(j);
+    enviarTelas();
+  }
+  function rolarAgora(j) {
+    ui.fase = 'anim';
+    TV.faixa('');
+    vcasas = p.casas.map(function (c) { return c.slice(); });
+    var ev = R.rolar(p, j.id);
+    var tinha = Object.keys(ui.palpites).length > 0;
+    var certos = tinha ? R.pagarPalpites(p, ui.palpites, ev[0].bicho) : [];
+    ev[0].acertos = tinha ? (certos.length ? certos.map(function (id) { return cracha(porId[id]); }).join('') + '<b>+1</b>' : '<small>ninguém acertou</small>') : '';
+    if (tinha) desenharPalpite(ev[0].bicho);
+    redesenhar(true);
+    animar(ev, 0, proxima);
+  }
 
   /* Anima os acontecimentos do dado, um depois do outro. */
   function animar(ev, i, fim) {
@@ -210,38 +279,43 @@
     var e = ev[i], segue = function () { animar(ev, i + 1, fim); };
     if (e.tipo === 'dado') {
       Som.dado();
-      TV.rolarDado(e.bicho, e.valor, TEMPO.dadoRola, function () { Som.revelar(); Som.moeda(); Som.narrar('anda_' + e.bicho, true); });
-      depois(TEMPO.dadoRola + TEMPO.dadoMostra, function () { TV.esconderDado(); segue(); });
-    } else if (e.tipo === 'mover' || e.tipo === 'escorregar') {
+      var extra = e.acertos ? 500 : 0;
+      depois(e.acertos ? 250 : 0, function () { TV.palpite(false); });
+      TV.rolarDado(e.bicho, e.valor, TEMPO.dadoRola, function () { Som.revelar(); Som.moeda(); Som.narrar('anda_' + e.bicho, true); }, e.acertos);
+      depois(TEMPO.dadoRola + TEMPO.dadoMostra + extra, function () { TV.esconderDado(); redesenhar(true); segue(); });
+    } else if (e.tipo === 'mover' || e.tipo === 'escorregar' || e.tipo === 'mola') {
       var de = vcasas[e.de], k = de.indexOf(e.grupo[0]);
       if (k >= 0) vcasas[e.de] = de.slice(0, k);
       var passos = [], dir = e.para > e.de ? 1 : -1;
       for (var c = e.de + dir; dir > 0 ? c <= e.para : c >= e.para; c += dir) passos.push(c);
-      var ms = e.tipo === 'escorregar' ? TEMPO.escorregar : TEMPO.passo;
+      var ms = e.tipo === 'escorregar' ? TEMPO.escorregar : e.tipo === 'mola' ? TEMPO.escorregar : TEMPO.passo;
       TV.transicao(ms);
       passos.forEach(function (c, n) {
         depois(n * ms, function () {
-          TV.posicionar(vcasas, { grupo: e.grupo, casa: c, altura: vcasas[c] ? vcasas[c].length : 0 });
-          TV.pular(e.grupo, e.tipo === 'escorregar' ? 'escorrega' : 'pulo');
+          TV.posicionar(vcasas, { grupo: e.grupo, casa: c, altura: e.porBaixo ? 0 : vcasas[c] ? vcasas[c].length : 0 });
+          TV.pular(e.grupo, e.tipo === 'escorregar' ? 'escorrega' : e.tipo === 'mola' ? 'mola' : 'pulo');
           if (e.tipo === 'mover') Som.pulo();
         });
       });
       depois(passos.length * ms + 60, function () {
-        vcasas[e.para] = (vcasas[e.para] || []).concat(e.grupo);
+        vcasas[e.para] = e.porBaixo ? e.grupo.concat(vcasas[e.para] || []) : (vcasas[e.para] || []).concat(e.grupo);
+        if (e.porBaixo) TV.posicionar(vcasas);
         Som.pouso();
-        if (e.tipo === 'mover' && (e.embaixo.length || e.grupo.length > 1) && !(ev[i + 1] && ev[i + 1].tipo === 'banana')) Som.narrar('carona');
+        if (e.tipo === 'mover' && (e.embaixo.length || e.grupo.length > 1) && !(ev[i + 1] && ev[i + 1].tipo === 'peca')) Som.narrar('carona');
         segue();
       });
-    } else if (e.tipo === 'banana') {
-      TV.bananaCaiu(e.casa); Som.banana(); Som.narrar('escorregou', true);
+    } else if (e.tipo === 'peca') {
+      TV.pecaPisada(e.casa);
+      var mola = e.qual === 'mola';
+      if (mola) { Som.mola(); Som.narrar('pulou_mola', true); } else { Som.banana(); Som.narrar('escorregou', true); }
       var dono = porId[e.dono];
-      if (dono) TV.aviso(A.banana() + '<b>Escorregou!</b> <span class="cracha" style="--cor:' + dono.cor + '">' + TV.esc(dono.nome.charAt(0)) + '</span> +1 ' + A.moeda(), 1800);
+      if (dono) TV.aviso(A.peca(e.qual) + '<b>' + (mola ? 'Boing! Pulou!' : 'Escorregou!') + '</b> ' + cracha(dono) + ' +1 ' + A.moeda(), 1800);
       depois(350, segue);
     } else if (e.tipo === 'lider') {
-      if (!p.fim) { Som.narrar('lider'); TV.aviso(A.bicho(e.bicho) + '<b>Novo líder!</b>', 1500); }
+      if (!p.fim) { Som.narrar('lider'); Som.torcida(); TV.festa(); TV.aviso(A.coroa() + A.bicho(e.bicho) + '<b>Novo líder!</b>', 1500); }
       segue();
     } else if (e.tipo === 'chegada') {
-      TV.pular([e.bicho], 'festa'); Som.fanfarra(); Som.narrar('chegada_' + e.bicho, true);
+      TV.pular([e.bicho], 'festa'); Som.fanfarra(); Som.torcida(); Som.narrar('chegada_' + e.bicho, true); TV.festa(); TV.confete(5000);
       TV.aviso(A.bicho(e.bicho) + '<b>CHEGOU!</b>', 2600);
       depois(2400, segue);
     } else segue();
@@ -257,7 +331,7 @@
       redesenhar(); enviarTelas();
       depois(TEMPO.fimVolta, function () {
         TV.overlay('');
-        if (p.fim) return final();
+        if (p.fim) return revelarCampeao();
         R.novaVolta(p); R.passarVez(p);
         Som.narrar('nova_volta', true);
         redesenhar();
@@ -282,17 +356,53 @@
     if (linhas) setTimeout(Som.moeda, 600);
   }
 
+  /* Fim da corrida: as apostas de campeão viram uma por uma (na ordem em que foram feitas). */
+  function revelarCampeao() {
+    var r = R.pagarCampeao(p);
+    ui.campeao = r;
+    if (!r.apostas.length) return final();
+    ui.fase = 'campeao';
+    Som.narrar('revela_campeao', true);
+    var premio = R.PREMIO_CAMPEAO.join(', ');
+    function desenhar(n) {
+      TV.overlay('<div class="quadro campeao"><h2>Apostas de campeão</h2>' +
+        '<div class="cp-vencedor">' + A.trofeu('cp-trofeu') + A.bicho(r.vencedor, 'cp-bicho') + '<span>ganhou a corrida!</span></div>' +
+        '<div class="cp-lista">' + r.apostas.map(function (a, i) {
+          var j = porId[a.jogador], virada = i < n;
+          return '<div class="cp-item' + (virada ? ' virada ' + (a.acertou ? 'certo' : 'errado') : '') + '">' + cracha(j) + '<b>' + TV.esc(j.nome) + '</b>' +
+            A.cartaCampeao(virada ? a.bicho : null, 'cp-carta') + '<em>' + (virada ? (a.delta > 0 ? '+' + a.delta : a.delta) : '?') + '</em></div>';
+        }).join('') + '</div><p class="pg-nota">Quem acertou primeiro ganha mais: ' + premio + '. Errou: -1 ' + A.moeda() + '</p></div>', 'quadro-overlay');
+    }
+    desenhar(0); redesenhar(); enviarTelas();
+    r.apostas.forEach(function (a, i) {
+      depois(1400 + i * TEMPO.revelaCampeao, function () {
+        desenhar(i + 1);
+        if (a.acertou) { Som.moeda(); Som.torcida(); } else Som.perder();
+      });
+    });
+    depois(1400 + r.apostas.length * TEMPO.revelaCampeao + 2600, final);
+  }
+
   function final() {
     ui.fase = 'fim';
     var venc = R.vencedores(p);
     Ranking.registrar(lista, venc);
     Som.fanfarra(); Som.narrar('campeao', true);
     var ord = p.jogadores.slice().sort(function (a, b) { return b.moedas - a.moedas; });
-    TV.overlay('<div class="quadro final">' + A.trofeu('trofeu-grande') + '<h2>' + venc.map(function (id) { return TV.esc(porId[id].nome); }).join(' e ') + (venc.length > 1 ? ' venceram!' : ' venceu!') + '</h2>' +
-      '<div class="final-lista">' + ord.map(function (pj, i) {
+    TV.confete(6000); TV.festa();
+    var lugar = function (pj) { return ord.filter(function (x) { return x.moedas > pj.moedas; }).length + 1; };
+    var podio = [ord[1], ord[0], ord[2]].map(function (pj, k) {
+      if (!pj) return '';
+      var j = porId[pj.id], n = lugar(pj);
+      return '<div class="fp fp' + (k === 1 ? 1 : k === 0 ? 2 : 3) + '">' + (n === 1 ? A.coroa('fp-coroa') : '') + '<span class="cracha" style="--cor:' + j.cor + '">' + TV.esc(j.nome.charAt(0).toUpperCase()) + '</span><b>' + TV.esc(j.nome) + '</b>' +
+        '<div class="fp-bloco"><i>' + n + 'º</i><span>' + A.moeda() + pj.moedas + '</span></div></div>';
+    }).join('');
+    TV.overlay('<div class="quadro final"><h2>' + A.trofeu('trofeu-titulo') + venc.map(function (id) { return TV.esc(porId[id].nome); }).join(' e ') + (venc.length > 1 ? ' venceram!' : ' venceu!') + '</h2>' +
+      '<div class="final-podio">' + podio + '</div>' +
+      (ord.length > 3 ? '<div class="final-lista">' + ord.slice(3).map(function (pj) {
         var j = porId[pj.id];
-        return '<div class="fl' + (venc.indexOf(pj.id) >= 0 ? ' ouro' : '') + '"><i>' + (i + 1) + 'º</i><span class="cracha" style="--cor:' + j.cor + '">' + TV.esc(j.nome.charAt(0)) + '</span><b>' + TV.esc(j.nome) + '</b>' + A.moeda() + '<em>' + pj.moedas + '</em></div>';
-      }).join('') + '</div>' +
+        return '<div class="fl"><i>' + lugar(pj) + 'º</i>' + cracha(j) + '<b>' + TV.esc(j.nome) + '</b>' + A.moeda() + '<em>' + pj.moedas + '</em></div>';
+      }).join('') + '</div>' : '') +
       '<div class="final-botoes"><button class="tv-botao principal" data-tv="denovo">▶ Jogar de novo</button><button class="tv-botao" data-tv="sala">Sala</button></div></div>', 'quadro-overlay');
     var b = tvEl.querySelector('[data-tv="denovo"]'); if (b) b.focus({ preventScroll: true });
     redesenhar(); enviarTelas();
@@ -302,12 +412,12 @@
   /* ---------- Desenho da TV ---------- */
   function redesenhar(semPistaNova) {
     if (!p) return;
-    TV.copo(p); TV.bilhetes(p); TV.bananas(p, porId);
+    TV.copo(p); TV.bilhetes(p); TV.pecas(p, porId);
     var vez = ui.fase === 'vez' || ui.fase === 'anim' ? porId[R.daVez(p).id] : null;
     TV.jogadores(lista.map(function (j) { return { id: j.id, nome: j.nome, cor: j.cor, humano: j.humano, ausente: !presente(j) }; }), p, vez && vez.id);
     if (ui.fase === 'vez' && vez) {
       TV.faixa('<span class="cracha" style="--cor:' + vez.cor + '">' + TV.esc(vez.nome.charAt(0).toUpperCase()) + '</span><span>Vez de <b>' + TV.esc(vez.nome) + '</b>' + (vez.humano ? '' : ' <small>pensando…</small>') + '</span>' + (ui.prazo ? '<div class="faixa-prazo"><i></i></div>' : ''), vez.cor);
-    } else if (ui.fase !== 'anim') TV.faixa('');
+    } else if (ui.fase !== 'anim' && ui.fase !== 'palpite') TV.faixa('');
     if (!semPistaNova && ui.fase !== 'anim' && ui.fase !== 'largada') { TV.transicao(300); TV.posicionar(p.casas); }
   }
 
@@ -338,16 +448,29 @@
       base.campeao = venc.map(function (id) { return porId[id].nome; }).join(' e ');
       return base;
     }
+    if (ui.fase === 'campeao' && ui.campeao) {
+      var minha = ui.campeao.apostas.filter(function (a) { return a.jogador === j.id; })[0];
+      base.tela = 'revela'; base.vencedor = ui.campeao.vencedor; base.minha = minha ? minha.bicho : null;
+      return base;
+    }
     if (ui.fase === 'volta' && ui.volta) {
       var r = ui.volta.jogadores.filter(function (x) { return x.id === j.id; })[0];
       base.tela = 'volta'; base.primeiro = ui.volta.primeiro; base.segundo = ui.volta.segundo; base.ganhos = r ? r.ganhos : [];
       return base;
     }
     var vez = porId[R.daVez(p).id];
+    base.campeao = pj.campeao;
     if (ui.fase === 'vez' && vez === j) {
-      base.tela = 'vez'; base.turno = ui.turno; base.prazo = ui.prazo; base.prazoTotal = ui.prazoTotal; base.temBanana = pj.banana !== null;
-      base.apostas = {}; base.bananas = {};
-      R.IDS.forEach(function (id) { base.apostas[id] = p.bilhetes[id][0] || 0; base.bananas[id] = R.casaDaBanana(p, j.id, id) !== null; });
+      base.tela = 'vez'; base.turno = ui.turno; base.prazo = ui.prazo; base.prazoTotal = ui.prazoTotal;
+      base.temPeca = pj.peca !== null && p.pecas[pj.peca] ? p.pecas[pj.peca].tipo : '';
+      base.podeCampeao = R.podeCampeao(p, j.id);
+      base.apostas = {}; base.pecas = {};
+      R.IDS.forEach(function (id) { base.apostas[id] = p.bilhetes[id][0] || 0; base.pecas[id] = R.casaDaPeca(p, j.id, id) !== null; });
+      return base;
+    }
+    if (ui.fase === 'palpite' && j.id !== ui.palpiteDe) {
+      base.tela = 'palpite'; base.turno = ui.turno; base.copo = p.copo.slice(); base.chute = ui.palpites[j.id] || '';
+      base.prazo = ui.palpiteAte; base.prazoTotal = TEMPO.palpite; base.vezDe = vez.nome;
       return base;
     }
     base.tela = 'espera'; base.largada = ui.fase === 'largada'; base.vezDe = vez.nome; base.vezCor = vez.cor;
@@ -371,8 +494,20 @@
     if (d.tipo === 'denovo' && ui.fase === 'fim') { jogarDeNovo(); return; }
     if (!j || !p) return;
     if (d.bicho !== undefined && R.IDS.indexOf(d.bicho) < 0) return;
-    if (d.tipo === 'rolar' || d.tipo === 'apostar' || d.tipo === 'banana') jogar(j, d);
+    if (d.qual !== undefined && R.PECAS.indexOf(d.qual) < 0) return;
+    if (d.tipo === 'palpite') return palpitar(j, d.bicho);
+    if (d.tipo === 'torcer') return torcer(j, d.bicho);
+    if (d.tipo === 'rolar' || d.tipo === 'apostar' || d.tipo === 'peca' || d.tipo === 'banana' || d.tipo === 'campeao') jogar(j, d);
   });
+  /* Torcida: coração com a inicial em cima do bicho, na TV. */
+  function torcer(j, bicho) {
+    if (!bicho || ui.fase === 'lobby' || ui.fase === 'fim') return;
+    var agora = Date.now();
+    if (agora - (ultimaTorcida[j.id] || 0) < TEMPO.torcer) return;
+    ultimaTorcida[j.id] = agora;
+    TV.torcer(bicho, j.cor, j.nome.charAt(0).toUpperCase());
+    Som.oba();
+  }
   rede.aoMudar(function () {
     if (ui.fase === 'lobby') { montarLista(); desenharLobby(); }
     else if (p) redesenhar(true);

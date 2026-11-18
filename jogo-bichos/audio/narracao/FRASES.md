@@ -2,7 +2,7 @@
 
 Gerado por `node scripts/frases.js` a partir de `js/narracao.js` (não edite à mão: mude lá e rode de novo).
 
-Total: **35 arquivos**, **1260 caracteres** (cabe no plano grátis do ElevenLabs).
+Total: **44 arquivos**, **1586 caracteres** (cabe no plano grátis do ElevenLabs).
 
 Salve cada MP3 nesta pasta (`jogo-bichos/audio/narracao/`) com o **nome exato** da coluna Arquivo.
 
@@ -28,6 +28,15 @@ Salve cada MP3 nesta pasta (`jogo-bichos/audio/narracao/`) com o **nome exato** 
 | `banana_posta_2.mp3` | Uma banana na pista... Isso vai dar confusão! | Alguém põe uma casca de banana na pista | malicioso, avisando |
 | `escorregou_1.mp3` | Escorregou na banana! Ihhh! | Um bicho pisa na banana e escorrega para trás | gritando de surpresa, engraçado |
 | `escorregou_2.mp3` | Pisou na banana e voltou para trás! | Um bicho pisa na banana e escorrega para trás | gritando de surpresa, engraçado |
+| `mola_posta_1.mp3` | Uma mola na pista! Alguém vai voar! | Alguém põe uma mola na pista | animado, brincalhão |
+| `mola_posta_2.mp3` | Olha a mola! Quem pisar vai dar um pulão! | Alguém põe uma mola na pista | animado, brincalhão |
+| `pulou_mola_1.mp3` | Boing! Pulou na mola! | Um bicho pisa na mola e pula para a frente | rindo, eufórico |
+| `pulou_mola_2.mp3` | Que pulo! A mola mandou lá para a frente! | Um bicho pisa na mola e pula para a frente | rindo, eufórico |
+| `palpite_1.mp3` | Qual bicho vai sair do copo? Chuta aí! | Alguém vai jogar o dado: os outros chutam qual bicho sai | suspense brincalhão |
+| `palpite_2.mp3` | Hora do palpite! Quem sai do copo? | Alguém vai jogar o dado: os outros chutam qual bicho sai | suspense brincalhão |
+| `campeao_aposta_1.mp3` | Uma aposta de campeão... em segredo! | Alguém faz a aposta secreta de campeão | misterioso, cochichando animado |
+| `campeao_aposta_2.mp3` | Hmm... aposta secreta de campeão! | Alguém faz a aposta secreta de campeão | misterioso, cochichando animado |
+| `revela_campeao_1.mp3` | E agora... as apostas de campeão! Quem acertou? | Fim da corrida: as apostas de campeão vão ser reveladas | suspense de premiação |
 | `aposta_1.mp3` | Aposta feita! | Alguém faz uma aposta | animado, rápido |
 | `aposta_2.mp3` | Hmm... apostou forte! | Alguém faz uma aposta | animado, rápido |
 | `lider_1.mp3` | Mudou a liderança! | Um bicho novo assume a liderança | eufórico |

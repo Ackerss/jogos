@@ -90,6 +90,19 @@
     aposta: function () { ruido(0.12, 3200, 0.18); tom(784, 0.18, 0.06, 0.1, 'triangle'); },
     vez: function () { tom(523, 0.15, 0.05, 0, 'triangle'); tom(784, 0.2, 0.05, 0.12, 'triangle'); },
     perder: function () { tom(330, 0.3, 0.06, 0, 'sawtooth', 220); },
+    mola: function () { tom(220, 0.35, 0.09, 0, 'triangle', 880); tom(330, 0.25, 0.05, 0.12, 'sine', 990); },
+    chacoalhar: function () { for (var i = 0; i < 10; i++) ruido(0.04, 2200 + Math.random() * 1400, 0.16, i * 0.11); },
+    /* Torcida (multidão): um chiado que cresce e some. */
+    torcida: function () {
+      var a = ac(); if (!a) return;
+      var t = a.currentTime, n = Math.floor(a.sampleRate * 1.4), b = a.createBuffer(1, n, a.sampleRate), d = b.getChannelData(0);
+      for (var i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1);
+      var s = a.createBufferSource(); s.buffer = b;
+      var f = a.createBiquadFilter(); f.type = 'bandpass'; f.frequency.value = 1100; f.Q.value = 0.7;
+      var g = a.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.12, t + 0.25); g.gain.exponentialRampToValueAtTime(0.0001, t + 1.4);
+      s.connect(f); f.connect(g); g.connect(a.destination); s.start(t);
+    },
+    oba: function () { tom(700 + Math.random() * 300, 0.12, 0.035, 0, 'sine', 1200); },
     fanfarra: function () { [523, 659, 784, 1046, 784, 1046].forEach(function (f, i) { tom(f, i > 3 ? 0.6 : 0.2, 0.07, i * 0.14, 'square'); }); }
   };
   window.Som = Som;

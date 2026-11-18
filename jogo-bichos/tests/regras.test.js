@@ -40,30 +40,75 @@ test('cair em casa ocupada: sobe nas costas e fica na frente', () => {
   assert.strictEqual(R.ordem(p)[0], 'gato');
 });
 
-test('banana: escorrega 1 casa, dono ganha 1 moeda', () => {
+test('banana: escorrega 1 casa, vai para baixo da pilha, dono ganha 1 moeda', () => {
   const p = R.criarPartida(GENTE, semente(3));
   p.casas = p.casas.map(() => []);
-  p.casas[0] = ['tartaruga']; p.casas[1] = ['porco']; p.casas[2] = ['pato']; p.casas[3] = ['coelho']; p.casas[10] = ['gato'];
+  p.casas[0] = ['tartaruga']; p.casas[1] = ['porco']; p.casas[2] = ['pato']; p.casas[3] = ['coelho']; p.casas[4] = []; p.casas[10] = ['gato'];
   Object.assign(p.pos, { tartaruga: 0, porco: 1, pato: 2, coelho: 3, gato: 10 });
-  assert.strictEqual(R.casaDaBanana(p, 2, 'coelho'), 5);
-  R.porBanana(p, 2, 'coelho');
-  assert.strictEqual(p.bananas[5], 2);
+  assert.strictEqual(R.casaDaPeca(p, 2, 'coelho'), 5);
+  R.porPeca(p, 2, 'coelho', 'banana');
+  assert.deepStrictEqual(p.pecas[5], { dono: 2, tipo: 'banana' });
+  // tartaruga vai para a casa 4 antes, para o coelho cair embaixo dela
+  p.casas[0] = []; p.casas[4] = ['tartaruga']; p.pos.tartaruga = 4;
   p.copo = ['coelho'];
   const ev = R.rolar(p, 0, (() => { const v = [0, 0.5]; let i = 0; return () => v[i++]; })()); // coelho anda 2 → casa 5
-  assert.ok(ev.some(e => e.tipo === 'banana'));
+  assert.ok(ev.some(e => e.tipo === 'peca' && e.qual === 'banana'));
   assert.strictEqual(p.pos.coelho, 4);
+  assert.deepStrictEqual(p.casas[4], ['coelho', 'tartaruga']); // embaixo
   assert.strictEqual(p.jogadores[2].moedas, R.MOEDAS_INICIO + 1);
 });
 
-test('banana não fica ao lado da banana de outro, nem em casa ocupada', () => {
+test('mola: pula 1 casa para a frente e cai em cima da pilha', () => {
+  const p = R.criarPartida(GENTE, semente(3));
+  p.casas = p.casas.map(() => []);
+  p.casas[0] = ['tartaruga', 'porco']; p.casas[6] = ['pato']; p.casas[9] = ['coelho']; p.casas[10] = ['gato'];
+  Object.assign(p.pos, { tartaruga: 0, porco: 0, pato: 6, coelho: 9, gato: 10 });
+  R.porPeca(p, 1, 'tartaruga', 'mola'); // casa 2
+  assert.strictEqual(p.pecas[2].tipo, 'mola');
+  p.casas[3] = ['pato']; p.casas[6] = []; p.pos.pato = 3;
+  p.copo = ['tartaruga'];
+  const ev = R.rolar(p, 0, (() => { const v = [0, 0.5]; let i = 0; return () => v[i++]; })()); // tartaruga (+porco) anda 2 → mola → 3
+  assert.ok(ev.some(e => e.tipo === 'mola'));
+  assert.deepStrictEqual(p.casas[3], ['pato', 'tartaruga', 'porco']);
+  assert.strictEqual(p.jogadores[1].moedas, R.MOEDAS_INICIO + 1);
+});
+
+test('peça não fica ao lado da peça de outro, nem em casa ocupada', () => {
   const p = R.criarPartida(GENTE, semente(3));
   p.casas = p.casas.map(() => []);
   p.casas[0] = ['tartaruga', 'porco', 'pato', 'coelho', 'gato'];
   R.IDS.forEach(id => { p.pos[id] = 0; });
-  R.porBanana(p, 1, 'gato'); // casa 2
-  assert.strictEqual(p.bananas[2], 1);
-  assert.strictEqual(R.casaDaBanana(p, 2, 'gato'), null); // 2 ocupada, 1 e 3 vizinhas
-  assert.strictEqual(R.casaDaBanana(p, 1, 'gato'), 2);    // a própria banana pode mudar de lugar
+  R.porPeca(p, 1, 'gato', 'banana'); // casa 2
+  assert.strictEqual(p.pecas[2].dono, 1);
+  assert.strictEqual(R.casaDaPeca(p, 2, 'gato'), null); // 2 ocupada, 1 e 3 vizinhas
+  assert.strictEqual(R.casaDaPeca(p, 1, 'gato'), 2);    // a própria peça pode mudar de lugar
+  R.porPeca(p, 1, 'gato', 'mola');
+  assert.strictEqual(p.pecas[2].tipo, 'mola');
+  assert.strictEqual(Object.keys(p.pecas).length, 1);
+});
+
+test('aposta de campeão: 1 por jogador, paga 8/5/3… na ordem e tira 1 de quem errou', () => {
+  const p = R.criarPartida(GENTE, semente(5));
+  assert.ok(R.apostarCampeao(p, 1, 'pato'));
+  assert.strictEqual(R.apostarCampeao(p, 1, 'gato'), null); // só uma vez
+  assert.ok(R.apostarCampeao(p, 0, 'pato'));
+  assert.ok(R.apostarCampeao(p, 2, 'gato'));
+  p.casas = p.casas.map(() => []);
+  p.casas[16] = ['pato']; p.casas[3] = ['tartaruga', 'porco', 'coelho', 'gato'];
+  Object.assign(p.pos, { pato: 16, tartaruga: 3, porco: 3, coelho: 3, gato: 3 });
+  const r = R.pagarCampeao(p);
+  assert.strictEqual(r.vencedor, 'pato');
+  assert.strictEqual(p.jogadores[1].moedas, 3 + 8);
+  assert.strictEqual(p.jogadores[0].moedas, 3 + 5);
+  assert.strictEqual(p.jogadores[2].moedas, 3 - 1);
+});
+
+test('palpite: quem acertou o bicho do dado ganha 1 moeda', () => {
+  const p = R.criarPartida(GENTE, semente(5));
+  const certos = R.pagarPalpites(p, { 1: 'porco', 2: 'gato' }, 'porco');
+  assert.deepStrictEqual(certos, [1]);
+  assert.strictEqual(p.jogadores[1].moedas, 4);
+  assert.strictEqual(p.jogadores[2].moedas, 3);
 });
 
 test('pagamento da volta: 1º vale o bilhete, 2º vale 1, os outros perdem 1 (sem ficar negativo)', () => {
@@ -106,7 +151,7 @@ test('chances somam 1 e o líder isolado tem mais chance', () => {
 
 test('300 corridas só com bots terminam, com vencedor e sem moeda negativa', () => {
   const rnd = semente(42);
-  let voltasTotal = 0, jogadas = 0;
+  let voltasTotal = 0, jogadas = 0, campeoes = 0;
   for (let k = 0; k < 300; k++) {
     const n = 2 + (k % 7);
     const gente = Array.from({ length: n }, (_, i) => ({ id: i, nome: 'Bot' + i, humano: false }));
@@ -116,19 +161,20 @@ test('300 corridas só com bots terminam, com vencedor e sem moeda negativa', ()
       const j = R.daVez(p);
       const d = B.decidir(p, j.id, rnd, j.id);
       if (d.tipo === 'apostar') assert.ok(R.apostar(p, j.id, d.bicho));
-      else if (d.tipo === 'banana') assert.ok(R.porBanana(p, j.id, d.bicho));
+      else if (d.tipo === 'peca') assert.ok(R.porPeca(p, j.id, d.bicho, d.qual));
+      else if (d.tipo === 'campeao') assert.ok(R.apostarCampeao(p, j.id, d.bicho));
       else R.rolar(p, j.id, rnd);
       jogadas++;
-      if (R.voltaAcabou(p)) { R.pagarVolta(p); if (!p.fim) R.novaVolta(p); }
+      if (R.voltaAcabou(p)) { R.pagarVolta(p); if (!p.fim) R.novaVolta(p); else R.pagarCampeao(p); }
       R.passarVez(p);
     }
     assert.ok(p.fim, 'corrida terminou');
-    voltasTotal += p.volta;
+    voltasTotal += p.volta; campeoes += p.campeoes.length / p.jogadores.length;
     p.jogadores.forEach(j => assert.ok(j.moedas >= 0));
     assert.ok(R.vencedores(p).length >= 1);
     assert.ok(R.ordem(p).length === 5);
   }
   const media = voltasTotal / 300;
   assert.ok(media >= 3 && media <= 9, 'média de voltas razoável: ' + media);
-  console.log('média de voltas por corrida:', media.toFixed(2), '· jogadas por corrida:', (jogadas / 300).toFixed(1));
+  console.log('média de voltas por corrida:', media.toFixed(2), '· jogadas por corrida:', (jogadas / 300).toFixed(1), '· bots que apostaram no campeão:', Math.round(100 * campeoes / 300) + '%');
 });
