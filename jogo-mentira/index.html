@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1e2d">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Mentira Convincente · ACKER PLAY</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+  <link rel="stylesheet" href="css/mentira.css">
+</head>
+<body>
+<script>
+  (function () {
+    var q = new URLSearchParams(location.search), fone = false;
+    try { fone = matchMedia('(pointer:coarse)').matches && Math.min(screen.width, screen.height) < 600; } catch (e) { /* */ }
+    window.MODO = q.has('sala') ? 'celular' : q.get('modo') === 'pc' ? 'pc' : q.get('modo') === 'tv' ? 'tv' : fone ? 'celular' : 'tv';
+    document.documentElement.setAttribute('data-modo', window.MODO);
+  })();
+</script>
+
+<div id="controle" class="controle" hidden></div>
+
+<div id="tv" class="tv" hidden>
+  <section id="sala" class="sala" hidden>
+    <div class="sala-esq">
+      <a class="marca" href="../" title="Voltar à central de jogos">‹ ACKER PLAY</a>
+      <h1 class="logo">MENTIRA<small>convincente</small></h1>
+      <p class="chamada">Invente mentiras. Ache a verdade. Engane a família!</p>
+      <ol class="passos">
+        <li><b>1</b><span>A TV mostra uma <i>curiosidade verdadeira</i> com uma lacuna</span></li>
+        <li><b>2</b><span>No celular, cada um inventa uma <i>mentira</i> que pareça verdade</span></li>
+        <li><b>3</b><span>Todas se misturam com a verdade. <i>Qual é a certa?</i></span></li>
+        <li><b>4</b><span>Achou a verdade <i>+1000</i>. Cada um que cai na sua mentira <i>+500</i></span></li>
+      </ol>
+      <div class="ajustes" id="ajustes"></div>
+    </div>
+    <div class="sala-dir">
+      <div class="cartao-qr">
+        <div class="qr" id="qr"><div class="qr-carregando">Abrindo a sala…</div></div>
+        <div class="qr-texto"><small>Aponte a câmera do celular</small><div class="codigo" id="codigo">····</div><small id="linkSala" class="link-sala"></small></div>
+      </div>
+      <div class="na-sala"><h2 id="tituloSala">Jogadores</h2><ul id="listaSala" class="lista-sala"></ul></div>
+      <ol class="ranking" id="ranking"></ol>
+    </div>
+  </section>
+
+  <section id="jogo" class="jogo" hidden>
+    <header class="topo">
+      <div class="rodada" id="rodada"></div>
+      <div class="categoria" id="categoria"></div>
+      <div class="relogio" id="relogio"></div>
+    </header>
+    <div class="barra"><i id="barra"></i></div>
+    <div class="fase" id="fase"></div>
+    <div class="pergunta" id="pergunta"></div>
+    <div class="area" id="area"></div>
+  </section>
+
+  <section id="podio" class="podio" hidden></section>
+
+  <section id="regras" class="regras" hidden>
+    <div class="regras-caixa">
+      <h2>Como jogar Mentira Convincente</h2>
+      <ol>
+        <li><b>Tema:</b> a cada rodada, um jogador escolhe o tema no celular.</li>
+        <li><b>Mentira:</b> a TV mostra uma curiosidade VERDADEIRA com uma lacuna. Cada um escreve no celular uma resposta FALSA que pareça verdade. Sem ideia? Toque em 🎲.</li>
+        <li><b>Verdade:</b> todas as mentiras se misturam com a verdade. Cada um escolhe a que acha certa (a sua mentira não aparece para você). Achou uma engraçada? Toque em ♥.</li>
+        <li><b>Revelação:</b> a TV mostra quem caiu em cada mentira e, por último, a verdade.</li>
+      </ol>
+      <p class="pontos">Pontos: achou a verdade <b>+1000</b> · cada pessoa que caiu na sua mentira <b>+500</b> · cada curtida <b>+100</b> · a última rodada vale <b>DOBRO</b>. Se escrever a verdade sem querer, o celular avisa para trocar.</p>
+      <button data-acao="fecharRegras" data-foco>Entendi</button>
+    </div>
+  </section>
+
+  <div class="escondidos" aria-label="Testes">
+    <button data-acao="testeTV" title="Começar agora com bots">teste tv</button>
+    <button data-acao="testePC" title="Testar no computador">teste pc</button>
+    <button data-acao="telaCheia" title="Tela cheia">⛶</button>
+  </div>
+  <div class="aviso" id="aviso" role="status"></div>
+</div>
+<div id="simulador" class="simulador"></div>
+
+<script src="js/auditoria.js"></script>
+<script src="js/banco.js"></script>
+<script src="js/partida.js"></script>
+<script src="js/som.js"></script>
+<script src="js/rede.js"></script>
+<script src="js/celular.js"></script>
+<script src="js/tv.js"></script>
+</body>
+</html>

@@ -48,6 +48,27 @@ jobs:
           npm test
           cd ..
 
+      - name: Check and test Ponte do Desespero
+        run: |
+          cd jogo-ponte
+          npm run check
+          npm test
+          cd ..
+
+      - name: Check and test O Impostor
+        run: |
+          cd jogo-impostor
+          npm run check
+          npm test
+          cd ..
+
+      - name: Check and test Mentira Convincente
+        run: |
+          cd jogo-mentira
+          npm run check
+          npm test
+          cd ..
+
       - name: Assemble site directory
         run: |
           mkdir -p _site
@@ -60,6 +81,12 @@ jobs:
           cp -r jogo-corrida/dist/* _site/corrida/
           mkdir -p _site/lobisomem
           cp -r jogo-lobisomem/index.html jogo-lobisomem/css jogo-lobisomem/js jogo-lobisomem/arte jogo-lobisomem/audio _site/lobisomem/
+          mkdir -p _site/ponte
+          cp -r jogo-ponte/index.html jogo-ponte/css jogo-ponte/js jogo-ponte/arte _site/ponte/
+          mkdir -p _site/impostor
+          cp -r jogo-impostor/index.html jogo-impostor/css jogo-impostor/js jogo-impostor/arte jogo-impostor/audio _site/impostor/
+          mkdir -p _site/mentira
+          cp -r jogo-mentira/index.html jogo-mentira/css jogo-mentira/js jogo-mentira/arte _site/mentira/
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
