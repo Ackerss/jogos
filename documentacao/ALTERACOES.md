@@ -25,6 +25,26 @@ Pedido do Jacson: corrida de apostas que até a filha de 4 anos consiga jogar.
 - **Testado pela IA em navegador:** 300 corridas só com bots nos testes; partida completa no simulador; partida completa com TV + 3 celulares em páginas separadas pelo relay local, incluindo celular recarregado voltando sozinho. Sem erros. **Não testado na TV LG física nem no relay público** (o relay público não abre a partir do ambiente da IA).
 - Pastas vazias `jogo-arena`, `jogo-impostor` e `jogo-mentira` criadas no PC do Jacson para os próximos jogos.
 
+## 18/11/2026 — Arena Escorregadia v0.2: muito mais divertida (Claude)
+Pedido do Jacson: melhorar gráficos, jogabilidade e diversão, inspirado em jogos de festa que deram certo (rodadas com arenas diferentes, itens no chão, personagens fofos com expressão, impacto forte nas batidas, ajuda para crianças).
+- **Bichinhos:** cada cor virou um bicho (raposa, pinguim, pintinho, sapo, coelho, tigrinho, porquinho, urso) com carinhas: medo na borda, tonto com estrelinhas depois de uma batida forte, feliz quando vence. Aparecem também no placar, na sala, no pódio e no celular (até o joystick é o bichinho).
+- **4 arenas**, uma por rodada (a 1ª é sempre a clássica): **Lago Clássico**, **Pinball** (pinos que rebatem), **Ventania** (setas avisam e o vento empurra todo mundo) e **Gelo Fino** (rachaduras viram buracos). Ajuste "Arenas: Variadas / Só clássica".
+- **Itens no gelo:** **Gigante** (maior e pesado), **Turbo** (tranco quase sem espera) e **Mola** (quem encosta voa). Ajuste "Itens: Ligados/Desligados".
+- **Modo criança** (botão no celular, na sala de espera): bolinha mais pesada e **boia que salva 2 quedas por rodada**. Os bots pegam leve com quem está no modo criança. Prêmio "Estrela do Gelo" no pódio.
+- **Impacto:** textos POW!/BOING!/TCHIBUM!, "+1" sobre quem derrubou, pausinha nas batidas fortes, câmera lenta na última queda, câmera que aproxima quando o gelo encolhe, bichinho amassa ao bater.
+- **Som:** musiquinha alegre gerada na hora (acelera na morte súbita) e sons novos. Botão Som: Com música / Só efeitos / Desligado.
+- **Celular:** mostra "Você é a Raposa vermelha", aviso do item que pegou, vibra quando leva batida forte ou quando a boia salva.
+- **Pódio:** prêmios "Rei do Empurrão" e "Sobrevivente".
+- **Testado pela IA em navegador** (Chromium, sem erros): TV + celular simulado no relay local, modo criança chegando na TV, item aparecendo no celular, as 4 arenas e o pódio. 24 testes da física (inclui 300 rodadas só com bots nas 4 arenas). **Não testado na TV LG física.**
+
+## 06/11/2026 — Novo jogo: Arena Escorregadia (Claude)
+- **Sumô no gelo para 2 a 8 jogadores** em `jogo-arena/`: bolinhas num lago de gelo que encolhe a cada 15 s, joystick + **TRANCO** no celular. Quem cai vira fantasma e **sopra** os outros. +3 para quem sobra, +1 por derrubada. 3, 5 ou 7 rodadas e pódio no fim.
+- **Sala de espera = treino livre:** quem entra já mexe a sua bolinha na TV.
+- **Bots** completam a arena (Automático = até 4). Botões escondidos "teste tv" e "teste pc" (teclado).
+- **Leve para a TV LG:** Canvas 2D sem desfoque, desenho pronto em telas escondidas, modo leve automático no navegador da TV.
+- Entrou na central (`index.html`) e no `deploy.yml`.
+- **Testado pela IA em navegador,** com relay local e sem erros: TV + 2 celulares simulados (um em pé, outro deitado), joystick, tranco, fantasma, recarregar o celular no meio, pódio e "Jogar de novo" pelo OK. 15 testes da física (inclui 300 rodadas só com bots).
+
 ## 06/11/2026 — Conversa limpa, letras maiores e botão de Regras (Claude)
 Pedido do Jacson antes do primeiro teste com amigos.
 - **Conversa só entre pessoas** (sem bots na mesa):
