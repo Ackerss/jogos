@@ -1,0 +1,12 @@
+{
+  "name": "acker-o-impostor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "O Impostor — todos sabem a palavra secreta, menos um (TV + celulares, ACKER PLAY).",
+  "scripts": {
+    "check": "node scripts/verificar.js",
+    "test": "node --test tests/regras.test.js",
+    "rede": "node scripts/rede.mjs",
+    "relay-local": "node scripts/relay-local.mjs 8793"
+  }
+}

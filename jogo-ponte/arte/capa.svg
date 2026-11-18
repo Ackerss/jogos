@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400">
+<defs><linearGradient id="c" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1036"/><stop offset=".55" stop-color="#4a1d4f"/><stop offset="1" stop-color="#a3382c"/></linearGradient>
+<linearGradient id="l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a1424"/><stop offset=".5" stop-color="#d9431c"/><stop offset="1" stop-color="#ffb347"/></linearGradient></defs>
+<rect width="300" height="400" fill="url(#c)"/>
+<g fill="#ffe6c9"><rect x="30" y="40" width="3" height="3"/><rect x="250" y="60" width="3" height="3"/><rect x="120" y="25" width="2" height="2"/><rect x="200" y="110" width="2" height="2"/><rect x="60" y="120" width="2" height="2"/></g>
+<circle cx="225" cy="95" r="40" fill="#ff8a4a"/>
+<path d="M0 230 L70 150 L95 120 L120 150 L190 210 L300 170 L300 260 L0 260Z" fill="#3a1f3f"/>
+<path d="M85 122 h22 l-4 9 h-14z" fill="#ff6a2a"/>
+<rect y="250" width="300" height="150" fill="url(#l)"/>
+<path d="M0 300 q20 -8 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" stroke="#ffd04a" stroke-width="3" fill="none" opacity=".6"/>
+<g transform="translate(0 222)"><rect width="300" height="22" fill="#8a5a3c"/><rect y="24" width="300" height="22" fill="#6e452c"/><rect y="48" width="300" height="22" fill="#8a5a3c"/>
+<g fill="#4a2c1a" opacity=".6"><rect x="20" width="3" height="70"/><rect x="60" width="3" height="70"/><rect x="100" width="3" height="70"/><rect x="140" width="3" height="70"/><rect x="180" width="3" height="70"/><rect x="220" width="3" height="70"/><rect x="260" width="3" height="70"/></g>
+<rect x="150" y="24" width="30" height="22" fill="#12060c"/><rect x="150" y="36" width="30" height="10" fill="#ff7a1f"/></g>
+<path d="M0 214 q75 12 150 0 t150 0" stroke="#e7c39a" stroke-width="3" fill="none"/>
+<g transform="translate(95 236)"><ellipse cx="0" cy="18" rx="16" ry="4" fill="#0005"/><rect x="-14" y="-12" width="28" height="24" rx="10" fill="#ff7a3d"/><path d="M-13 -30 l4 -16 l7 11z M13 -30 l-4 -16 l-7 11z" fill="#ff7a3d"/><circle cy="-26" r="14" fill="#ff7a3d"/><circle cx="-4" cy="-28" r="4" fill="#fff"/><circle cx="6" cy="-28" r="4" fill="#fff"/><circle cx="-3" cy="-28" r="2" fill="#1b1530"/><circle cx="7" cy="-28" r="2" fill="#1b1530"/></g>
+<g transform="translate(205 196)"><ellipse cx="0" cy="48" rx="16" ry="4" fill="#0005"/><rect x="-14" y="-12" width="28" height="24" rx="10" fill="#41d36b"/><circle cx="-7" cy="-38" r="6" fill="#41d36b"/><circle cx="7" cy="-38" r="6" fill="#41d36b"/><circle cy="-26" r="14" fill="#41d36b"/><circle cx="-4" cy="-28" r="4" fill="#fff"/><circle cx="6" cy="-28" r="4" fill="#fff"/><circle cx="-3" cy="-28" r="2" fill="#1b1530"/><circle cx="7" cy="-28" r="2" fill="#1b1530"/></g>
+<path d="M245 228 l8 -14 l8 14z M262 228 l8 -14 l8 14z" fill="#cfc8e0"/>
+<g transform="translate(150 190) rotate(45)"><rect x="-8" y="-8" width="16" height="16" fill="#ffdf4a"/></g>
+<text x="150" y="335" text-anchor="middle" font-family="Trebuchet MS, sans-serif" font-weight="900" font-size="26" fill="#ffe9d6" letter-spacing="6">PONTE DO</text>
+<text x="150" y="375" text-anchor="middle" font-family="Trebuchet MS, sans-serif" font-weight="900" font-size="42" fill="#fff" stroke="#3d1a4f" stroke-width="3" paint-order="stroke">DESESPERO</text>
+</svg>

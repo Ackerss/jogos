@@ -45,6 +45,14 @@ Pedido do Jacson: melhorar gráficos, jogabilidade e diversão, inspirado em jog
 - Entrou na central (`index.html`) e no `deploy.yml`.
 - **Testado pela IA em navegador,** com relay local e sem erros: TV + 2 celulares simulados (um em pé, outro deitado), joystick, tranco, fantasma, recarregar o celular no meio, pódio e "Jogar de novo" pelo OK. 15 testes da física (inclui 300 rodadas só com bots).
 
+## 18/11/2026 — Três jogos novos prontos: Ponte do Desespero, O Impostor e Mentira Convincente (Claude)
+Pedido do Jacson: melhorar e terminar os jogos em desenvolvimento (menos o Lobisomem e os que têm conversa própria: Corrida, Bichos e Arena), pesquisando jogos parecidos que deram certo.
+- **Ponte do Desespero** (`jogo-ponte/`, link `ponte/`): o protótipo de outra IA virou jogo real com celulares. Corrida em 3 pistas sobre a lava, 3 mundos (vulcão, gelo, céu), caixas de poder (as melhores para quem está atrás), empurrão, onda de lava avisada, ninguém eliminado e **modo fácil** para crianças (o jogo ajuda a pular). Bots, sons, pódio e ranking.
+- **O Impostor** (`jogo-impostor/`, link `impostor/`): grade de 16 palavras na TV, pistas faladas ou escritas, conversa, votação com desempate, apuração voto a voto, revelação com carta virando e chute final do impostor. **Modo criança** com figuras. Ranking e prêmios.
+- **Mentira Convincente** (`jogo-mentira/`, link `mentira/`): 278 curiosidades verdadeiras; cada um inventa uma mentira no celular, todos tentam achar a verdade. Tema escolhido por um jogador, revelação uma por uma com carimbo, curtidas, última rodada vale dobro, prêmios no pódio.
+- Os três entraram na **central** (`index.html`) com capa e fundo próprios e no **deploy** (`.github/workflows/deploy.yml`: check + testes de cada um).
+- **Testado pela IA em navegador** (Chromium, modo pc e relay local com página de celular), com testes automáticos passando. **Não testado na TV LG física nem com celulares reais.**
+
 ## 06/11/2026 — Conversa limpa, letras maiores e botão de Regras (Claude)
 Pedido do Jacson antes do primeiro teste com amigos.
 - **Conversa só entre pessoas** (sem bots na mesa):

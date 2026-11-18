@@ -1,0 +1,12 @@
+{
+  "name": "acker-mentira-convincente",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mentira Convincente — invente mentiras e ache a verdade (TV + celulares, ACKER PLAY).",
+  "scripts": {
+    "check": "node scripts/verificar.js",
+    "test": "node --test tests/partida.test.js",
+    "rede": "node scripts/rede.mjs",
+    "relay-local": "node scripts/relay-local.mjs 8794"
+  }
+}

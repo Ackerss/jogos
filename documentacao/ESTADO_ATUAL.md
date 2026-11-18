@@ -8,6 +8,8 @@
 **Repositório Oficial:** https://github.com/Ackerss/jogos  
 **Link redundante (ChatGPT Sites):** https://jogar.ackers.chatgpt.site (preservado)
 
+**Jogos novos (18/11/2026, aguardando aprovação do PR):** Ponte do Desespero (`ponte/`), O Impostor (`impostor/`) e Mentira Convincente (`mentira/`). Cada um tem `README.md` na sua pasta, modo `?modo=pc` para testar no computador e ainda precisa de teste na TV LG física.
+
 Nome da plataforma: **ACKER PLAY — Jogos em Família (TV & Celular)**.
 Versão do jogo Corrida dos Toques: 0.2.0 (18/11/2026: pilotos bichinhos, modos Clássica e Sinal Verde, ajuda para crianças, sons, locutor e pódio; ver ALTERACOES.md). Falta testar a v0.2 na TV LG física.
 

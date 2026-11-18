@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#120c26">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>O Impostor · ACKER PLAY</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+  <link rel="stylesheet" href="css/jogo.css">
+</head>
+<body>
+<script>
+  (function () {
+    var q = new URLSearchParams(location.search), fone = false;
+    try { fone = matchMedia('(pointer:coarse)').matches && Math.min(screen.width, screen.height) < 600; } catch (e) { /* */ }
+    window.MODO = q.has('sala') ? 'celular' : q.get('modo') === 'pc' ? 'pc' : q.get('modo') === 'tv' ? 'tv' : fone ? 'celular' : 'tv';
+    document.documentElement.setAttribute('data-modo', window.MODO);
+  })();
+</script>
+
+<div id="controle" class="controle" hidden></div>
+
+<div id="tv" class="tv" hidden>
+  <section id="sala" class="sala" hidden>
+    <div class="sala-esq">
+      <a class="marca" href="../" title="Voltar à central de jogos">‹ ACKER PLAY</a>
+      <h1 class="logo"><small>O</small>IMPOSTOR</h1>
+      <p class="chamada">Todos sabem a palavra secreta… menos um.</p>
+      <ol class="passos">
+        <li><b>1</b><span>Todos veem a <i>palavra secreta</i> no celular</span><small>menos o impostor</small></li>
+        <li><b>2</b><span>Cada um diz <i>uma pista</i></span><small>sem entregar a palavra</small></li>
+        <li><b>3</b><span>Votem em quem <i>parece perdido</i></span><small>no celular</small></li>
+        <li><b>4</b><span>Pegou? O impostor ainda pode <i>chutar a palavra</i></span><small>e roubar a vitória</small></li>
+      </ol>
+      <div class="ajustes" id="ajustes"></div>
+    </div>
+    <div class="sala-dir">
+      <div class="cartao-qr">
+        <div class="qr" id="qr"><div class="qr-carregando">Abrindo a sala…</div></div>
+        <div class="qr-texto"><small>Aponte a câmera do celular</small><div class="codigo" id="codigo">····</div><small id="linkSala" class="link-sala"></small></div>
+      </div>
+      <div class="na-sala"><h2 id="tituloSala">Na mesa</h2><ul id="listaSala" class="lista-sala"></ul></div>
+      <ol class="ranking" id="ranking"></ol>
+    </div>
+  </section>
+
+  <section id="jogo" class="jogo" hidden>
+    <header class="topo">
+      <div class="rodada" id="rodada"></div>
+      <div class="tema" id="tema"></div>
+      <div class="relogio" id="relogio"></div>
+    </header>
+    <div class="barra"><i id="barra"></i></div>
+    <div class="meio">
+      <div class="lado-grade">
+        <div class="fase" id="fase"></div>
+        <div class="grade" id="grade"></div>
+        <div class="centro" id="centro"></div>
+      </div>
+      <ul class="mesa" id="mesa"></ul>
+    </div>
+  </section>
+
+  <section id="podio" class="podio" hidden></section>
+
+  <section id="regras" class="regras" hidden>
+    <div class="regras-caixa">
+      <h2>Como jogar O Impostor</h2>
+      <ol>
+        <li><b>Segredo:</b> todos recebem no celular a mesma palavra secreta. Um é sorteado <b>impostor</b>: ele só vê o tema.</li>
+        <li><b>Pistas:</b> cada um, na sua vez, diz UMA palavra ligada à secreta. Nem óbvia demais (o impostor descobre), nem difícil demais (vão desconfiar de você).</li>
+        <li><b>Conversa:</b> quem deu a pista mais estranha?</li>
+        <li><b>Votação:</b> cada um vota no celular. O mais votado vira a carta.</li>
+        <li><b>Última chance:</b> se o impostor for pego, ele tenta adivinhar a palavra entre as 16 da TV. Acertou? Rouba a vitória!</li>
+      </ol>
+      <p class="pontos">Pontos: votou no impostor <b>+1</b> · pegaram o impostor <b>+1</b> para cada inocente · impostor escapou <b>+3</b> · impostor pego mas acertou a palavra <b>+2</b>.</p>
+      <p class="pontos"><b>Modo criança:</b> só temas fáceis, com figura no celular (bichos, frutas, transportes, esportes e comidas). Quem ainda não lê pode jogar com ajuda.</p>
+      <button data-acao="fecharRegras" data-foco>Entendi</button>
+    </div>
+  </section>
+
+  <div class="escondidos" aria-label="Testes">
+    <button data-acao="testeTV" title="Começar agora com bots">teste tv</button>
+    <button data-acao="testePC" title="Testar no computador">teste pc</button>
+    <button data-acao="telaCheia" title="Tela cheia">⛶</button>
+  </div>
+  <div class="aviso" id="aviso" role="status"></div>
+</div>
+<div id="simulador" class="simulador"></div>
+
+<script src="js/palavras.js"></script>
+<script src="js/figuras.js"></script>
+<script src="js/regras.js"></script>
+<script src="js/bots.js"></script>
+<script src="js/narracao.js"></script>
+<script src="audio/narracao/prontos.js"></script>
+<script src="js/som.js"></script>
+<script src="js/rede.js"></script>
+<script src="js/celular.js"></script>
+<script src="js/tv.js"></script>
+</body>
+</html>
