@@ -1,5 +1,19 @@
 # Registro de alterações
 
+## 18/11/2026 — Corrida dos Toques v0.2: muito mais divertida (Claude)
+Pedido do Jacson: melhorar gráficos, jogabilidade e diversão. Ideias tiradas de jogos de festa que deram certo (corridas de kart com "ajuda para quem está atrás", brincadeira de "estátua"/sinal vermelho, avatares tipo Jackbox, pódio e prêmios engraçados no fim).
+- **Pilotos bichinhos:** cada pessoa escolhe no celular Gato, Cachorro, Coelho, Urso, Sapo ou Panda, num carrinho com a cor dela.
+- **Dois modos:** *Corrida Clássica* (primeiro a cruzar a linha vence) e *Sinal Verde* (música e luz verde = acelera; vermelho = tire o dedo, senão o carrinho escorrega e fica parado um pouco).
+- **Chegada de verdade:** quando o primeiro cruza a linha, os outros têm 6 s para chegar; posições ao vivo (1º, 2º…) na TV e no celular.
+- **Para jogar com criança:** opção "⭐ Pequeno corredor" (cada toque vale 2) e "Vento a favor" na TV (quem fica bem para trás ganha um empurrãozinho; pode desligar).
+- **Visual novo e claro:** céu, nuvens, morros, pista com bandeira quadriculada, carrinhos que tremem, soltam fumacinha e escorregam; contagem 3-2-1-JÁ! gigante.
+- **Som:** bipes da largada, musiquinha de corrida (no Sinal Verde ela para no vermelho), sons de ultrapassagem, tombo e chegada, tudo gerado na hora (sem arquivos). Botões 🔊 e 🎙️ na TV.
+- **Locutor:** a TV fala "Fulano passou para a frente!", "Últimos cinco segundos!" com a voz do aparelho, quando houver voz em português.
+- **Fim de corrida:** pódio com medalhas, confete, prêmios ("Dedo de ouro", "Foto de chegada", "Estátua perfeita", "Rei do escorregão") e **Placar da família** guardado na TV.
+- **Celular:** botão gigante com o rosto do bichinho, vibra a cada toque (Android), fica verde/vermelho no Sinal Verde; o primeiro jogador escolhe o modo e começa.
+- **Controle remoto:** as setas movem entre os botões da TV.
+- **Testado pela IA em navegador** (TV 1920×1080 + 2 celulares, relay local), nos dois modos, sem erros. 11 testes automáticos das regras passando. **Falta o teste na TV LG física.**
+
 ## 06/11/2026 — Conversa limpa, letras maiores e botão de Regras (Claude)
 Pedido do Jacson antes do primeiro teste com amigos.
 - **Conversa só entre pessoas** (sem bots na mesa):

@@ -9,7 +9,7 @@
 **Link redundante (ChatGPT Sites):** https://jogar.ackers.chatgpt.site (preservado)
 
 Nome da plataforma: **ACKER PLAY — Jogos em Família (TV & Celular)**.
-Versão do jogo Corrida dos Toques: 0.1.0.
+Versão do jogo Corrida dos Toques: 0.2.0 (18/11/2026: pilotos bichinhos, modos Clássica e Sinal Verde, ajuda para crianças, sons, locutor e pódio; ver ALTERACOES.md). Falta testar a v0.2 na TV LG física.
 
 O PC NÃO precisa permanecer ligado para jogar nenhuma dessas versões. TV e celulares carregam arquivos estáticos da hospedagem e usam o relay público Doot/CLASP (`wss://relay.clasp.to`).
 

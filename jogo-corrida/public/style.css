@@ -81,7 +81,7 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:5px solid #ff5f
 .lobby-grid{flex:1;display:grid;grid-template-columns:1fr clamp(300px,24vw,420px);gap:clamp(18px,2.5vw,44px);padding:0 clamp(16px,2.6vw,48px) 24px}
 .lobby-main .title{font-size:clamp(44px,5vw,96px);margin:4px 0 14px}
 .modes{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.mode-card{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;background:#ffffffe6;border-radius:22px;padding:16px 20px;border:4px solid transparent;box-shadow:0 6px 0 #1f234018;transition:transform .15s,border-color .15s}
+.mode-card{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;background:#fff;border-radius:22px;padding:16px 20px;border:4px solid transparent;box-shadow:0 6px 0 #1f234018;transition:transform .15s,border-color .15s}
 .mode-card b{font-size:clamp(20px,1.7vw,30px);font-weight:700}.mode-card small{font-size:clamp(14px,1.05vw,18px);color:var(--muted);line-height:1.35}
 .mode-ico{font-size:clamp(28px,2.4vw,44px);line-height:1}
 .mode-card.on{border-color:var(--orange);background:#fff;transform:translateY(-4px);box-shadow:0 10px 0 #ff7a2f55}
@@ -129,19 +129,19 @@ button:focus-visible,input:focus-visible,a:focus-visible{outline:5px solid #ff5f
 .mode-sinal .ticker{visibility:hidden}
 .mode-sinal .hud{padding-top:clamp(90px,9vw,130px)}
 .tv-race.is-red .track{box-shadow:inset 0 0 0 10px #ff4757}
-.track{flex:1;display:flex;flex-direction:column;gap:clamp(6px,.8vh,12px);padding:10px clamp(12px,1.6vw,30px) 22px;margin:0 clamp(8px,1vw,20px) 12px;background:linear-gradient(var(--grass),var(--grass2));border-radius:28px;transition:box-shadow .2s}
-.lane{flex:1;display:flex;align-items:stretch;gap:12px;min-height:0}
+.track{--kw:clamp(120px,11vw,215px);flex:1;display:flex;flex-direction:column;justify-content:center;gap:clamp(6px,.8vh,12px);padding:10px clamp(12px,1.6vw,30px) 22px;margin:0 clamp(8px,1vw,20px) 12px;background:linear-gradient(var(--grass),var(--grass2));border-radius:28px;transition:box-shadow .2s}
+.lane{flex:1 1 0;max-height:240px;display:flex;align-items:stretch;gap:12px;min-height:0}
 .lane-tag{flex:none;width:clamp(170px,14vw,260px);display:flex;align-items:center;gap:10px;background:#fff;border-radius:18px;padding:8px 12px;border-left:10px solid var(--c);box-shadow:0 4px 0 #1f234022}
 .pos{font-family:'Barlow Condensed',Arial;font-style:italic;font-weight:900;font-size:clamp(30px,2.8vw,54px);min-width:1.4em;color:var(--ink)}
 .lane.leader .pos{color:var(--orange)}
 .who{min-width:0;display:flex;flex-direction:column}.who b{font-size:clamp(18px,1.5vw,28px);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.who small{font-size:clamp(12px,.95vw,16px);color:var(--muted)}
 .kid-badge{margin-left:auto;font-size:22px}
 .road{position:relative;flex:1;background:var(--road);border-radius:16px;box-shadow:inset 0 -6px 0 #0002;overflow:visible;background-image:linear-gradient(90deg,#ffffff55 50%,transparent 50%);background-size:60px 4px;background-repeat:repeat-x;background-position:0 50%}
-.start-line{position:absolute;left:clamp(70px,7vw,130px);top:0;bottom:0;width:6px;background:#fff8}
+.start-line{position:absolute;left:var(--kw);top:0;bottom:0;width:6px;background:#fff8}
 .finish-line{position:absolute;right:0;top:0;bottom:0;width:26px;border-radius:0 16px 16px 0;background:repeating-conic-gradient(#fff 0 25%,#222 0 50%) 0 0/13px 13px}
-.finish-flag{position:absolute;right:4px;top:-30%;width:clamp(26px,2.2vw,40px)}
-.runner{position:absolute;left:0;top:0;bottom:0;right:clamp(90px,9vw,170px);transition:transform .25s linear;will-change:transform}
-.kart-box{position:absolute;left:0;bottom:2%;width:clamp(90px,9vw,170px);height:130%}
+.finish-flag{position:absolute;right:4px;top:-12%;width:clamp(26px,2.2vw,40px)}
+.runner{position:absolute;left:0;top:0;bottom:0;right:var(--kw);transition:transform .25s linear;will-change:transform}
+.kart-box{position:absolute;left:0;bottom:4%;width:var(--kw);height:125%}
 .kart-box .kart-svg{position:absolute;bottom:0;left:0;width:100%;height:auto;max-height:100%}
 .lane.moving .kart-box .kart-svg{animation:rattle .18s linear infinite}
 .lane.moving .wheel{animation:spin .3s linear infinite}
