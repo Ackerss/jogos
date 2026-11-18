@@ -1,9 +1,18 @@
-# Arena Escorregadia — TV + celulares (v0.1.0)
+# Arena Escorregadia — TV + celulares (v0.2.0)
 
-Sumô no gelo para 2 a 8 jogadores. A TV mostra um lago de gelo redondo com bolinhas. Cada pessoa controla a sua bolinha pelo celular e tenta empurrar as outras para a água. A borda do gelo quebra a cada 15 segundos. Quem cai vira **fantasminha** e pode **soprar** os outros para fora. Bots completam a arena.
+Sumô no gelo para 2 a 8 jogadores. A TV mostra um lago de gelo redondo com bichinhos-bolinha (raposa, pinguim, pintinho, sapo, coelho, tigrinho, porquinho e urso). Cada pessoa controla o seu bichinho pelo celular e tenta empurrar as outras para a água. A borda do gelo quebra a cada 15 segundos. Quem cai vira **fantasminha** e pode **soprar** os outros para fora. Bots completam a arena.
 
 - Online: https://ackerss.github.io/jogos/arena/
-- Criado pelo Claude em 06/11/2026. Visual, nomes e personagens originais.
+- Criado pelo Claude em 06/11/2026 (v0.1) e melhorado em 18/11/2026 (v0.2). Visual, nomes e personagens originais.
+
+## Novidades da v0.2
+- **Arenas (uma por rodada; a 1ª é sempre a clássica):** Lago Clássico · **Pinball** (3 pinos + 1 no meio que rebatem forte; afundam quando o gelo encolhe) · **Ventania** (setas piscam 1,6 s e depois o vento sopra 3 s numa direção, a cada 9 s) · **Gelo Fino** (uma rachadura vermelha aparece a cada 6 s e vira buraco em 1,8 s).
+- **Itens** (1 no gelo por vez, 2 com 5+ jogadores; somem em 10 s; o efeito dura 7 s): **Gigante** (1,5× maior e 2,4× mais pesado), **Turbo** (tranco recarrega em 0,6 s e anda 20% mais rápido), **Mola** (quem encosta é arremessado).
+- **Modo criança** (botão no celular, na sala de espera): 1,6× mais pesado e **2 boias por rodada** (quica de volta em vez de cair). Os bots pegam leve com ele.
+- **Carinhas:** medo perto da borda/buraco, tonto (estrelinhas) depois de batida forte, esforço no tranco, feliz quando vence.
+- **Impacto:** POW!/KABUM!/BOING!/TCHIBUM!, "+1" sobre quem derrubou, pausa de 30–90 ms nas batidas fortes, câmera lenta na última queda, câmera que aproxima quando o gelo encolhe.
+- **Música** gerada na hora (sem arquivos). Som: Com música → Só efeitos → Desligado.
+- Teste no PC com modo criança: `?modo=pc&crianca=k2` (Teclado 2 com boia).
 
 ## Três modos da mesma página
 
@@ -24,7 +33,7 @@ Sumô no gelo para 2 a 8 jogadores. A TV mostra um lago de gelo redondo com boli
 
 ### Na TV (controle remoto: setas + OK)
 - **Sala de espera = treino livre:** quem entra já vê a sua bolinha na TV e pode testar o joystick (quem cai volta em 1,4 s). Sem ninguém, três bots deslizam para a tela não ficar parada.
-- **Ajustes** (guardados na TV): 🤖 Bots (Automático = completa até 4 na arena, ou 0 a 7), 🏁 Rodadas (3/5/7), 🔊 Som.
+- **Ajustes** (guardados na TV): 🤖 Bots (Automático = completa até 4 na arena, ou 0 a 7), 🏁 Rodadas (3/5/7), Arenas (Variadas/Só clássica), Itens (Ligados/Desligados), 🔊 Som (Com música/Só efeitos/Desligado).
 - **Botões escondidos** no canto de cima, à direita: **teste tv** (começa já, com bots), **teste pc** (modo teclado) e **⛶** (tela cheia).
 - Mais de 8 pessoas: as que sobram veem "Arena cheia". Quem entra no meio da partida joga a partir da rodada seguinte.
 
@@ -35,7 +44,7 @@ Sumô no gelo para 2 a 8 jogadores. A TV mostra um lago de gelo redondo com boli
 
 ## Conexão (`rede/rede.ts` → `js/rede.js`)
 - **Motor e relay:** motor Doot (`../jogo-corrida/vendor/doot-engine`, sem alterações) e relay público `wss://relay.clasp.to`, como a Corrida e os Lobos.
-- **Celular → TV:** `arena/ctl/<id>` com o joystick (x, y) e um contador de trancos que só cresce, até ~20 vezes por segundo (só quando muda, e a cada 0,6 s para a TV saber que ele continua ali). Se o celular parar de mandar por 2,5 s, a TV solta o joystick dele.
+- **Celular → TV:** `arena/ctl/<id>` com o joystick (x, y), o modo criança (f) e um contador de trancos que só cresce, até ~20 vezes por segundo (só quando muda, e a cada 0,6 s para a TV saber que ele continua ali). Se o celular parar de mandar por 2,5 s, a TV solta o joystick dele.
 - **TV → celular:** `arena/tela/<id>` com um estado pequeno (fase, cor, no gelo/fantasma, pontos, colocação), só quando muda.
 - **Sessão:** cada abertura da TV tem uma sessão (`arena/sessao`); mensagens de sessões antigas são ignoradas. O celular que recarrega volta sozinho com o mesmo nome.
 - **Gerar `js/rede.js`** (só quando mudar `rede/rede.ts`): `cd ../jogo-corrida && npm ci`, depois aqui `npm run rede`.
@@ -49,7 +58,7 @@ Sumô no gelo para 2 a 8 jogadores. A TV mostra um lago de gelo redondo com boli
 |---|---|
 | `js/fisica.js` | Física e regras puras (gelo que encolhe, batidas, tranco, sopro, quedas, pontos). Todos os números ficam em `C`, no topo. Testado em `tests/`. |
 | `js/bots.js` | Bots: usam o mesmo joystick e botão de um celular. Fogem da borda e tentam empurrar pelo lado de dentro. |
-| `js/desenho.js` | Desenho da arena na TV (Canvas 2D) e as 8 cores das bolinhas. |
+| `js/desenho.js` | Desenho da arena na TV (Canvas 2D), os 8 bichinhos e suas carinhas, itens, pinos, buracos, vento e textos de impacto. `Desenho.retrato()` faz a figurinha do bichinho para o HTML. |
 | `js/tv.js` | Diretor da partida: sala de espera, rodadas, placar, pódio, controle remoto e estado de cada celular. |
 | `js/controle.js` | O celular: entrar com nome, joystick, TRANCO/SOPRO, vibração e mensagens. |
 | `js/som.js` | Efeitos sonoros gerados na hora (sem arquivos). |
@@ -59,6 +68,6 @@ Sumô no gelo para 2 a 8 jogadores. A TV mostra um lago de gelo redondo com boli
 ## Verificar
 ```
 npm run check   # sintaxe de todos os arquivos
-npm test        # física, regras e 300 rodadas só com bots
+npm test        # física, regras, arenas, itens, boia e 300 rodadas só com bots
 ```
 O jogo não tem dependências para rodar. Só gerar `js/rede.js` usa o esbuild já instalado na Corrida.

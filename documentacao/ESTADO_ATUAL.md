@@ -61,6 +61,8 @@ Jogo em `jogo-lobisomem/`, publicado em https://ackerss.github.io/jogos/lobisome
 
 Jogo de ação em `jogo-arena/`, publicado em https://ackerss.github.io/jogos/arena/ (depois do merge). Sumô no gelo para 2 a 8: joystick + botão TRANCO no celular, a borda quebra a cada 15 s, quem cai vira fantasma e sopra os outros, bots completam a arena. Mesmo motor Doot e relay da Corrida e dos Lobos. Testado pela IA só em navegador (TV + 2 celulares simulados, relay local); **falta o teste na TV LG física com celulares reais.** Detalhes em `jogo-arena/README.md`.
 
+**v0.2 (18/11):** bichinhos com carinhas, 4 arenas (Clássica, Pinball, Ventania, Gelo Fino), itens (Gigante, Turbo, Mola), modo criança com boia, música e muito mais impacto visual. Testado só em navegador.
+
 ## Próximos passos
 1. Jacson recriar o atalho na tela inicial do webOS da TV LG para substituir o ícone genérico antigo pelo novo ícone de alta definição do ACKER PLAY.
 2. Confirmar se a proteção de gestos evitou a saída acidental no celular durante a corrida.

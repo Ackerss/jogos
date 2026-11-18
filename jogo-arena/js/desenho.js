@@ -194,7 +194,7 @@
     var ctx = canvas.getContext('2d', { alpha: false });
     var R = { qualidade: 'alta', W: 0, H: 0, escala: 1, cx: 0, cy: 0, zoom: 1, S: 1 };
     var agua = null, gelo = null, sprites = [], fantasmas = [], itens = {}, buracoSp = null, rachaduras = [];
-    var particulas = [], aneis = [], textos = [], riscos = [], tremor = 0, ultimoT = 0;
+    var particulas = [], aneis = [], textos = [], riscos = [], tremor = 0, ultimoT = 0, ultimoGrito = -9;
     var semente = 7;
     function rnd() { semente = (semente * 16807) % 2147483647; return semente / 2147483647; }
 
@@ -320,7 +320,10 @@
       if (ev.tipo === 'batida') {
         n = leve ? 4 : 8;
         for (i = 0; i < n; i++) { var a = rnd() * 6.28, v = (2 + rnd() * 3) * Math.min(2, ev.forca / 4); particulas.push({ x: ev.x, y: ev.y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, vida: 0.3, max: 0.3, tipo: 'faisca', cor: ev.mola ? '#ff9fd2' : '#ffffff', tam: 0.12 }); }
-        if (ev.mola) texto(ev.x, ev.y - 0.8, 'BOING!', '#ff9fd2', 1.1);
+        var podeTexto = ultimoT - ultimoGrito > 0.35;
+        if (podeTexto && (ev.mola || ev.forca > 7.5)) ultimoGrito = ultimoT;
+        if (!podeTexto) { /* sem texto repetido em cima do outro */ }
+        else if (ev.mola) texto(ev.x, ev.y - 0.8, 'BOING!', '#ff9fd2', 1.1);
         else if (ev.forca > 7.5) texto(ev.x, ev.y - 0.8, ev.forca > 11 ? 'KABUM!' : 'POW!', '#ffe14d', Math.min(1.5, 0.9 + ev.forca / 25));
         if (ev.forca > 6 && !leve) tremor = Math.min(0.4, ev.forca * 0.03);
       } else if (ev.tipo === 'queda') {

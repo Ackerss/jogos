@@ -183,6 +183,7 @@
       var url = window.Desenho.retrato(est.c % CORES.length, 128);
       if (url && $('meuBicho').getAttribute('src') !== url) $('meuBicho').src = url;
       $('meuBicho').hidden = !url; $('minhaCor').hidden = !!url;
+      if (url && pino.getAttribute('data-bicho') !== url) { pino.setAttribute('data-bicho', url); pino.style.background = 'url(' + url + ') center / 135% no-repeat'; pino.style.border = '0'; }
     }
     $('minhaInfo').textContent = cor ? 'Você é ' + cor.art + ' ' + cor.bicho + ' ' + cor.nome.toLowerCase() + (est.fa ? ' · 🛟 ' + (est.bo || 0) : '') : 'Sala ' + rede.codigo;
     $('btnCrianca').hidden = est.f !== 'sala';

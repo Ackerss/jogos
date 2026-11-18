@@ -328,7 +328,7 @@
       $('linkSala').textContent = rede.link ? rede.link.replace(/^https?:\/\//, '').replace(/\?.*$/, '') + ' · código ' + rede.codigo : '';
     }
     $('tituloSala').textContent = gente.length ? 'Na arena (' + gente.length + (total > MAX ? ' · cheia' : '') + ')' : 'Esperando os celulares…';
-    var itens = gente.map(function (g) { return '<li>' + bolinha(g.cor) + '<span>' + esc(g.nome) + (g.facil ? ' <small class="tag-crianca">criança</small>' : '') + '</span></li>'; });
+    var itens = gente.map(function (g) { return '<li>' + bolinha(g.cor) + '<span>' + esc(g.nome) + (g.facil ? ' <i class="tag-crianca" title="modo criança"></i>' : '') + '</span></li>'; });
     if (nb) itens.push('<li class="bots"><i class="ic-bot"></i><span>+ ' + nb + ' bot' + (nb > 1 ? 's' : '') + '</span></li>');
     if (!gente.length) itens.push('<li class="dica">Leia o QR Code com a câmera do celular. Cada pessoa usa o seu.</li>');
     else itens.push('<li class="dica">Já pode treinar: mexa o joystick e veja a sua bolinha na TV!</li>');
