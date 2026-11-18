@@ -89,6 +89,7 @@
     var JOGOS = [
       {
         id: 'bichos',
+        grupo: 'testes',
         nome: 'Grande Prêmio dos Bichos',
         link: './bichos/',
         selo: 'Novo',
@@ -123,6 +124,7 @@
       },
       {
         id: 'corrida',
+        grupo: 'testes',
         nome: 'Corrida dos Toques',
         link: './corrida/',
         selo: '',
@@ -139,6 +141,7 @@
       },
       {
         id: 'arena',
+        grupo: 'testes',
         nome: 'Arena Escorregadia',
         link: './arena/',
         selo: 'Novo',
@@ -156,6 +159,7 @@
       },
       {
         id: 'ponte',
+        grupo: 'testes',
         nome: 'Ponte do Desespero',
         link: './ponte/',
         selo: 'Novo',
@@ -173,6 +177,7 @@
       },
       {
         id: 'impostor',
+        grupo: 'testes',
         nome: 'O Impostor',
         link: './impostor/',
         selo: 'Novo',
@@ -190,6 +195,7 @@
       },
       {
         id: 'mentira',
+        grupo: 'testes',
         nome: 'Mentira Convincente',
         link: './mentira/',
         selo: 'Novo',
@@ -206,7 +212,39 @@
         estilo: ''
       }
     ];
-    var VAGAS_EM_BREVE = 1; // cartões "Em breve" no fim da lista (0 para esconder)
+    var VAGAS_EM_BREVE = 0; // cartões "Em breve" no fim da lista (0 para esconder)
+
+    /* ---------- Pasta "Jogos testes" ----------
+       Jogos com grupo: 'testes' não aparecem na tela principal.
+       Ficam dentro do cartão "Jogos testes" (abre ./?lista=testes). */
+    var NA_PASTA_TESTES = /[?&]lista=testes\b/.test(location.search);
+    function artePasta(w, h) {
+      var m = Math.min(w, h), cx = w / 2, cy = h / 2;
+      var s = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="xMidYMid slice">' +
+        '<defs><linearGradient id="f" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b2140"/><stop offset="1" stop-color="#090b18"/></linearGradient></defs>' +
+        '<rect width="' + w + '" height="' + h + '" fill="url(#f)"/>' +
+        '<g transform="translate(' + cx + ' ' + cy + ') scale(' + (m / 400) + ')" stroke="#9aa6d8" stroke-width="10" stroke-linejoin="round" fill="none">' +
+        '<path d="M-120 -70h80l25 25h135a10 10 0 0 1 10 10v135a10 10 0 0 1-10 10h-230a10 10 0 0 1-10-10v-160a10 10 0 0 1 10-10z" fill="#2a3160"/>' +
+        '<path d="M-35 20h70M-35 55h45" stroke-linecap="round"/></g></svg>';
+      return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s);
+    }
+    var testes = JOGOS.filter(function (j) { return j.grupo === 'testes'; });
+    if (NA_PASTA_TESTES) {
+      JOGOS = [{
+        id: 'voltar', nome: '‹ Voltar', link: './', selo: '',
+        fichas: [{ icone: 'raio', texto: 'tela principal' }],
+        resumo: 'Volta para a tela principal do ACKER PLAY.', extra: '',
+        capa: artePasta(300, 400), fundo: artePasta(1600, 900), cor: '#9aa6d8', estilo: ''
+      }].concat(testes);
+    } else {
+      JOGOS = JOGOS.filter(function (j) { return j.grupo !== 'testes'; });
+      if (testes.length) JOGOS.push({
+        id: 'pasta-testes', nome: 'Jogos testes', link: './?lista=testes', selo: '',
+        fichas: [{ icone: 'raio', texto: testes.length + ' jogos em teste' }],
+        resumo: 'Jogos ainda em teste, guardados aqui.', extra: '',
+        capa: artePasta(300, 400), fundo: artePasta(1600, 900), cor: '#9aa6d8', estilo: ''
+      });
+    }
 
     /* ---------- Ícones ---------- */
     var ICONES = {
@@ -264,6 +302,7 @@
     /* ---------- Montagem ---------- */
     var $ = function (id) { return document.getElementById(id); };
     var prateleira = $('prateleira'), botaoJogar = $('botao-jogar'), destaque = $('destaque');
+    if (NA_PASTA_TESTES) { $('titulo-jogos').textContent = 'Jogos testes'; document.title = 'Jogos testes — ACKER PLAY'; }
     var camadas = document.querySelectorAll('.palco-arte'), camadaAtiva = 0;
     var cartoes = [], atual = -1;
     var modoTV = window.matchMedia && matchMedia('(min-width: 900px) and (orientation: landscape)').matches &&
@@ -310,6 +349,7 @@
       $('destaque-resumo').textContent = j.resumo || '';
       $('destaque-extra').textContent = j.extra || '';
       botaoJogar.href = j.link;
+      botaoJogar.querySelector('span').textContent = j.id === 'pasta-testes' ? 'Abrir' : (j.id === 'voltar' ? 'Voltar' : 'Jogar');
       botaoJogar.setAttribute('aria-label', 'Jogar ' + j.nome);
       destaque.classList.remove('entrando'); void destaque.offsetWidth; destaque.classList.add('entrando');
 
@@ -330,6 +370,7 @@
       var k = e.keyCode, el = document.activeElement;
       var noCartao = el && el.classList && el.classList.contains('cartao');
       var noBotao = el === botaoJogar;
+      if (NA_PASTA_TESTES && (k === 461 || k === 8 || k === 27)) { location.href = './'; e.preventDefault(); return; } // Voltar do controle
       if (k === 37 || k === 39) {                       // ◀ ▶ troca de jogo
         var n = Math.max(0, Math.min(cartoes.length - 1, atual + (k === 39 ? 1 : -1)));
         if (noBotao) selecionar(n); else focar(cartoes[n]);
