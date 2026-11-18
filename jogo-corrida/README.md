@@ -1,6 +1,8 @@
 # ACKER — Corrida dos Toques
 
-Primeiro jogo próprio para TV LG e celulares. Usa o motor Doot preservado em `vendor/doot-engine/`; aplicação estática e pequena, sem o catálogo Nuxt.
+Primeiro jogo próprio para TV LG e celulares. Versão 0.2: pilotos bichinhos, modos *Corrida Clássica* e *Sinal Verde*, ajuda para crianças, sons/música sintetizados, locutor, pódio e placar da família.
+
+Arquivos: `src/logic.ts` (regras puras, testadas), `src/main.ts` (telas da TV e do celular), `src/art.ts` (desenhos SVG), `src/audio.ts` (sons e locutor), `src/relay.ts` (relay de teste local com `?relay=ws://localhost:8790`, use `node ../jogo-lobisomem/scripts/relay-local.mjs`). Usa o motor Doot preservado em `vendor/doot-engine/`; aplicação estática e pequena, sem o catálogo Nuxt.
 
 Instruções de uso, decisão das plataformas e continuidade: veja a pasta principal e `../documentacao/`.
 

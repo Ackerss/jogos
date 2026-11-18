@@ -1,5 +1,58 @@
 # Registro de alterações
 
+## 18/11/2026 — Corrida dos Toques v0.2: muito mais divertida (Claude)
+Pedido do Jacson: melhorar gráficos, jogabilidade e diversão. Ideias tiradas de jogos de festa que deram certo (corridas de kart com "ajuda para quem está atrás", brincadeira de "estátua"/sinal vermelho, avatares tipo Jackbox, pódio e prêmios engraçados no fim).
+- **Pilotos bichinhos:** cada pessoa escolhe no celular Gato, Cachorro, Coelho, Urso, Sapo ou Panda, num carrinho com a cor dela.
+- **Dois modos:** *Corrida Clássica* (primeiro a cruzar a linha vence) e *Sinal Verde* (música e luz verde = acelera; vermelho = tire o dedo, senão o carrinho escorrega e fica parado um pouco).
+- **Chegada de verdade:** quando o primeiro cruza a linha, os outros têm 6 s para chegar; posições ao vivo (1º, 2º…) na TV e no celular.
+- **Para jogar com criança:** opção "⭐ Pequeno corredor" (cada toque vale 2) e "Vento a favor" na TV (quem fica bem para trás ganha um empurrãozinho; pode desligar).
+- **Visual novo e claro:** céu, nuvens, morros, pista com bandeira quadriculada, carrinhos que tremem, soltam fumacinha e escorregam; contagem 3-2-1-JÁ! gigante.
+- **Som:** bipes da largada, musiquinha de corrida (no Sinal Verde ela para no vermelho), sons de ultrapassagem, tombo e chegada, tudo gerado na hora (sem arquivos). Botões 🔊 e 🎙️ na TV.
+- **Locutor:** a TV fala "Fulano passou para a frente!", "Últimos cinco segundos!" com a voz do aparelho, quando houver voz em português.
+- **Fim de corrida:** pódio com medalhas, confete, prêmios ("Dedo de ouro", "Foto de chegada", "Estátua perfeita", "Rei do escorregão") e **Placar da família** guardado na TV.
+- **Celular:** botão gigante com o rosto do bichinho, vibra a cada toque (Android), fica verde/vermelho no Sinal Verde; o primeiro jogador escolhe o modo e começa.
+- **Controle remoto:** as setas movem entre os botões da TV.
+- **Testado pela IA em navegador** (TV 1920×1080 + 2 celulares, relay local), nos dois modos, sem erros. 11 testes automáticos das regras passando. **Falta o teste na TV LG física.**
+
+## 06/11/2026 — Novo jogo: Grande Prêmio dos Bichos (Claude)
+Pedido do Jacson: corrida de apostas que até a filha de 4 anos consiga jogar.
+- **Jogo em `jogo-bichos/`**, publicado em `bichos/` e com cartão na central (primeiro da fila, selo "Novo").
+- **Como é:** 5 bichos correm na TV, ninguém tem bicho próprio. Na vez, o celular mostra 3 botões grandes com desenho: Dado (um bicho anda, +1 moeda), Apostar (bilhetes de 5, 3 e 2) e Banana (o bicho escorrega e o dono ganha 1 moeda). Quem cai em cima de outro pega carona. Regras completas em `jogo-bichos/README.md`.
+- **2 a 8 jogadores**, com bots opcionais (0 a 7) que simulam a volta para decidir. Tempo da vez ajustável. Campeões guardados na TV.
+- **Leve para a TV LG:** desenhos em SVG no código (sem imagens e sem emoji), sem blur, animações só com transform/opacity, MP3 do locutor baixado só na hora de tocar.
+- **Conexão:** mesmo motor Doot e relay público. A TV manda dados (não HTML) e o celular desenha. `jogo-bichos/rede/rede.ts` serve de modelo para os próximos jogos.
+- **Locutor:** 35 frases prontas para o ElevenLabs (`jogo-bichos/audio/narracao/FRASES.md`) e o pedido para o Antigravity (`PROMPT_ANTIGRAVITY.md`). Até os MP3 chegarem, as frases principais usam a voz do navegador.
+- **Testado pela IA em navegador:** 300 corridas só com bots nos testes; partida completa no simulador; partida completa com TV + 3 celulares em páginas separadas pelo relay local, incluindo celular recarregado voltando sozinho. Sem erros. **Não testado na TV LG física nem no relay público** (o relay público não abre a partir do ambiente da IA).
+- Pastas vazias `jogo-arena`, `jogo-impostor` e `jogo-mentira` criadas no PC do Jacson para os próximos jogos.
+
+## 18/11/2026 — Arena Escorregadia v0.2: muito mais divertida (Claude)
+Pedido do Jacson: melhorar gráficos, jogabilidade e diversão, inspirado em jogos de festa que deram certo (rodadas com arenas diferentes, itens no chão, personagens fofos com expressão, impacto forte nas batidas, ajuda para crianças).
+- **Bichinhos:** cada cor virou um bicho (raposa, pinguim, pintinho, sapo, coelho, tigrinho, porquinho, urso) com carinhas: medo na borda, tonto com estrelinhas depois de uma batida forte, feliz quando vence. Aparecem também no placar, na sala, no pódio e no celular (até o joystick é o bichinho).
+- **4 arenas**, uma por rodada (a 1ª é sempre a clássica): **Lago Clássico**, **Pinball** (pinos que rebatem), **Ventania** (setas avisam e o vento empurra todo mundo) e **Gelo Fino** (rachaduras viram buracos). Ajuste "Arenas: Variadas / Só clássica".
+- **Itens no gelo:** **Gigante** (maior e pesado), **Turbo** (tranco quase sem espera) e **Mola** (quem encosta voa). Ajuste "Itens: Ligados/Desligados".
+- **Modo criança** (botão no celular, na sala de espera): bolinha mais pesada e **boia que salva 2 quedas por rodada**. Os bots pegam leve com quem está no modo criança. Prêmio "Estrela do Gelo" no pódio.
+- **Impacto:** textos POW!/BOING!/TCHIBUM!, "+1" sobre quem derrubou, pausinha nas batidas fortes, câmera lenta na última queda, câmera que aproxima quando o gelo encolhe, bichinho amassa ao bater.
+- **Som:** musiquinha alegre gerada na hora (acelera na morte súbita) e sons novos. Botão Som: Com música / Só efeitos / Desligado.
+- **Celular:** mostra "Você é a Raposa vermelha", aviso do item que pegou, vibra quando leva batida forte ou quando a boia salva.
+- **Pódio:** prêmios "Rei do Empurrão" e "Sobrevivente".
+- **Testado pela IA em navegador** (Chromium, sem erros): TV + celular simulado no relay local, modo criança chegando na TV, item aparecendo no celular, as 4 arenas e o pódio. 24 testes da física (inclui 300 rodadas só com bots nas 4 arenas). **Não testado na TV LG física.**
+
+## 06/11/2026 — Novo jogo: Arena Escorregadia (Claude)
+- **Sumô no gelo para 2 a 8 jogadores** em `jogo-arena/`: bolinhas num lago de gelo que encolhe a cada 15 s, joystick + **TRANCO** no celular. Quem cai vira fantasma e **sopra** os outros. +3 para quem sobra, +1 por derrubada. 3, 5 ou 7 rodadas e pódio no fim.
+- **Sala de espera = treino livre:** quem entra já mexe a sua bolinha na TV.
+- **Bots** completam a arena (Automático = até 4). Botões escondidos "teste tv" e "teste pc" (teclado).
+- **Leve para a TV LG:** Canvas 2D sem desfoque, desenho pronto em telas escondidas, modo leve automático no navegador da TV.
+- Entrou na central (`index.html`) e no `deploy.yml`.
+- **Testado pela IA em navegador,** com relay local e sem erros: TV + 2 celulares simulados (um em pé, outro deitado), joystick, tranco, fantasma, recarregar o celular no meio, pódio e "Jogar de novo" pelo OK. 15 testes da física (inclui 300 rodadas só com bots).
+
+## 18/11/2026 — Três jogos novos prontos: Ponte do Desespero, O Impostor e Mentira Convincente (Claude)
+Pedido do Jacson: melhorar e terminar os jogos em desenvolvimento (menos o Lobisomem e os que têm conversa própria: Corrida, Bichos e Arena), pesquisando jogos parecidos que deram certo.
+- **Ponte do Desespero** (`jogo-ponte/`, link `ponte/`): o protótipo de outra IA virou jogo real com celulares. Corrida em 3 pistas sobre a lava, 3 mundos (vulcão, gelo, céu), caixas de poder (as melhores para quem está atrás), empurrão, onda de lava avisada, ninguém eliminado e **modo fácil** para crianças (o jogo ajuda a pular). Bots, sons, pódio e ranking.
+- **O Impostor** (`jogo-impostor/`, link `impostor/`): grade de 16 palavras na TV, pistas faladas ou escritas, conversa, votação com desempate, apuração voto a voto, revelação com carta virando e chute final do impostor. **Modo criança** com figuras. Ranking e prêmios.
+- **Mentira Convincente** (`jogo-mentira/`, link `mentira/`): 278 curiosidades verdadeiras; cada um inventa uma mentira no celular, todos tentam achar a verdade. Tema escolhido por um jogador, revelação uma por uma com carimbo, curtidas, última rodada vale dobro, prêmios no pódio.
+- Os três entraram na **central** (`index.html`) com capa e fundo próprios e no **deploy** (`.github/workflows/deploy.yml`: check + testes de cada um).
+- **Testado pela IA em navegador** (Chromium, modo pc e relay local com página de celular), com testes automáticos passando. **Não testado na TV LG física nem com celulares reais.**
+
 ## 06/11/2026 — Conversa limpa, letras maiores e botão de Regras (Claude)
 Pedido do Jacson antes do primeiro teste com amigos.
 - **Conversa só entre pessoas** (sem bots na mesa):

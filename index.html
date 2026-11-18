@@ -88,10 +88,27 @@
        ===================================================================== */
     var JOGOS = [
       {
+        id: 'bichos',
+        nome: 'Grande Prêmio dos Bichos',
+        link: './bichos/',
+        selo: 'Novo',
+        fichas: [
+          { icone: 'pessoas', texto: '2 a 8 jogadores' },
+          { icone: 'relogio', texto: '≈ 10 minutos' },
+          { icone: 'raio', texto: 'Apostas e confusão' }
+        ],
+        resumo: 'Uma corrida maluca de bichos na TV. Ninguém tem bicho próprio: todos apostam pelo celular, jogam o dado, espalham bananas e molas na pista e chutam qual bicho sai do copo.',
+        extra: 'Botões com desenho: dá até para criança pequena jogar.',
+        capa: './bichos/arte/capa.svg',
+        fundo: './bichos/arte/fundo.svg',
+        cor: '#ffd84a',
+        estilo: ''
+      },
+      {
         id: 'lobos',
         nome: 'A Noite dos Lobos',
         link: './lobisomem/',
-        selo: 'Novo',
+        selo: '',
         fichas: [
           { icone: 'pessoas', texto: '3 a 6 jogadores' },
           { icone: 'relogio', texto: '≈ 10 minutos' },
@@ -111,14 +128,82 @@
         selo: '',
         fichas: [
           { icone: 'pessoas', texto: '1 a 4 jogadores' },
-          { icone: 'relogio', texto: '20 segundos' },
+          { icone: 'relogio', texto: '30 segundos' },
           { icone: 'raio', texto: 'Reflexo' }
         ],
-        resumo: 'Toque o mais rápido que puder no botão do celular e veja seu carro disparar na pista da TV. Quem tocar mais, vence!',
-        extra: 'Revanche na hora, sem ler o QR Code de novo.',
+        resumo: 'Escolha seu bichinho piloto e toque no celular para acelerar até a bandeira. Dois modos: Clássica e Sinal Verde (no vermelho, quem tocar escorrega!).',
+        extra: 'Ajuda para crianças, locutor, pódio e placar da família.',
         arte: 'corrida',
         cor: '#ffd25a',
         estilo: 'corrida'
+      },
+      {
+        id: 'arena',
+        nome: 'Arena Escorregadia',
+        link: './arena/',
+        selo: 'Novo',
+        fichas: [
+          { icone: 'pessoas', texto: '2 a 8 jogadores' },
+          { icone: 'relogio', texto: '≈ 5 minutos' },
+          { icone: 'raio', texto: 'Ação' }
+        ],
+        resumo: 'Bichinhos num lago de gelo que encolhe! Joystick e TRANCO no celular para empurrar todo mundo para a água. 4 arenas (Pinball, Ventania, Gelo Fino), itens e fantasmas que sopram.',
+        extra: 'Modo criança com boia para os pequenos. Bots completam a arena.',
+        capa: './arena/arte/capa.svg',
+        fundo: './arena/arte/fundo.svg',
+        cor: '#7fd6ff',
+        estilo: ''
+      },
+      {
+        id: 'ponte',
+        nome: 'Ponte do Desespero',
+        link: './ponte/',
+        selo: 'Novo',
+        fichas: [
+          { icone: 'pessoas', texto: '2 a 8 jogadores' },
+          { icone: 'relogio', texto: '≈ 5 minutos' },
+          { icone: 'raio', texto: 'Corrida maluca' }
+        ],
+        resumo: 'Corram pela ponte que desmorona! Troque de faixa, pule buracos, pegue caixas de poder e empurre os amigos. Ninguém é eliminado: quem fica para trás ganha ajuda.',
+        extra: 'Modo fácil para as crianças: o jogo ajuda a pular.',
+        capa: './ponte/arte/capa.svg',
+        fundo: './ponte/arte/fundo.svg',
+        cor: '#ffb347',
+        estilo: ''
+      },
+      {
+        id: 'impostor',
+        nome: 'O Impostor',
+        link: './impostor/',
+        selo: 'Novo',
+        fichas: [
+          { icone: 'pessoas', texto: '3 a 10 jogadores' },
+          { icone: 'relogio', texto: '≈ 10 minutos' },
+          { icone: 'lua', texto: 'Blefe e dedução' }
+        ],
+        resumo: 'Todos recebem a mesma palavra secreta no celular… menos um. Cada um dá uma pista, todos votam, e o impostor pego ainda pode roubar a vitória.',
+        extra: 'Modo criança com figuras para quem ainda não lê.',
+        capa: './impostor/arte/capa.svg',
+        fundo: './impostor/arte/fundo.svg',
+        cor: '#ff4fa3',
+        estilo: ''
+      },
+      {
+        id: 'mentira',
+        nome: 'Mentira Convincente',
+        link: './mentira/',
+        selo: 'Novo',
+        fichas: [
+          { icone: 'pessoas', texto: '3 a 8 jogadores' },
+          { icone: 'relogio', texto: '≈ 15 minutos' },
+          { icone: 'lua', texto: 'Blefe e risada' }
+        ],
+        resumo: 'Uma curiosidade verdadeira com uma lacuna. Cada um inventa uma mentira no celular e todas se misturam com a verdade. Ache a certa e engane a família!',
+        extra: 'Mais de 270 curiosidades. Bots completam a mesa.',
+        capa: './mentira/arte/capa.svg',
+        fundo: './mentira/arte/fundo.svg',
+        cor: '#ff6f59',
+        estilo: ''
       }
     ];
     var VAGAS_EM_BREVE = 1; // cartões "Em breve" no fim da lista (0 para esconder)

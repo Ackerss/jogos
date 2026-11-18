@@ -8,8 +8,10 @@
 **Repositório Oficial:** https://github.com/Ackerss/jogos  
 **Link redundante (ChatGPT Sites):** https://jogar.ackers.chatgpt.site (preservado)
 
+**Jogos novos (18/11/2026, aguardando aprovação do PR):** Ponte do Desespero (`ponte/`), O Impostor (`impostor/`) e Mentira Convincente (`mentira/`). Cada um tem `README.md` na sua pasta, modo `?modo=pc` para testar no computador e ainda precisa de teste na TV LG física.
+
 Nome da plataforma: **ACKER PLAY — Jogos em Família (TV & Celular)**.
-Versão do jogo Corrida dos Toques: 0.1.0.
+Versão do jogo Corrida dos Toques: 0.2.0 (18/11/2026: pilotos bichinhos, modos Clássica e Sinal Verde, ajuda para crianças, sons, locutor e pódio; ver ALTERACOES.md). Falta testar a v0.2 na TV LG física.
 
 O PC NÃO precisa permanecer ligado para jogar nenhuma dessas versões. TV e celulares carregam arquivos estáticos da hospedagem e usam o relay público Doot/CLASP (`wss://relay.clasp.to`).
 
@@ -57,7 +59,17 @@ Jogo em `jogo-lobisomem/`, publicado em https://ackerss.github.io/jogos/lobisome
 
 **Narração (06/11):** o jogo já toca MP3. Sem o arquivo, usa a voz do navegador. A voz escolhida é "Narrador Lobos", criada no Voice Design e salva na conta grátis pessoal do Jacson no ElevenLabs. Há um modo automático: a 1ª partida tem narração completa e as seguintes são rápidas. As 62 frases foram gravadas pelo Antigravity, ajustadas (volume −16 LUFS) e publicadas pelo Claude. Testado no navegador; falta o Jacson ouvir e testar na TV LG. Registro em `jogo-lobisomem/NARRACAO.md`.
 
+## Arena Escorregadia (06/11/2026)
+
+Jogo de ação em `jogo-arena/`, publicado em https://ackerss.github.io/jogos/arena/ (depois do merge). Sumô no gelo para 2 a 8: joystick + botão TRANCO no celular, a borda quebra a cada 15 s, quem cai vira fantasma e sopra os outros, bots completam a arena. Mesmo motor Doot e relay da Corrida e dos Lobos. Testado pela IA só em navegador (TV + 2 celulares simulados, relay local); **falta o teste na TV LG física com celulares reais.** Detalhes em `jogo-arena/README.md`.
+
+**v0.2 (18/11):** bichinhos com carinhas, 4 arenas (Clássica, Pinball, Ventania, Gelo Fino), itens (Gigante, Turbo, Mola), modo criança com boia, música e muito mais impacto visual. Testado só em navegador.
+
 ## Próximos passos
 1. Jacson recriar o atalho na tela inicial do webOS da TV LG para substituir o ícone genérico antigo pelo novo ícone de alta definição do ACKER PLAY.
 2. Confirmar se a proteção de gestos evitou a saída acidental no celular durante a corrida.
 3. Quando o usuário quiser retomar, consultar o rascunho e escolher o próximo jogo e o recorte do protótipo. A seleção e a ordem ainda são provisórias.
+
+## Grande Prêmio dos Bichos (06/11/2026)
+
+Jogo em `jogo-bichos/`, publicado em https://ackerss.github.io/jogos/bichos/ (depois do merge). Corrida de apostas para 2 a 8 jogadores, TV + celulares de verdade (motor Doot + relay público), bots opcionais, simulador em `?modo=pc`. Botões do celular com desenho, pensados para criança pequena. Testado pela IA só em navegador com relay local; **falta o teste na TV LG física com celulares reais** e gravar o locutor no ElevenLabs (`jogo-bichos/audio/narracao/PROMPT_ANTIGRAVITY.md`). Detalhes em `jogo-bichos/README.md`.

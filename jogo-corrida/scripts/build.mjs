@@ -12,5 +12,5 @@ for(const icon of ['icon-512.png','icon-192.png','apple-touch-icon.png','favicon
 const license = await readFile('vendor/doot-engine/LICENSE','utf8');
 const mitBody = license.slice(license.indexOf('Permission is hereby granted'));
 const msgpack = await readFile('node_modules/@msgpack/msgpack/LICENSE','utf8');
-await writeFile('dist/LICENSES.txt',`ACKER Corrida dos Toques v0.1.0\n\nDoot engine, snapshot 0f78d6d11e7a7863cc9aa575ab2cfa39c5f6bd9b\n${license}\nCLASP core 4.3.2 — MIT License — LumenCanvas\n${mitBody}\nQR Code Generator 1.4.4 — MIT License\nCopyright (c) 2009 Kazuhiko Arase\n${mitBody}\n@msgpack/msgpack — ISC License\n${msgpack}\n`);
+await writeFile('dist/LICENSES.txt',`ACKER Corrida dos Toques v0.2.0\n\nDoot engine, snapshot 0f78d6d11e7a7863cc9aa575ab2cfa39c5f6bd9b\n${license}\nCLASP core 4.3.2 — MIT License — LumenCanvas\n${mitBody}\nQR Code Generator 1.4.4 — MIT License\nCopyright (c) 2009 Kazuhiko Arase\n${mitBody}\n@msgpack/msgpack — ISC License\n${msgpack}\n`);
 console.log('Jogo gerado em dist/');
