@@ -83,6 +83,13 @@ jobs:
           npm test
           cd ..
 
+      - name: Check and test Rabisco sem Fio
+        run: |
+          cd jogo-rabisco
+          npm run check
+          npm test
+          cd ..
+
       - name: Assemble site directory
         run: |
           mkdir -p _site
@@ -105,6 +112,8 @@ jobs:
           cp -r jogo-impostor/index.html jogo-impostor/css jogo-impostor/js jogo-impostor/arte jogo-impostor/audio _site/impostor/
           mkdir -p _site/mentira
           cp -r jogo-mentira/index.html jogo-mentira/css jogo-mentira/js jogo-mentira/arte _site/mentira/
+          mkdir -p _site/rabisco
+          cp -r jogo-rabisco/index.html jogo-rabisco/css jogo-rabisco/js jogo-rabisco/arte _site/rabisco/
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
