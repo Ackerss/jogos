@@ -97,6 +97,13 @@ jobs:
           npm test
           cd ..
 
+      - name: Check and test Pinta-Chão dos Bichos
+        run: |
+          cd jogo-pinta
+          npm run check
+          npm test
+          cd ..
+
       - name: Assemble site directory
         run: |
           mkdir -p _site
@@ -123,6 +130,8 @@ jobs:
           cp -r jogo-rabisco/index.html jogo-rabisco/css jogo-rabisco/js jogo-rabisco/arte _site/rabisco/
           mkdir -p _site/dino
           cp -r jogo-dino/index.html jogo-dino/css jogo-dino/js jogo-dino/arte _site/dino/
+          mkdir -p _site/pinta
+          cp -r jogo-pinta/index.html jogo-pinta/css jogo-pinta/js jogo-pinta/arte _site/pinta/
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
