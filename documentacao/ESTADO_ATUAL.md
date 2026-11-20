@@ -77,3 +77,7 @@ Jogo em `jogo-bichos/`, publicado em https://ackerss.github.io/jogos/bichos/ (de
 ## Dino Pula-Pula (20/11/2026)
 
 Jogo de ação em família em `jogo-dino/`, publicado em https://ackerss.github.io/jogos/dino/ (depois do merge), na tela principal da central. 1 a 4 jogadores, celular = botão PULA, modo criança 🧸 que acerta a hora do pulo, controle da TV pode jogar. Testado pela IA só em navegador (TV + 3 celulares, relay local); **falta o teste na TV LG física com celulares reais.** Detalhes em `jogo-dino/README.md`.
+
+## Pinta-Chão dos Bichos (20/11/2026)
+
+Jogo em família em `jogo-pinta/`, publicado em https://ackerss.github.io/jogos/pinta/, na tela principal da central. 1 a 4 jogadores; cada um anda com um bichinho pela TV (para cima, para baixo e para os lados, com 4 setas gigantes no celular) pintando o chão. Modos Cada um por si, Equipes e Todos juntos (com porquinhos de lama), modo criança 🧸, controle da TV pode jogar. Testado pela IA só em navegador (TV + 3 celulares, relay local); **falta o teste na TV LG física com celulares reais.** Detalhes em `jogo-pinta/README.md`.

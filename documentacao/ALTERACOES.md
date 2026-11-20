@@ -1,5 +1,16 @@
 # Registro de alterações
 
+## 20/11/2026 — Novo jogo: Pinta-Chão dos Bichos (Claude)
+Pedido do Jacson: outro jogo para jogar com a Lavigne (4 anos e meio), em que ela controle o bichinho para frente, para trás, para cima e para baixo, e que seja divertido com 2 ou 3 pessoas.
+- **Jogo em `jogo-pinta/`**, publicado em `pinta/` e com cartão na tela principal da central (selo "Novo").
+- **Como é:** cada um escolhe um bichinho (gata, pinguim, pintinho, sapo, coelha, raposa) e anda pela TV pintando o chão com a sua cor. O celular vira 4 setas gigantes (toque ou deslize; dá para jogar sem ler nada). O bichinho segue andando sozinho até a próxima seta.
+- **Três modos:** Cada um por si (quem pintar mais ganha), Equipes (Time Rosa x Time Azul) e Todos juntos (pintar o máximo e lavar os porquinhos de lama que sujam o chão; ganha até 3 estrelas).
+- **Itens:** balde (pinta uma área grande de uma vez), pincel gigante e raio (corre mais). Os itens aparecem mais perto de quem está perdendo.
+- **Modo criança 🧸** no celular: pinta mais largo, vira sozinho quando bate na parede e pega os itens de mais longe. A TV lembra quem é criança pelo nome.
+- **No lobby já dá para treinar:** os bichinhos andam e pintam enquanto todos entram. Cenários Jardim, Neve e Lua (troca a cada partida). Controle da TV pode ser um jogador.
+- Bichinhos, cenários, sons e música feitos em código (originais). Conexão: rede.ts (motor Doot), igual ao Dino.
+- **Testado pela IA em navegador:** 11 testes de regras (inclui 300 partidas de robôs e criança tocando ao acaso contra um adulto); partida completa com TV + 3 celulares em páginas separadas pelo relay local, treino, revanche pelo celular e celular recarregado voltando. **Falta o teste na TV LG física.**
+
 ## 20/11/2026 — Dino Pula-Pula v1.1: gráfico e jogabilidade (Claude)
 Pedido do Jacson: melhorar bem o gráfico e avaliar a jogabilidade, e já publicar.
 - **Imagem nítida:** desenho com até 1,5× mais pixels em TV Full HD (volta sozinho ao normal se ficar lento).
