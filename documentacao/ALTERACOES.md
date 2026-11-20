@@ -1,5 +1,14 @@
 # Registro de alterações
 
+## 20/11/2026 — Novo jogo: Dino Pula-Pula (Claude)
+Pedido do Jacson: um jogo de ação para jogar na TV com a filha de 4 anos e meio e a Ana.
+- **Jogo em `jogo-dino/`**, publicado em `dino/` e com cartão na tela principal da central (selo "Novo").
+- **Como é:** cada um tem um dinossauro numa faixa da TV; o celular vira um botão gigante PULA. Pular obstáculos, pegar frutas e a estrela de arco-íris até o ninho (floresta → deserto → neve). 1 a 4 jogadores; ninguém é eliminado.
+- **Modo criança 🧸** no celular: o jogo acerta a hora do pulo, pulo mais alto, não perde frutas. A TV lembra quem é criança pelo nome.
+- **Controle da TV** pode ser um jogador (OK = pular). Ajustes: tempo, velocidade, música.
+- Dinos e cenários originais desenhados em código; sons e música gerados na hora.
+- **Testado pela IA em navegador:** 10 testes de regras (inclui robô perfeito sem tropeçar, criança tocando 1,2 s antes, atraso de 0,15 s, 300 corridas); partida completa com TV + 3 celulares em páginas separadas pelo relay local, revanche pelo celular e celular recarregado voltando. **Falta o teste na TV LG física.**
+
 ## 18/11/2026 — Corrida dos Toques v0.2: muito mais divertida (Claude)
 Pedido do Jacson: melhorar gráficos, jogabilidade e diversão. Ideias tiradas de jogos de festa que deram certo (corridas de kart com "ajuda para quem está atrás", brincadeira de "estátua"/sinal vermelho, avatares tipo Jackbox, pódio e prêmios engraçados no fim).
 - **Pilotos bichinhos:** cada pessoa escolhe no celular Gato, Cachorro, Coelho, Urso, Sapo ou Panda, num carrinho com a cor dela.

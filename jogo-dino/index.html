@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#3aa0e8">
+  <title>Dino Pula-Pula · ACKER PLAY</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/dino.css">
+</head>
+<body>
+<script>
+  /* Modo da página: "tv" (oficial: TV + celulares de verdade, padrão), "pc" (simulador: TV e celulares na mesma tela)
+     ou "celular" (controle do jogador, aberto pelo QR Code com ?sala=CODIGO). */
+  (function () {
+    var q = new URLSearchParams(location.search);
+    var fone = false;
+    try { fone = matchMedia('(pointer:coarse)').matches && Math.min(screen.width, screen.height) < 600; } catch (e) { /* navegador antigo */ }
+    window.MODO = q.has('sala') ? 'celular' : q.get('modo') === 'pc' ? 'pc' : q.get('modo') === 'tv' ? 'tv' : fone ? 'celular' : 'tv';
+    document.documentElement.setAttribute('data-modo', window.MODO);
+  })();
+</script>
+<div id="controle" class="controle" hidden></div>
+
+<div class="sim-topo">
+  <a href="../" class="sim-voltar">‹ ACKER PLAY</a>
+  <b>Dino Pula-Pula · simulador</b>
+  <span>TV em cima, celulares embaixo. Teclas 1 a 4 também pulam. Robôs: <code>?bots=1</code></span>
+  <a href="./">📺 Modo TV oficial</a>
+</div>
+<div class="tv-moldura"><div class="tv" id="tv"></div></div>
+<div id="celulares" class="sim-celulares"></div>
+
+<script src="js/arte.js"></script>
+<script src="js/mundo.js"></script>
+<script src="js/som.js"></script>
+<script src="js/tv.js"></script>
+<script src="js/celular.js"></script>
+<script src="js/rede.js"></script>
+<script src="js/simulador.js"></script>
+<script src="js/main.js"></script>
+<script src="js/controle.js"></script>
+</body>
+</html>
