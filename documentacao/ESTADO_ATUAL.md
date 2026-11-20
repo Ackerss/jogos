@@ -73,3 +73,7 @@ Jogo de ação em `jogo-arena/`, publicado em https://ackerss.github.io/jogos/ar
 ## Grande Prêmio dos Bichos (06/11/2026)
 
 Jogo em `jogo-bichos/`, publicado em https://ackerss.github.io/jogos/bichos/ (depois do merge). Corrida de apostas para 2 a 8 jogadores, TV + celulares de verdade (motor Doot + relay público), bots opcionais, simulador em `?modo=pc`. Botões do celular com desenho, pensados para criança pequena. Testado pela IA só em navegador com relay local; **falta o teste na TV LG física com celulares reais** e gravar o locutor no ElevenLabs (`jogo-bichos/audio/narracao/PROMPT_ANTIGRAVITY.md`). Detalhes em `jogo-bichos/README.md`.
+
+## Dino Pula-Pula (20/11/2026)
+
+Jogo de ação em família em `jogo-dino/`, publicado em https://ackerss.github.io/jogos/dino/ (depois do merge), na tela principal da central. 1 a 4 jogadores, celular = botão PULA, modo criança 🧸 que acerta a hora do pulo, controle da TV pode jogar. Testado pela IA só em navegador (TV + 3 celulares, relay local); **falta o teste na TV LG física com celulares reais.** Detalhes em `jogo-dino/README.md`.

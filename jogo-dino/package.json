@@ -1,0 +1,12 @@
+{
+  "name": "acker-dino-pula-pula",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Dino Pula-Pula — corrida de dinossauros em família (TV + celulares, ACKER PLAY).",
+  "scripts": {
+    "check": "node scripts/verificar.js",
+    "test": "node --test tests/mundo.test.js",
+    "rede": "node scripts/rede.mjs",
+    "relay-local": "node scripts/relay-local.mjs 8796"
+  }
+}
