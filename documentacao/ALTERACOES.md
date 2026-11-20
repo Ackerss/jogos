@@ -1,5 +1,13 @@
 # Registro de alterações
 
+## 20/11/2026 — Dino Pula-Pula v1.1: gráfico e jogabilidade (Claude)
+Pedido do Jacson: melhorar bem o gráfico e avaliar a jogabilidade, e já publicar.
+- **Imagem nítida:** desenho com até 1,5× mais pixels em TV Full HD (volta sozinho ao normal se ficar lento).
+- **Dinos** com sombra, brilho, barriga listrada e unhas; esticam no ar e agacham quando o modo criança está segurando o pulo.
+- **Cenário** com mais camadas (montanhas bem longe, raios de sol, passarinhos, flores na grama, enfeites passando na frente), vinheta suave.
+- **Jogabilidade:** trilha de cada jogador com a cor do seu dino e sombra das frutas na trilha (fica claro de quem é cada fruta); **maçã de ouro** (+3); aviso "ARCO-ÍRIS!" único; tremidinha no tombo; no fim, os ovos do ninho chocam com confete antes do placar, que agora fica do lado.
+- Sala vazia mostra dinos de enfeite "📱 Entre!". Testes de regras e partida TV + 3 celulares (relay local) passando de novo.
+
 ## 20/11/2026 — Novo jogo: Dino Pula-Pula (Claude)
 Pedido do Jacson: um jogo de ação para jogar na TV com a filha de 4 anos e meio e a Ana.
 - **Jogo em `jogo-dino/`**, publicado em `dino/` e com cartão na tela principal da central (selo "Novo").

@@ -39,6 +39,7 @@
     ctx.lineWidth = 3.2;
     rr(ctx, -20, -26 + p1, 17, 26, 7); ctx.fillStyle = d.escuro; ctx.fill(); contorno(ctx, LINHA, 3.2);
     rr(ctx, 6, -26 + p2, 17, 26, 7); ctx.fillStyle = d.corpo; ctx.fill(); contorno(ctx, LINHA, 3.2);
+    circulo(ctx, -6, -4 + p1, 2.6, '#fff'); circulo(ctx, 20, -4 + p2, 2.6, '#fff'); circulo(ctx, 14, -3 + p2, 2.4, '#fff');
     // rabo
     ctx.beginPath(); ctx.moveTo(-18, -52); ctx.quadraticCurveTo(-48, -50, -66, -30 + (pulo ? -8 : 0)); ctx.quadraticCurveTo(-44, -24, -16, -24); ctx.closePath();
     ctx.fillStyle = d.corpo; ctx.fill(); contorno(ctx, LINHA, 3.2);
@@ -47,8 +48,11 @@
     [[-46, -40, 9], [-32, -54, 11], [-14, -66, 12], [4, -76, 12]].forEach(function (e) {
       ctx.beginPath(); ctx.moveTo(e[0] - e[2], e[1] + 6); ctx.lineTo(e[0] - 2, e[1] - e[2] - 2); ctx.lineTo(e[0] + e[2], e[1] + 3); ctx.closePath(); ctx.fill(); contorno(ctx, LINHA, 3);
     });
-    // corpo
+    // corpo (com sombra embaixo e brilho em cima)
     elipse(ctx, -2, -44, 33, 29, d.corpo); contorno(ctx, LINHA, 3.2);
+    ctx.save(); ctx.beginPath(); ctx.ellipse(-2, -44, 31.6, 27.6, 0, 0, 7); ctx.clip();
+    elipse(ctx, -12, -18, 40, 20, 'rgba(40,20,60,.16)'); elipse(ctx, -12, -64, 14, 6, 'rgba(255,255,255,.3)', -0.35);
+    ctx.restore();
     elipse(ctx, 6, -36, 21, 18, d.barriga);
     if (d.extra === 'manchas') { elipse(ctx, -16, -56, 6, 4.5, d.escuro, -0.3); elipse(ctx, -26, -40, 4.5, 3.5, d.escuro); elipse(ctx, -6, -64, 3.5, 3, d.escuro); }
     // cabeça
@@ -56,6 +60,12 @@
     elipse(ctx, 26, -74, 25.4, 22.4, d.corpo, -0.12); // apaga a linha entre cabeça e corpo
     ctx.beginPath(); ctx.ellipse(-2, -44, 31.4, 27.4, 0, -1.1, 0.2); ctx.fillStyle = d.corpo; ctx.fill();
     elipse(ctx, 6, -36, 21, 18, d.barriga);
+    ctx.strokeStyle = 'rgba(40,20,60,.13)'; ctx.lineWidth = 2.4; ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(-6, -44); ctx.quadraticCurveTo(6, -40, 18, -44); ctx.moveTo(-8, -34); ctx.quadraticCurveTo(6, -29, 20, -34); ctx.moveTo(-4, -24); ctx.quadraticCurveTo(6, -20, 16, -24); ctx.stroke();
+    ctx.save(); ctx.beginPath(); ctx.ellipse(26, -74, 25.4, 22.4, -0.12, 0, 7); ctx.clip();
+    elipse(ctx, 30, -50, 30, 12, 'rgba(40,20,60,.14)');
+    ctx.restore();
+    elipse(ctx, 16, -90, 9, 4.5, 'rgba(255,255,255,.4)', -0.3);
     if (d.extra === 'manchas') elipse(ctx, 18, -92, 5, 3.5, d.escuro, 0.2);
     // focinho
     elipse(ctx, 44, -66, 6, 4, 'rgba(0,0,0,.0)');
@@ -73,7 +83,7 @@
       ctx.beginPath(); ctx.moveTo(32, -62); ctx.quadraticCurveTo(42, -50, 52, -62); ctx.closePath(); ctx.fillStyle = '#c2304f'; ctx.fill(); contorno(ctx, LINHA, 2.6);
     } else {
       circulo(ctx, 31, -80, 10.5, '#fff'); ctx.beginPath(); ctx.arc(31, -80, 10.5, 0, Math.PI * 2); contorno(ctx, LINHA, 2.6);
-      circulo(ctx, 34, -79, 6, LINHA); circulo(ctx, 36, -82, 2.4, '#fff');
+      circulo(ctx, 34, -79, 6.4, LINHA); circulo(ctx, 36.5, -82, 2.6, '#fff'); circulo(ctx, 32, -76, 1.2, '#fff');
       if (pulo) { ctx.beginPath(); ctx.moveTo(33, -62); ctx.quadraticCurveTo(42, -52, 51, -63); ctx.closePath(); ctx.fillStyle = '#c2304f'; ctx.fill(); contorno(ctx, LINHA, 2.6); }
       else { ctx.beginPath(); ctx.moveTo(34, -61); ctx.quadraticCurveTo(43, -55, 51, -63); contorno(ctx, LINHA, 3); }
     }
@@ -180,6 +190,16 @@
     } else if (f === 4) { // laranja
       circulo(ctx, 0, 2, 17, '#ff9a1f'); ctx.beginPath(); ctx.arc(0, 2, 17, 0, 7); contorno(ctx, LINHA, 2.6);
       elipse(ctx, -6, -4, 4, 6, 'rgba(255,255,255,.5)', 0.4); elipse(ctx, 5, -16, 7, 3.5, '#4fc256', -0.3);
+    } else if (f === 6) { // maçã de ouro (vale 3)
+      var go = ctx.createRadialGradient(-6, -6, 2, 0, 2, 22); go.addColorStop(0, '#fff7c2'); go.addColorStop(0.45, '#ffd23f'); go.addColorStop(1, '#e09000');
+      circulo(ctx, 0, 0, 24, 'rgba(255,230,120,.35)');
+      circulo(ctx, -6, 2, 15, go); circulo(ctx, 6, 2, 15, go);
+      ctx.beginPath(); ctx.arc(-6, 2, 15, 0, 7); contorno(ctx, LINHA, 2.6); ctx.beginPath(); ctx.arc(6, 2, 15, 0, 7); contorno(ctx, LINHA, 2.6);
+      circulo(ctx, -6, 2, 13.6, go); circulo(ctx, 6, 2, 13.6, go);
+      elipse(ctx, -8, -4, 4, 6, 'rgba(255,255,255,.75)', 0.4);
+      ctx.beginPath(); ctx.moveTo(0, -11); ctx.lineTo(2, -20); contorno(ctx, '#6b3d1f', 3);
+      elipse(ctx, 9, -18, 7, 3.5, '#4fc256', -0.5);
+      estrelaPath(ctx, 14, -6, 6, 2.2, 4); ctx.fillStyle = '#fff'; ctx.fill();
     } else { // melancia
       ctx.beginPath(); ctx.moveTo(-20, -8); ctx.lineTo(20, -8); ctx.arc(0, -8, 20, 0, Math.PI); ctx.closePath(); ctx.fillStyle = '#3fae4e'; ctx.fill(); contorno(ctx, LINHA, 2.6);
       ctx.beginPath(); ctx.moveTo(-16, -8); ctx.lineTo(16, -8); ctx.arc(0, -8, 16, 0, Math.PI); ctx.closePath(); ctx.fillStyle = '#ff4d6d'; ctx.fill();
@@ -194,7 +214,14 @@
     circulo(ctx, -5, -2, 2.4, LINHA); circulo(ctx, 5, -2, 2.4, LINHA);
     ctx.beginPath(); ctx.arc(0, 3, 5, 0.2, Math.PI - 0.2); contorno(ctx, LINHA, 2);
   }
-  function desenharNinho(ctx) {
+  function desenharNinho(ctx, chocado) {
+    if (chocado) { // filhotes saindo dos ovos
+      [[-36, 'azul'], [0, 'rosa'], [36, 'verde']].forEach(function (b, i) {
+        ctx.save(); ctx.translate(b[0], -14 - (i === 1 ? 10 : 0)); ctx.scale(0.42, 0.42); desenharDino(ctx, dino(b[1]), 'feliz'); ctx.restore();
+        ctx.beginPath(); ctx.moveTo(b[0] - 20, -30); ctx.lineTo(b[0] - 12, -40); ctx.lineTo(b[0] - 4, -30); ctx.lineTo(b[0] + 4, -40); ctx.lineTo(b[0] + 12, -30); ctx.lineTo(b[0] + 20, -38);
+        ctx.lineTo(b[0] + 20, -24); ctx.quadraticCurveTo(b[0], -8, b[0] - 20, -24); ctx.closePath(); ctx.fillStyle = '#fff6e0'; ctx.fill(); contorno(ctx, LINHA, 2.6);
+      });
+    } else
     // ovos
     [[-34, -36, '#fff6e0', '#7fd6ff'], [0, -46, '#fff6e0', '#ff86bd'], [34, -36, '#fff6e0', '#a5e86b']].forEach(function (o) {
       elipse(ctx, o[0], o[1], 20, 26, o[2]); ctx.beginPath(); ctx.ellipse(o[0], o[1], 20, 26, 0, 0, 7); contorno(ctx, LINHA, 3);
@@ -208,21 +235,47 @@
   }
 
   /* ---------- figurinhas (cache) ---------- */
-  var cache = {};
+  /* RES: quantos pixels de verdade por pixel do palco (1,5 = imagem nítida numa TV Full HD). */
+  var cache = {}, RES = 1;
   function figura(chave, w, h, ox, oy, s, fn) {
-    var k = chave + '@' + s.toFixed(3);
+    var k = chave + '@' + (s * RES).toFixed(3);
     if (cache[k]) return cache[k];
-    var c = tela(w * s, h * s), ctx = c.getContext('2d');
-    ctx.scale(s, s); ctx.translate(ox, oy); fn(ctx);
-    cache[k] = { c: c, ox: ox * s, oy: oy * s };
+    var c = tela(w * s * RES, h * s * RES), ctx = c.getContext('2d');
+    ctx.scale(s * RES, s * RES); ctx.translate(ox, oy); fn(ctx);
+    cache[k] = { c: c, ox: ox * s, oy: oy * s, w: w * s, h: h * s };
     return cache[k];
   }
-  // Figurinhas: desenhar com ctx.drawImage(f.c, x - f.ox, y - f.oy)
+  // Figurinhas: desenhar com por(ctx, f, x, y) (x, y = ponto de apoio no palco)
+  function por(ctx, f, x, y, esc) { var e = esc || 1; ctx.drawImage(f.c, x - f.ox * e, y - f.oy * e, f.w * e, f.h * e); }
+  function definirRes(r) { if (r !== RES) { RES = r; cache = {}; } }
   function figDino(id, q, s) { return figura('d:' + id + ':' + q, 136, 132, 72, 122, s, function (ctx) { desenharDino(ctx, dino(id), q); }); }
   function figObs(forma, s) { return figura('o:' + forma, 100, 84, 50, 76, s, function (ctx) { desenharObs(ctx, forma); }); }
   function figFruta(f, s) { return figura('f:' + f, 52, 52, 26, 26, s, function (ctx) { desenharFruta(ctx, f); }); }
   function figEstrela(s) { return figura('e', 84, 84, 42, 42, s, function (ctx) { desenharEstrela(ctx); }); }
-  function figNinho(s) { return figura('n', 180, 90, 90, 80, s, function (ctx) { desenharNinho(ctx); }); }
+  function figNinho(s, chocado) { return figura('n' + (chocado ? 'c' : ''), 180, 110, 90, 100, s, function (ctx) { desenharNinho(ctx, chocado); }); }
+  // Enfeites que passam na frente de tudo (dão profundidade)
+  function figFrente(b, i, s) {
+    return figura('fr:' + b + ':' + i, 200, 130, 100, 130, s, function (ctx) {
+      if (b === 0) {
+        if (i === 0) { [[-50, -40, 46], [10, -60, 58], [62, -36, 40]].forEach(function (c) { circulo(ctx, c[0], c[1], c[2], '#3f9c3a'); }); [[-40, -54, 18], [16, -86, 22]].forEach(function (c) { circulo(ctx, c[0], c[1], c[2], '#58b84d'); }); [[-30, -30], [30, -50], [60, -20]].forEach(function (c) { circulo(ctx, c[0], c[1], 6, '#ff5d73'); }); }
+        else { ctx.strokeStyle = '#3f9c3a'; ctx.lineWidth = 9; ctx.lineCap = 'round'; for (var k = -4; k <= 4; k++) { ctx.beginPath(); ctx.moveTo(k * 8, 0); ctx.quadraticCurveTo(k * 12, -50, k * 22, -80 - Math.abs(4 - Math.abs(k)) * 8); ctx.stroke(); } }
+      } else if (b === 1) {
+        if (i === 0) { ctx.beginPath(); ctx.moveTo(-90, 0); ctx.quadraticCurveTo(-70, -70, 0, -76); ctx.quadraticCurveTo(70, -70, 90, 0); ctx.closePath(); ctx.fillStyle = '#c98a4f'; ctx.fill(); elipse(ctx, -20, -50, 24, 10, '#dca06a', -0.2); }
+        else { rr(ctx, -14, -110, 28, 110, 14); ctx.fillStyle = '#3f9e5a'; ctx.fill(); rr(ctx, -44, -76, 18, 44, 9); ctx.fill(); rr(ctx, -44, -44, 40, 16, 8); ctx.fill(); rr(ctx, 26, -94, 18, 40, 9); ctx.fill(); rr(ctx, 4, -64, 40, 16, 8); ctx.fill(); }
+      } else {
+        if (i === 0) { ctx.beginPath(); ctx.moveTo(-100, 0); ctx.quadraticCurveTo(-60, -66, 0, -70); ctx.quadraticCurveTo(70, -64, 100, 0); ctx.closePath(); ctx.fillStyle = '#ffffff'; ctx.fill(); elipse(ctx, 20, -20, 60, 16, '#e3eefb'); }
+        else { [[0, -120, 34], [0, -84, 46], [0, -46, 58]].forEach(function (p) { ctx.beginPath(); ctx.moveTo(p[0], p[1]); ctx.lineTo(p[2], p[1] + 60); ctx.lineTo(-p[2], p[1] + 60); ctx.closePath(); ctx.fillStyle = '#2a8a5e'; ctx.fill(); ctx.beginPath(); ctx.moveTo(p[0], p[1]); ctx.lineTo(p[2] * 0.45, p[1] + 24); ctx.lineTo(-p[2] * 0.45, p[1] + 24); ctx.closePath(); ctx.fillStyle = '#fff'; ctx.fill(); }); }
+      }
+    });
+  }
+  // Florzinhas / pedrinhas / brilhos no chão das faixas
+  function figEnfeite(b, i, s) {
+    return figura('en:' + b + ':' + i, 30, 30, 15, 26, s, function (ctx) {
+      if (b === 0) { var cor = ['#ff7aa8', '#ffe14a', '#ffffff', '#b48cff'][i % 4]; ctx.strokeStyle = '#3f9c3a'; ctx.lineWidth = 2.4; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(0, -10); ctx.stroke(); for (var k = 0; k < 5; k++) { var a = k * 1.2566; circulo(ctx, Math.cos(a) * 5, -14 + Math.sin(a) * 5, 4, cor); } circulo(ctx, 0, -14, 3, i % 4 === 1 ? '#ff9a1f' : '#ffd23f'); }
+      else if (b === 1) { elipse(ctx, 0, -4, 8, 5, '#c98a4f'); elipse(ctx, -2, -6, 3, 2, '#e9b47c'); }
+      else { estrelaPath(ctx, 0, -8, 6, 2, 4); ctx.fillStyle = '#ffffff'; ctx.fill(); circulo(ctx, 0, -8, 2, '#cfe6ff'); }
+    });
+  }
 
   /* Imagem (data URL) de um dino, para o celular e para os placares. */
   var urls = {};
@@ -245,14 +298,24 @@
 
   /* ---------- CENÁRIOS (floresta, deserto, neve) ---------- */
   var BIOMAS = [
-    { nome: 'Floresta', ceu: ['#6fc6ff', '#c9ecff'], longe: '#8fd17c', longe2: '#6bbd6b', chao: ['#7fd35d', '#5fb846'], trilha: '#d9a868', trilhaBorda: '#b98446', tufo: '#4ea83a', sol: '#ffe36b' },
-    { nome: 'Deserto', ceu: ['#ffb76b', '#ffe7b8'], longe: '#f1b56f', longe2: '#e09a55', chao: ['#f7d58e', '#efc172'], trilha: '#e6a964', trilhaBorda: '#c98647', tufo: '#d79a4a', sol: '#fff3a0' },
-    { nome: 'Neve', ceu: ['#86b6ff', '#e3efff'], longe: '#dfeaff', longe2: '#b8cdf2', chao: ['#f6fbff', '#e2eefb'], trilha: '#c5d8ef', trilhaBorda: '#9fb7d8', tufo: '#a9c4e6', sol: '#fff7d6' }
+    { nome: 'Floresta', bemLonge: '#a9d9e8', ceu: ['#5bbcff', '#d4f1ff'], longe: '#8fd17c', longe2: '#6bbd6b', chao: ['#7fd35d', '#5fb846'], trilha: '#d9a868', trilhaBorda: '#b98446', tufo: '#4ea83a', sol: '#ffe36b' },
+    { nome: 'Deserto', bemLonge: '#f6c9a0', ceu: ['#ffa45c', '#ffe9bf'], longe: '#f1b56f', longe2: '#e09a55', chao: ['#f7d58e', '#efc172'], trilha: '#e6a964', trilhaBorda: '#c98647', tufo: '#d79a4a', sol: '#fff3a0' },
+    { nome: 'Neve', bemLonge: '#c9d9f5', ceu: ['#7aaeff', '#e8f2ff'], longe: '#dfeaff', longe2: '#b8cdf2', chao: ['#f6fbff', '#e2eefb'], trilha: '#c5d8ef', trilhaBorda: '#9fb7d8', tufo: '#a9c4e6', sol: '#fff7d6' }
   ];
 
   // Camada de longe (montanhas/dunas) e do meio (árvores, cactos, pinheiros): tiras que se repetem
-  function camadaLonge(b, w, h) {
-    var c = tela(w, h), ctx = c.getContext('2d'), B = BIOMAS[b];
+  function camadaLonge(b, w, h, r, bemLonge) {
+    r = r || 1;
+    var c = tela(w * r, h * r), ctx = c.getContext('2d'), B = BIOMAS[b];
+    ctx.scale(r, r);
+    if (bemLonge) { // montanhas bem longe, apagadinhas (parece ar de verdade)
+      ctx.globalAlpha = 0.55;
+      ctx.beginPath(); ctx.moveTo(0, h);
+      for (var xx = 0; xx <= w; xx += 10) { var tt = xx / w * Math.PI * 6; ctx.lineTo(xx, h * 0.5 - h * 0.35 * Math.abs(Math.sin(tt * 0.5 + 1)) - h * 0.1 * Math.sin(tt * 1.7)); }
+      ctx.lineTo(w, h); ctx.closePath(); ctx.fillStyle = B.bemLonge; ctx.fill();
+      ctx.globalAlpha = 1;
+      return c;
+    }
     function morros(cor, base, alt, n, fase, pontudo) {
       ctx.beginPath(); ctx.moveTo(0, h);
       for (var x = 0; x <= w; x += 8) {
@@ -266,19 +329,24 @@
       ctx.save(); ctx.globalCompositeOperation = 'source-atop';
       ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, w, h * 0.32); ctx.restore();
     }
+    // luz de um lado dos morros
+    ctx.save(); ctx.globalCompositeOperation = 'source-atop'; var lg = ctx.createLinearGradient(0, 0, 0, h); lg.addColorStop(0, 'rgba(255,255,255,.18)'); lg.addColorStop(1, 'rgba(0,0,0,0)'); ctx.fillStyle = lg; ctx.fillRect(0, 0, w, h); ctx.restore();
     morros(B.longe2, h, h * 0.45, 3, 2.1, false);
     return c;
   }
-  function camadaMeio(b, w, h) {
-    var c = tela(w, h), ctx = c.getContext('2d'), rnd = semente(b * 31 + 5);
+  function camadaMeio(b, w, h, r) {
+    r = r || 1;
+    var c = tela(w * r, h * r), ctx = c.getContext('2d'), rnd = semente(b * 31 + 5);
+    ctx.scale(r, r);
     var base = h;
     for (var i = 0; i < 9; i++) {
       var x = (i + 0.2 + rnd() * 0.6) * w / 9, s = 0.75 + rnd() * 0.5;
       ctx.save(); ctx.translate(x, base); ctx.scale(s, s);
       if (b === 0) { // árvore redonda
         rr(ctx, -7, -60, 14, 60, 5); ctx.fillStyle = '#9a6337'; ctx.fill();
-        circulo(ctx, 0, -80, 34, '#45b34e'); circulo(ctx, -24, -62, 24, '#45b34e'); circulo(ctx, 24, -62, 24, '#45b34e');
-        circulo(ctx, -8, -90, 14, '#62c95e');
+        circulo(ctx, 0, -76, 36, '#2f9440'); circulo(ctx, -26, -58, 26, '#2f9440'); circulo(ctx, 26, -58, 26, '#2f9440');
+        circulo(ctx, -2, -82, 32, '#45b34e'); circulo(ctx, -24, -64, 21, '#45b34e'); circulo(ctx, 22, -64, 21, '#45b34e');
+        circulo(ctx, -10, -94, 13, '#6fd468'); circulo(ctx, -28, -70, 7, '#6fd468');
         if (rnd() < 0.5) { circulo(ctx, 12, -70, 4.5, '#ff4d6d'); circulo(ctx, -16, -64, 4.5, '#ff4d6d'); }
       } else if (b === 1) { // cacto alto ou palmeira
         if (rnd() < 0.6) {
@@ -310,7 +378,7 @@
   }
 
   window.Arte = {
-    DINOS: DINOS, BIOMAS: BIOMAS, dino: dino, desenharDino: desenharDino, figDino: figDino, figObs: figObs, figFruta: figFruta,
+    DINOS: DINOS, BIOMAS: BIOMAS, por: por, definirRes: definirRes, figFrente: figFrente, figEnfeite: figEnfeite, dino: dino, desenharDino: desenharDino, figDino: figDino, figObs: figObs, figFruta: figFruta,
     figEstrela: figEstrela, figNinho: figNinho, urlDino: urlDino, urlFruta: urlFruta, camadaLonge: camadaLonge, camadaMeio: camadaMeio,
     nuvem: nuvem, tela: tela, estrelaPath: estrelaPath, circulo: circulo, elipse: elipse, rr: rr
   };

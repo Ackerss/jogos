@@ -1,4 +1,4 @@
-# Dino Pula-Pula — TV + celulares (v1.0.0)
+# Dino Pula-Pula — TV + celulares (v1.1.0)
 
 Corrida de dinossauros para jogar em família, de 1 a 4 jogadores. Pensado para jogar com criança pequena (4 anos): um botão só, nada para ler e ninguém é eliminado.
 
@@ -9,7 +9,7 @@ Corrida de dinossauros para jogar em família, de 1 a 4 jogadores. Pensado para 
 1. Abra o jogo na TV. Cada um aponta a câmera do celular para o QR Code e escolhe o seu dino (Rex, Lili, Tuca, Bolota, Fofo ou Nina).
 2. O primeiro que entrou toca **▶ Começar a corrida** (ou OK no controle da TV).
 3. Cada dino corre na própria faixa. **Tocou no celular, o dino pula.** No ar, um segundo toque dá um **pulo duplo** (adulto).
-4. Pule pedras, troncos, cactos e bonecos de neve. Pegue as frutas. A **estrela** dá 6 s de arco-íris: o dino quebra os obstáculos e puxa as frutas.
+4. Pule pedras, troncos, cactos e bonecos de neve. Pegue as frutas (a **maçã de ouro** vale 3). A **estrela** dá 6 s de arco-íris: o dino quebra os obstáculos e puxa as frutas.
 5. Bateu? O dino tropeça, fica tonto um pouquinho e deixa cair até 3 frutas. Ninguém sai do jogo.
 6. A corrida passa pela floresta, pelo deserto e pela neve até chegar ao **ninho**. No fim, todo mundo ganha um título (Mais frutas, Pulo de ouro, Superestrela, Pula-pula, Dino feliz).
 
@@ -51,6 +51,9 @@ Extra para testes: `?tempo=15` (corrida de 15 s).
 | `js/som.js` | Sons e musiquinha gerados na hora (sem arquivos). |
 | `rede/rede.ts`, `js/rede.js` | Conexão TV ↔ celulares (motor Doot, cópia da usada no Rabisco e nos Bichos). |
 | `arte/` | Capa e fundo para a central. |
+
+## Imagem na TV
+O palco tem 1280×720, mas o desenho é feito com até 1,5× mais pixels quando a tela é Full HD (imagem nítida). Se a TV ficar lenta, o jogo volta sozinho para a resolução normal. Para forçar: `?res=1` ou `?res=1.5`.
 
 ## Atraso da internet
 O toque vai do celular para a TV pelo relay. Para isso não atrapalhar: o pulo é longo, as caixas de batida são menores que o desenho, quem toca um pouco antes de cair pula assim que encosta no chão, e no modo criança o jogo acerta a hora sozinho. Os testes simulam 0,15 s de atraso.

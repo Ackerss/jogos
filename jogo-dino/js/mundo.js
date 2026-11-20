@@ -67,7 +67,8 @@
   // Altura da parábola do pulo (adulto) para pôr frutas em arco sobre o obstáculo
   function arco(m, x, v) {
     var ar = 2 * C.PULO / C.G, topo = C.PULO * C.PULO / (2 * C.G), meia = v * ar / 2;
-    [-0.8, -0.4, 0, 0.4, 0.8].forEach(function (k) { fruta(m, x + k * meia, 44 + topo * (1 - k * k)); });
+    var ouro = m.rng() < 0.3;   // às vezes a do meio é uma maçã de ouro (vale 3)
+    [-0.8, -0.4, 0, 0.4, 0.8].forEach(function (k) { var f = fruta(m, x + k * meia, 44 + topo * (1 - k * k)); if (k === 0 && ouro) { f.ouro = true; f.f = 6; } });
   }
 
   function gerar(m) {
@@ -185,7 +186,7 @@
           if (!ima && !sobrepoe(x1 - r, x2 + r, y1 - r, y2 + r, it.x, it.x, it.y, it.y)) continue;
           p.pegou[it.id] = true;
           if (it.tipo === 'estrela') { p.poder = C.PODER; p.estrelas++; m.eventos.push({ tipo: 'estrela', j: j, id: it.id }); }
-          else { p.frutas++; m.eventos.push({ tipo: 'fruta', j: j, id: it.id, f: it.f, ima: ima }); }
+          else { p.frutas += it.ouro ? 3 : 1; if (it.ouro) p.ouros = (p.ouros || 0) + 1; m.eventos.push({ tipo: 'fruta', j: j, id: it.id, f: it.f, ima: ima, ouro: !!it.ouro }); }
         }
       }
     }

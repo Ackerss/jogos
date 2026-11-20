@@ -91,16 +91,16 @@ html[data-modo="pc"] .tv { position: relative; width: 100%; padding-top: 56.25%;
 @keyframes carimbo { from { transform: scale(2.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
 /* fim */
-.fim { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at 50% 40%, #fff4, #0003); }
-.fim-cartao { background: #fffef7; border: 6px solid var(--tinta); border-radius: 30px; padding: 20px 30px 26px; box-shadow: 0 10px 0 var(--tinta); text-align: center; min-width: 700px; animation: carimbo .5s cubic-bezier(.3, 1.4, .5, 1) both; }
-.fim-cartao h2 { margin: 0 0 10px; font-size: 48px; }
-.fim-lista { display: flex; gap: 18px; justify-content: center; }
-.fim-dino { width: 220px; background: var(--cor); border: 4px solid var(--tinta); border-radius: 22px; padding: 6px 8px 12px; animation: sobe .6s var(--atraso) cubic-bezier(.3, 1.5, .5, 1) both; }
-.fim-foto { width: 150px; height: 150px; margin-top: -10px; }
-.fim-nome { font-size: 28px; font-weight: 700; color: #fff; -webkit-text-stroke: 2px var(--tinta); paint-order: stroke fill; }
-.fim-frutas { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 44px; font-weight: 700; color: var(--tinta); background: #fff; border-radius: 16px; margin: 6px 14px; }
+.fim { position: absolute; top: 0; bottom: 0; left: 560px; right: 24px; display: flex; align-items: center; justify-content: center; }
+.fim-cartao { background: #fffef7f2; border: 6px solid var(--tinta); border-radius: 30px; padding: 18px 20px 22px; box-shadow: 0 10px 0 var(--tinta); text-align: center; width: 100%; animation: carimbo .5s cubic-bezier(.3, 1.4, .5, 1) both; }
+.fim-cartao h2 { margin: 0 0 10px; font-size: 44px; }
+.fim-lista { display: flex; gap: 12px; justify-content: center; }
+.fim-dino { flex: 1; max-width: 210px; min-width: 0; background: var(--cor); border: 4px solid var(--tinta); border-radius: 22px; padding: 6px 8px 12px; animation: sobe .6s var(--atraso) cubic-bezier(.3, 1.5, .5, 1) both; }
+.fim-foto { width: 100%; max-width: 140px; height: auto; margin-top: -10px; }
+.fim-nome { font-size: 26px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 700; color: #fff; -webkit-text-stroke: 2px var(--tinta); paint-order: stroke fill; }
+.fim-frutas { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 40px; font-weight: 700; color: var(--tinta); background: #fff; border-radius: 16px; margin: 6px 6px; }
 .fim-frutas img { width: 46px; height: 46px; }
-.fim-titulo { font-size: 21px; font-weight: 700; background: var(--amarelo); border: 3px solid var(--tinta); border-radius: 14px; padding: 4px 6px; }
+.fim-titulo { font-size: 18px; white-space: nowrap; font-weight: 700; background: var(--amarelo); border: 3px solid var(--tinta); border-radius: 14px; padding: 4px 6px; }
 .fim-titulo span { margin-right: 4px; }
 .fim-botoes { display: flex; gap: 16px; justify-content: center; margin-top: 18px; }
 @keyframes sobe { from { transform: translateY(80px) scale(.6); opacity: 0; } }

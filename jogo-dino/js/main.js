@@ -113,7 +113,7 @@
     enviarTelas();
   }
   function terminar() {
-    fase = 'fim'; S.musica(false); S.fanfarra();
+    fase = 'fim'; S.musica(false);
     var r = M.resultado(m);
     resultado = r;
     TV.fim(r.map(function (x) { var c = corredores[x.j]; return { nome: c.nome, id: c.id, ajuda: c.ajuda, frutas: x.frutas, titulo: x.titulo, icone: x.icone, pos: x.pos }; }));
@@ -156,7 +156,7 @@
   });
 
   /* ---------- laço de animação ---------- */
-  var antes = 0, distLobby = 0, velChegada = 0;
+  var antes = 0, distLobby = 0, velChegada = 0, confetou = false;
   function cenaLobby(dt) {
     distLobby += 140 * dt;
     var js = sala.map(function (j) {
@@ -164,7 +164,14 @@
       if (!p.chao) { p.vy -= 2400 * dt; p.y += p.vy * dt; if (p.y <= 0) { p.y = 0; p.chao = true; } }
       return { id: j.id, nome: j.nome, ajuda: j.ajuda, p: p };
     });
-    if (!js.length) js = []; // ninguém ainda: só o cenário
+    if (!js.length) { // ninguém ainda: três dinos de enfeite pulando sozinhos
+      js = ['verde', 'rosa', 'azul'].map(function (id, i) {
+        var p = lobbyP['demo' + i] = lobbyP['demo' + i] || { y: 0, vy: 0, chao: true, frutas: 0, pegou: {}, bateu: {} };
+        if (p.chao && Math.random() < dt * 0.5) { p.vy = 900; p.chao = false; }
+        if (!p.chao) { p.vy -= 2400 * dt; p.y += p.vy * dt; if (p.y <= 0) { p.y = 0; p.chao = true; } }
+        return { id: id, nome: '📱 Entre!', ajuda: false, p: p };
+      });
+    }
     return { dist: distLobby, relogio: relogio, jogadores: js, itens: [], bioma: (distLobby / 3000) % 3, mostrarFrutas: false };
   }
   function quadro(agora) {
@@ -187,7 +194,7 @@
       corredores.forEach(function (c, i) { if (c.tipo === 'bot' && M.robo(m, i, 0.8)) M.tocar(m, i); });
       M.avancar(m, dt);
       tratarEventos();
-      if (m.fim) { fase = 'chegada'; faseIni = relogio; velChegada = m.v1; S.musica(false); }
+      if (m.fim) { fase = 'chegada'; faseIni = relogio; velChegada = m.v1; S.musica(false); confetou = false; }
       cena = cenaCorrida(dt);
       if (Date.now() - ultimoEnvio > 400) enviarTelas();
     } else if (fase === 'chegada') {
@@ -196,10 +203,11 @@
       m.dist += v * dt;
       m.js.forEach(function (p) { if (!p.chao) { p.vy -= M.C.G * dt; p.y += p.vy * dt; if (p.y <= 0) { p.y = 0; p.chao = true; p.vy = 0; } } p.tombo = 0; p.invul = 0; });
       cena = cenaCorrida(dt);
-      cena.parado = v < 5; cena.festa = tc > 2.1;
-      if (tc > 3.2) terminar();
+      cena.parado = v < 5; cena.festa = tc > 2.1; cena.chocado = tc > 2.1;
+      if (tc > 2.1 && !confetou) { confetou = true; TV.confete(); S.fanfarra(); }
+      if (tc > 4.4) terminar();
     } else { // fim: os dinos comemoram no ninho
-      cena = cenaCorrida(dt); cena.festa = true; cena.semPlacas = true;
+      cena = cenaCorrida(dt); cena.festa = true; cena.semPlacas = true; cena.chocado = true;
     }
     TV.desenhar(cena, dt);
     if (fase === 'jogo' || fase === 'chegada') TV.progresso(M.progresso(m), corredores[0] ? corredores[0].id : 'verde');
@@ -225,7 +233,7 @@
       }
       if (e.tipo === 'pulo') S.pulo();
       else if (e.tipo === 'pulo2') S.pulo2();
-      else if (e.tipo === 'fruta') S.fruta(contaFruta++);
+      else if (e.tipo === 'fruta') { S.fruta(contaFruta++); if (e.ouro) S.estrela(); }
       else if (e.tipo === 'tombo') S.tombo();
       else if (e.tipo === 'quebrou') S.quebrou();
       else if (e.tipo === 'estrela') S.estrela();
