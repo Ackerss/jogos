@@ -104,6 +104,14 @@ jobs:
           npm test
           cd ..
 
+      - name: Build and test Kart Acker TV
+        run: |
+          cd jogo-kart
+          npm ci
+          npm run build
+          npm test
+          cd ..
+
       - name: Assemble site directory
         run: |
           mkdir -p _site
@@ -132,6 +140,9 @@ jobs:
           cp -r jogo-dino/index.html jogo-dino/css jogo-dino/js jogo-dino/arte _site/dino/
           mkdir -p _site/pinta
           cp -r jogo-pinta/index.html jogo-pinta/css jogo-pinta/js jogo-pinta/arte _site/pinta/
+          mkdir -p _site/kart
+          cp -r jogo-kart/dist/* _site/kart/
+          cp -r jogo-kart/arte _site/kart/
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5

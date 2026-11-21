@@ -81,3 +81,7 @@ Jogo de ação em família em `jogo-dino/`, publicado em https://ackerss.github.
 ## Pinta-Chão dos Bichos (20/11/2026)
 
 Jogo em família em `jogo-pinta/`, publicado em https://ackerss.github.io/jogos/pinta/, na tela principal da central. 1 a 4 jogadores; cada um anda com um bichinho pela TV (para cima, para baixo e para os lados, com 4 setas gigantes no celular) pintando o chão. Modos Cada um por si, Equipes e Todos juntos (com porquinhos de lama), modo criança 🧸, controle da TV pode jogar. Testado pela IA só em navegador (TV + 3 celulares, relay local); **falta o teste na TV LG física com celulares reais.** Detalhes em `jogo-pinta/README.md`.
+
+## Kart Acker TV (21/11/2026)
+
+Corrida de kart 3D (feita pelo Gemini, melhorada pelo Claude) em `jogo-kart/`, publicada em https://ackerss.github.io/jogos/kart/, na pasta "Jogos testes" da central. Cada um pilota o próprio kart em 3D na tela do celular (deitado); a TV mostra a corrida ao vivo (câmera de transmissão ou mapa de cima) com placar. 1 a 4 pilotos, robôs completam as vagas, modo criança 🧸 por jogador, itens entre aparelhos, corrida de demonstração. Única pasta do projeto que usa build (Vite): o GitHub Actions roda `npm ci`, `npm run build` e `npm test`. Testado pela IA só em navegador (TV + 2 celulares, relay local); **falta o teste na TV LG física com celulares reais.** Detalhes em `jogo-kart/README.md`.

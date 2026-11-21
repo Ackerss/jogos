@@ -1,5 +1,14 @@
 # Registro de alterações
 
+## 21/11/2026 — Kart Acker TV v2.0: multiplayer TV + celulares (Claude)
+Pedido do Jacson: adaptar o kart 3D (feito pelo Gemini) para jogar com a TV "sendo alguma coisa legal no jogo", sem certeza se tela dividida seria bom; analisar, fazer e publicar. E guardar o kart no projeto dos jogos.
+- **Jogo em `jogo-kart/`**, publicado em `kart/`, na pasta "Jogos testes" da central.
+- **Sem tela dividida:** cada celular roda o 3D do próprio kart (deitado, toque na esquerda/direita para virar, botões de item, drift, freio). A TV vira a transmissão: câmera ao vivo que troca entre os pilotos, placar, avisos de batida e de volta, ou mapa de cima (troca sozinha se a TV ficar lenta).
+- Sala com QR e código, escolha de cor, modo criança 🧸 (acelera sozinho), robôs Fácil/Normal/Difícil/Nenhum, corrida de demonstração, resultado na TV e nos celulares, "Jogar de novo" e "Voltar para a sala". `?modo=solo` mantém o jogo original.
+- Relógio sincronizado com a TV, previsão dos karts dos outros, bananas e cascos valem entre aparelhos.
+- Único jogo com build: o GitHub Actions roda `npm ci`, `npm run build` e `npm test` em `jogo-kart/`.
+- **Testado pela IA em navegador:** 7 testes de regras; corrida completa com TV + 2 celulares em navegadores separados pelo relay local, até o resultado; demonstração só com robôs; celular entrando no meio. **Falta o teste na TV LG física.**
+
 ## 20/11/2026 — Novo jogo: Pinta-Chão dos Bichos (Claude)
 Pedido do Jacson: outro jogo para jogar com a Lavigne (4 anos e meio), em que ela controle o bichinho para frente, para trás, para cima e para baixo, e que seja divertido com 2 ou 3 pessoas.
 - **Jogo em `jogo-pinta/`**, publicado em `pinta/` e com cartão na tela principal da central (selo "Novo").
